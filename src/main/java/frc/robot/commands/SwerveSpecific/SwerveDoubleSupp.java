@@ -59,7 +59,7 @@ public class SwerveDoubleSupp extends CommandBase {
         xAxis *= .5;
         yAxis *= .5;
         rAxis *= .5;
-        translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed);
+        translation = new Translation2d(-yAxis, -xAxis).times(Constants.Swerve.maxSpeed);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
         s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
     }

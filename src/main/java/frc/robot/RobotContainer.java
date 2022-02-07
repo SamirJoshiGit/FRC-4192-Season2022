@@ -23,7 +23,7 @@ import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.Climb.ChangeClimbAngle;
 import frc.robot.commands.Climb.StopExtend;
-import frc.robot.commands.FollowBall.FolloeBallTogether;
+import frc.robot.commands.FollowBall.FollowBallTogether;
 import frc.robot.commands.FollowBall.FollowBallAngle;
 import frc.robot.commands.Intake.ChangeIntakePosition;
 import frc.robot.commands.Intake.RunIntake;
@@ -85,7 +85,7 @@ public class RobotContainer {
   private final LimelightFollower follow = new LimelightFollower(s_Swerve, m_limelight, false, false);
   private final LimelightFollowToPoint followToPoint = new LimelightFollowToPoint(s_Swerve, m_limelight, false, 1, false);
   private final FollowTarget followTarget = new FollowTarget(s_Swerve, m_limelight, false, 1.1);
-  private final FolloeBallTogether followBall = new FolloeBallTogether(s_Swerve);
+  private final FollowBallTogether followBall = new FollowBallTogether(s_Swerve);
   private final TurnToSpecifiedAngle turn90 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 90, true);
   private final TurnToSpecifiedAngle turn180 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, -90, true);
   private final TurnToSpecifiedAngle turn0 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 0, true);
@@ -104,7 +104,7 @@ public class RobotContainer {
   public RobotContainer() {
     boolean fieldRelative = true;
     boolean openLoop = true;
-    s_Swerve.setDefaultCommand(swerveControl);
+    s_Swerve.setDefaultCommand(nonDoubSupp);
     m_passthrough.setDefaultCommand(passthroughBeamBreak);
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
@@ -132,11 +132,11 @@ public class RobotContainer {
     oneEighty.whenHeld(new moveWithManualInput(s_Swerve, 0, -1, 0), true);
     twoSeventy.whenPressed(turn270, true);
 
-    aButtonSystems.whenHeld(climbMacro, true);
-    bButtonSystems.whenHeld(runIntake, true);
-    xButtonSystems.toggleWhenPressed(intakePos);
-    yButtonSystems.toggleWhenPressed(climbAngle);
-    rightBumperSystems.whenHeld(stopDist, true);
+    //aButtonSystems.whenHeld(climbMacro, true);
+    //bButtonSystems.whenHeld(runIntake, true);
+    //xButtonSystems.toggleWhenPressed(intakePos);
+    //yButtonSystems.toggleWhenPressed(climbAngle);
+    //rightBumperSystems.whenHeld(stopDist, true);
   }
 
   /**

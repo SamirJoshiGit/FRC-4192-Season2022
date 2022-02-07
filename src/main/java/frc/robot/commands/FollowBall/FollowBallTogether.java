@@ -12,9 +12,9 @@ import frc.robot.subsystems.Swerve;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class FolloeBallTogether extends ParallelCommandGroup {
+public class FollowBallTogether extends ParallelCommandGroup {
   /** Creates a new FolloeBallTogether. */
-  public FolloeBallTogether(Swerve m_Swerve) {
+  public FollowBallTogether(Swerve m_Swerve) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new FollowBallAngle(m_Swerve), new moveWithManualInput(m_Swerve, Globals.rotatingOutput, Globals.movingOutput, 0));

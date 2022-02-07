@@ -21,8 +21,8 @@ import frc.robot.Constants.Swerve.ClimbConstants;
 public class Climb extends SubsystemBase {
   /** Creates a new Climb. */
 
-  private final DoubleSolenoid angleClimb = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.doubleSolenoidForwardAngle,ClimbConstants.doubleSolenoidReverseAngle);//placeholders
-  private final DoubleSolenoid climber = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.doubleSolenoidForwardClimb, ClimbConstants.doubleSolenoidReverseClimb);//placeholders
+  //private final DoubleSolenoid angleClimb = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.doubleSolenoidForwardAngle,ClimbConstants.doubleSolenoidReverseAngle);//placeholders
+  //private final DoubleSolenoid climber = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.doubleSolenoidForwardClimb, ClimbConstants.doubleSolenoidReverseClimb);//placeholders
 
   //private final DoubleSolenoid climb = new DoubleSolenoid(PneumaticsModuleType.REVPH, , reverseChannel)
   private DigitalInput retroreflective = new DigitalInput(ClimbConstants.retroreflectiveID);
@@ -32,26 +32,26 @@ public class Climb extends SubsystemBase {
   
   //private SpeedControllerGroup climbMotors = new SpeedControllerGroup(climbMotorLeft, climbMotorRight);
   public Climb() {
-    climber.set(Value.kReverse);
-    angleClimb.set(Value.kReverse);
+    //climber.set(Value.kReverse);
+    //angleClimb.set(Value.kReverse);
     climbMotorRight.setInverted(true);
     climbMotorRight.follow(climbMotorLeft);
   }
 
   public void setAngleDown(){
-    angleClimb.set(Value.kReverse);
+    //angleClimb.set(Value.kReverse);
   }
 
   public void setAngleUp(){
-    angleClimb.set(Value.kForward);
+    //angleClimb.set(Value.kForward);
   }
 
   public void setClimberUp(){
-    climber.set(Value.kForward);
+    //climber.set(Value.kForward);
   }
 
   public void setClimberDown(){
-    climber.set(Value.kReverse);
+    //climber.set(Value.kReverse);
   }
 
   public boolean getReflective(){

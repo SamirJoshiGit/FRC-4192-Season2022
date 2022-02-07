@@ -56,12 +56,14 @@ public class StraightBack extends SequentialCommandGroup {
 
     Trajectory goToMid = TrajectoryGenerator.generateTrajectory(
     List.of(new Pose2d(0, 0, new Rotation2d(0)), 
-    new Pose2d(Units.feetToMeters(9.4), -Units.feetToMeters(2), new Rotation2d(1))),    
+    new Pose2d(Units.feetToMeters(9.4), -Units.feetToMeters(2), new Rotation2d(0))
+    //,new Pose2d(0,0, new Rotation2d(0))
+    ),    
     config);
 
     Trajectory goBackToScore = TrajectoryGenerator.generateTrajectory(
         List.of(new Pose2d(0, 0, new Rotation2d(0)), 
-        new Pose2d(Units.feetToMeters(9.4), Units.feetToMeters(.5), new Rotation2d(0)))
+        new Pose2d(-Units.feetToMeters(9.4), Units.feetToMeters(.5), new Rotation2d(0)))
     
     , config);
 
@@ -134,12 +136,13 @@ public class StraightBack extends SequentialCommandGroup {
     addCommands(
         new InstantCommand(() -> s_Swerve.resetOdometry(goToMid.getInitialPose())),
         //new LimelightFollower(s_Swerve, m_Limelight, true, false)
-        swerveControllerCommand3, 
+        swerveControllerCommand3
+        /*, 
         new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 
         new Wait(2),
         new InstantCommand(() -> s_Swerve.resetOdometry(goBackToScore.getInitialPose())), swerveControllerCommand2,
         new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 
-        new Wait(1)
+        new Wait(1)*/
 
     );
 }
