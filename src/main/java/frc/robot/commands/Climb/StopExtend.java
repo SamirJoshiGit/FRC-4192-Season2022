@@ -18,6 +18,21 @@ public class StopExtend extends SequentialCommandGroup {
   public StopExtend(Swerve swerve, Climb climb) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new StopLineDetect(climb, swerve),new ParallelRaceGroup(new Wait(3), new ExtendClimb(climb, .5)), new ParallelRaceGroup(new Wait(3), new ExtendClimb(climb, -.5)));
+
+    /*
+      Stop at benchmark line
+
+      1. main climb goes up
+      2. main climb retracts
+      3. passive hook pistons activate
+      4. main climb angle moves back main climb extends
+      
+      5.once main climb is on, the passive hooks retract
+      repeat 
+    */
+    addCommands(new StopLineDetect(climb, swerve)
+    ,new ParallelRaceGroup(new Wait(3), new ExtendClimb(climb, .5))
+    , new ParallelRaceGroup(new Wait(3), new ExtendClimb(climb, -.5))
+    );
   }
 }

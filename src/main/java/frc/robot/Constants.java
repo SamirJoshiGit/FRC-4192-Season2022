@@ -136,21 +136,21 @@ public final class Constants {
         public static final class IntakeConstants {
             //filler values
             public static final int intakeMotorID = 0;
-            public static final int doubleSolenoidIntake = 0;
-            public static final int doubleSolenoidReverse = 0;
-            public static final int doubleSolenoidForward = 0;
+            //public static final int doubleSolenoidIntake = 0;
+            public static final int doubleSolenoidReverse = 11;
+            public static final int doubleSolenoidForward = 4;
         }
 
         public static final class ClimbConstants{
             //piston filler values
-            public static final int doubleSolenoidClimb = 0;
-            public static final int doubleSolenoidAngle = 0;
+            //public static final int doubleSolenoidClimb = 0;
+            //public static final int doubleSolenoidAngle = 0;
 
-            public static final int doubleSolenoidReverseClimb = 1;
-            public static final int doubleSolenoidForwardClimb = 1;
+            public static final int doubleSolenoidReverseClimb = 10;
+            public static final int doubleSolenoidForwardClimb = 5;
 
-            public static final int doubleSolenoidReverseAngle = 1;
-            public static final int doubleSolenoidForwardAngle = 1;
+            public static final int doubleSolenoidReverseAngle = 9;
+            public static final int doubleSolenoidForwardAngle = 6;
             //sensor (filler values)
 
             public static final int retroreflectiveID = 0;

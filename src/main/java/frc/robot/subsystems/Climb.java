@@ -22,9 +22,9 @@ public class Climb extends SubsystemBase {
   /** Creates a new Climb. */
 
   //private final DoubleSolenoid angleClimb = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.doubleSolenoidForwardAngle,ClimbConstants.doubleSolenoidReverseAngle);//placeholders
-  //private final DoubleSolenoid climber = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.doubleSolenoidForwardClimb, ClimbConstants.doubleSolenoidReverseClimb);//placeholders
+  private final DoubleSolenoid angleClimb = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.doubleSolenoidForwardAngle, ClimbConstants.doubleSolenoidReverseAngle);//placeholders
 
-  //private final DoubleSolenoid climb = new DoubleSolenoid(PneumaticsModuleType.REVPH, , reverseChannel)
+  private final DoubleSolenoid climber = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.doubleSolenoidForwardClimb, ClimbConstants.doubleSolenoidReverseClimb);
   private DigitalInput retroreflective = new DigitalInput(ClimbConstants.retroreflectiveID);
 
   private TalonFX climbMotorLeft = new TalonFX(ClimbConstants.climbMotorLeft);
@@ -39,19 +39,19 @@ public class Climb extends SubsystemBase {
   }
 
   public void setAngleDown(){
-    //angleClimb.set(Value.kReverse);
+    angleClimb.set(Value.kReverse);
   }
 
   public void setAngleUp(){
-    //angleClimb.set(Value.kForward);
+    angleClimb.set(Value.kForward);
   }
 
   public void setClimberUp(){
-    //climber.set(Value.kForward);
+    climber.set(Value.kForward);
   }
 
   public void setClimberDown(){
-    //climber.set(Value.kReverse);
+    climber.set(Value.kReverse);
   }
 
   public boolean getReflective(){
