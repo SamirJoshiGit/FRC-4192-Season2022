@@ -100,6 +100,7 @@ public class RobotContainer {
   private final StopAtDistance stopDist = new StopAtDistance(s_Swerve, Units.feetToMeters(5));
   private final PassthroughBeamBreak passthroughBeamBreak = new PassthroughBeamBreak(m_passthrough);
 
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
@@ -132,10 +133,11 @@ public class RobotContainer {
     oneEighty.whenHeld(new moveWithManualInput(s_Swerve, 0, -1, 0), true);
     twoSeventy.whenPressed(turn270, true);
 
+    
     //aButtonSystems.whenHeld(climbMacro, true);
     //bButtonSystems.whenHeld(runIntake, true);
-    //xButtonSystems.toggleWhenPressed(intakePos);
-    //yButtonSystems.toggleWhenPressed(climbAngle);
+    xButtonSystems.toggleWhenPressed(intakePos);
+    yButtonSystems.toggleWhenPressed(climbAngle);
     //rightBumperSystems.whenHeld(stopDist, true);
   }
 

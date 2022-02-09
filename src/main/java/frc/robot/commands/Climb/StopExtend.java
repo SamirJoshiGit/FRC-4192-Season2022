@@ -20,7 +20,7 @@ public class StopExtend extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
 
     /*
-      Stop at benchmark line
+      1a. Stop at benchmark line
 
       1. main climb goes up
       2. main climb retracts
@@ -30,9 +30,14 @@ public class StopExtend extends SequentialCommandGroup {
       5.once main climb is on, the passive hooks retract
       repeat 
     */
-    addCommands(new StopLineDetect(climb, swerve)
-    ,new ParallelRaceGroup(new Wait(3), new ExtendClimb(climb, .5))
-    , new ParallelRaceGroup(new Wait(3), new ExtendClimb(climb, -.5))
+
+    addCommands(
+      new StopLineDetect(climb, swerve)
+      ,new ParallelRaceGroup(new Wait(3), new ExtendClimb(climb, .5))
+      , new ParallelRaceGroup(new Wait(3), new ExtendClimb(climb, -.5))
+      ,new PassiveHookInstant(climb, true)
+      ,new ClimbAngleInstant(climb, true) 
+    
     );
   }
 }
