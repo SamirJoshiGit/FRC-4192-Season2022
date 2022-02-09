@@ -96,15 +96,16 @@ public class Swerve extends SubsystemBase {
             mod.setDesiredState(desiredStates[mod.moduleNumber], false);
         }
     }    
-
+    //returns the pose
     public Pose2d getPose() {
         return swerveOdometry.getPoseMeters();
     }
-
+    //resets the odemetry for auton
     public void resetOdometry(Pose2d pose) {
         swerveOdometry.resetPosition(pose, getYaw());
     }
 
+    //returns all the swerve module states
     public SwerveModuleState[] getStates(){
         SwerveModuleState[] states = new SwerveModuleState[4];
         for(SwerveModule mod : mSwerveMods){
@@ -112,7 +113,7 @@ public class Swerve extends SubsystemBase {
         }
         return states;
     }
-
+    //recents the gyro yaw
     public void zeroGyro(){
         gyro.zeroYaw();
     }
@@ -142,11 +143,11 @@ public class Swerve extends SubsystemBase {
     public double getDoubleYaw(){
         return gyro.getYaw();
     }
-
+    //x displacment from the navx gyro
     public double getDistanceX(){
         return gyro.getDisplacementX();
     }
-
+    //gives us y displacement from navx
     public double getDistanceY(){
         return gyro.getDisplacementY();
     }

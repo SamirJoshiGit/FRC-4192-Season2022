@@ -13,15 +13,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Limelight extends SubsystemBase {
   private NetworkTable table;
   private NetworkTableEntry tx, ty, ta;
-
+  
   private HttpCamera limelightFeed;
   /** Creates a new Limelight. */
   public Limelight() {
+    //these commands post values to network tables
     table = NetworkTableInstance.getDefault().getTable("limelight");
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
-
+    //opens a new http camera on the roborio
     limelightFeed = new HttpCamera("limelight", "http://limelight.local:5800/stream.mjpg");
   }
 
@@ -29,11 +30,12 @@ public class Limelight extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
+  //gives our offset from target
   public double limelightOffset() {
     return tx.getDouble(0.0);
   }
 
+  //gives back our limelight area
   public double limelightArea() {
     return ta.getDouble(0.0);
   }
