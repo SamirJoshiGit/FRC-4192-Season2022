@@ -20,12 +20,16 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.Wait;
+import frc.robot.commands.Intake.ChangeIntakeInstant;
+import frc.robot.commands.Intake.RunIntake;
 import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
+import frc.robot.subsystems.Intake;
 //import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
@@ -34,7 +38,7 @@ import frc.robot.subsystems.Swerve;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DoubleBallAuto extends SequentialCommandGroup {
-  public DoubleBallAuto(Swerve s_Swerve, Limelight m_Limelight){
+  public DoubleBallAuto(Swerve s_Swerve, Limelight m_Limelight, Intake intake){
     TrajectoryConfig config =
         new TrajectoryConfig(
                 1.0,//max spped
@@ -68,6 +72,7 @@ public class DoubleBallAuto extends SequentialCommandGroup {
         new Pose2d(0, 0, new Rotation2d(0)),
         new Pose2d(Units.feetToMeters(9.4), Units.feetToMeters(3), new Rotation2d(0))
     ), config);
+
     Trajectory trenchRun =
         TrajectoryGenerator.generateTrajectory(
                 // Start at the origin facing the +X direction
@@ -138,16 +143,20 @@ public class DoubleBallAuto extends SequentialCommandGroup {
             s_Swerve);
 
     addCommands(
+        new ChangeIntakeInstant(intake, false),
         new InstantCommand(() -> s_Swerve.resetOdometry(goToMid.getInitialPose())),
         //new LimelightFollower(s_Swerve, m_Limelight, true, false)
-        swerveControllerCommand3, 
+        new ParallelRaceGroup(swerveControllerCommand3, new RunIntake(intake, .2)),
+        //swerveControllerCommand3, 
         new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 
         new Wait(2),
-        new InstantCommand(() -> s_Swerve.resetOdometry(goBackToScore.getInitialPose())), swerveControllerCommand2,
+        new InstantCommand(() -> s_Swerve.resetOdometry(goBackToScore.getInitialPose())), 
+        swerveControllerCommand2,
         new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 
         new Wait(1),
         new InstantCommand(() -> s_Swerve.resetOdometry(goToSecondBall.getInitialPose())),
-        swerveControllerCommand4
+        new ParallelRaceGroup(swerveControllerCommand4, new RunIntake(intake, .2))
+        //swerveControllerCommand4
     );
 }
 }

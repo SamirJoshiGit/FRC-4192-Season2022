@@ -20,12 +20,17 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.Wait;
+import frc.robot.commands.Intake.ChangeIntakeInstant;
+import frc.robot.commands.Intake.RunIntake;
 import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
+import frc.robot.subsystems.Intake;
 //import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve;
@@ -34,7 +39,7 @@ import frc.robot.subsystems.Swerve;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class StraightBack extends SequentialCommandGroup {
-  public StraightBack(Swerve s_Swerve, Limelight m_Limelight){
+  public StraightBack(Swerve s_Swerve, Limelight m_Limelight, Intake intake){
     TrajectoryConfig config =
         new TrajectoryConfig(
                 1.0,//max spped
@@ -134,9 +139,14 @@ public class StraightBack extends SequentialCommandGroup {
 
 
     addCommands(
+        new ChangeIntakeInstant(intake, true),
         new InstantCommand(() -> s_Swerve.resetOdometry(goToMid.getInitialPose())),
         //new LimelightFollower(s_Swerve, m_Limelight, true, false)
-        swerveControllerCommand3
+        new ParallelRaceGroup(swerveControllerCommand3, new RunIntake(intake, .2)),
+        new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 
+        new Wait(2),
+        swerveControllerCommand2
+        //,swerveControllerCommand3,
         /*, 
         new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 
         new Wait(2),

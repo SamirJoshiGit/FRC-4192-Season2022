@@ -158,7 +158,7 @@ public class RobotContainer {
       return new ResetAndMove(s_Swerve, 1);
     }
     else if(selected.equals("OneBall")){
-      return new StraightBack(s_Swerve, m_limelight);
+      return new StraightBack(s_Swerve, m_limelight, m_intake);
     }
     return new MoveStraightForDist(s_Swerve);
     //return new exampleAuto(s_Swerve);
