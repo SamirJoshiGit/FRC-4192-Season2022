@@ -34,7 +34,7 @@ public class Swerve extends SubsystemBase {
         zeroGyro();
         resetDistance();
         startAngle = getDoubleYaw();
-        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw());
+        swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getYaw(true));
         ultrasonic = new Ultrasonic(Sensors.firstPortUltrasonic, Sensors.secondPortUltrasonic);
         mSwerveMods = new SwerveModule[] {
             new SwerveModule(0, Constants.Swerve.Mod0.constants),
@@ -157,7 +157,7 @@ public class Swerve extends SubsystemBase {
 
     @Override
     public void periodic(){
-        swerveOdometry.update(getYaw(), getStates());  
+        swerveOdometry.update(getYaw(true), getStates());  
         SmartDashboard.putNumber("Y displacement", getDistanceY());
         SmartDashboard.putNumber("X displacement", getDistanceX());
         for(SwerveModule mod : mSwerveMods){
