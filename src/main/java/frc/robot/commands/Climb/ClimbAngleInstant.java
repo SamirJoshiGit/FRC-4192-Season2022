@@ -23,6 +23,9 @@ public class ClimbAngleInstant extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //extend the intakeif it is already down
+    //retract if it is up
+    
     if(up){
       climb.setAngleDown();
     }

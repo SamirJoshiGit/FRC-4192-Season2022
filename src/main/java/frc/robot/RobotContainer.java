@@ -23,6 +23,7 @@ import frc.robot.autos.*;
 import frc.robot.commands.*;
 import frc.robot.commands.Climb.ChangeClimbAngle;
 import frc.robot.commands.Climb.StopExtend;
+import frc.robot.commands.Climb.ExtendClimb;
 import frc.robot.commands.FollowBall.FollowBallTogether;
 import frc.robot.commands.FollowBall.FollowBallAngle;
 import frc.robot.commands.Intake.ChangeIntakePosition;
@@ -99,7 +100,7 @@ public class RobotContainer {
   private final ChangeClimbAngle climbAngle = new ChangeClimbAngle(m_climb);
   private final StopAtDistance stopDist = new StopAtDistance(s_Swerve, Units.feetToMeters(5));
   private final PassthroughBeamBreak passthroughBeamBreak = new PassthroughBeamBreak(m_passthrough);
-
+  private final ExtendClimb extend =  new ExtendClimb(m_climb, .5);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -134,7 +135,7 @@ public class RobotContainer {
     twoSeventy.whenPressed(turn270, true);
 
     
-    //aButtonSystems.whenHeld(climbMacro, true);
+    aButtonSystems.whenHeld(extend , true);
     //bButtonSystems.whenHeld(runIntake, true);
     xButtonSystems.toggleWhenPressed(intakePos);
     yButtonSystems.toggleWhenPressed(climbAngle);

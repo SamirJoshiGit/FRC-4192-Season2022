@@ -29,19 +29,23 @@ public class Intake extends SubsystemBase {
     intakeSolenoid.set(Value.kReverse);
   }
 
+  //sets down the intake by retracting the piston
   public void setDown(){
     intakeSolenoid.set(Value.kReverse);
   }
 
+  //sets up the intake by extending the intake 
   public void setUp(){
     intakeSolenoid.set(Value.kForward);
   }
 
+    //sets power to the intake motor based on percent output 
   public void setPower(double power){
     //intakeMotors.set(power);
     intakeMotor.set(ControlMode.PercentOutput, power);
   }
 
+  //moves intake motors based on velocity 
   public void velocityBasedControl(double velocity){
     intakeMotor.set(ControlMode.Velocity, velocity);
   }

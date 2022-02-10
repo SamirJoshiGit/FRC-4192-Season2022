@@ -156,7 +156,7 @@ public final class Constants {
             public static final int retroreflectiveID = 0;
 
             //motors
-            public static final int climbMotorLeft = 0;
+            public static final int climbMotorLeft = 5;
             public static final int climbMotorRight = 0;
 
         }
