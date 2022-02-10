@@ -16,19 +16,19 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
+//import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+//import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
-import frc.robot.Constants.AutoConstants;
+//import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.Wait;
 import frc.robot.commands.Intake.ChangeIntakeInstant;
 import frc.robot.commands.Intake.RunIntake;
-import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
+//import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
 import frc.robot.subsystems.Intake;
 //import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.subsystems.Limelight;
@@ -73,25 +73,7 @@ public class DoubleBallAuto extends SequentialCommandGroup {
         new Pose2d(Units.feetToMeters(9.4), Units.feetToMeters(3), new Rotation2d(0))
     ), config);
 
-    Trajectory trenchRun =
-        TrajectoryGenerator.generateTrajectory(
-                // Start at the origin facing the +X direction
-                new Pose2d(-2, -1.5, new Rotation2d(0)),
-                // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(-3, -1.45), new Translation2d(-4, -1.5)),
-                // End 3 meters straight ahead of where we started, facing forward
-                new Pose2d(-5, -1.5, new Rotation2d(0)),
-                config);
 
-    Trajectory shootingposition =
-        TrajectoryGenerator.generateTrajectory(
-                // Start at the origin facing the +X direction
-                new Pose2d(-5, -1.5, new Rotation2d(0)),
-                // Pass through these two interior waypoints, making an 's' curve path
-                List.of(new Translation2d(-4, -1), new Translation2d(-2, -0.5)),
-                // End 3 meters straight ahead of where we started, facing forward                      
-                new Pose2d(0, 0, new Rotation2d(0)),
-                config);
 
 
     var thetaController =
@@ -110,16 +92,16 @@ public class DoubleBallAuto extends SequentialCommandGroup {
             s_Swerve::setModuleStates,
             s_Swerve);
 
-            SwerveControllerCommand swerveControllerCommand2 =
-            new SwerveControllerCommand(
-                goBackToScore,
-                s_Swerve::getPose,
-                Constants.Swerve.swerveKinematics,
-                new PIDController(Constants.AutoConstants.kPXController, 0, 0),
-                new PIDController(Constants.AutoConstants.kPYController, 0, 0),
-                thetaController,
-                s_Swerve::setModuleStates,
-                s_Swerve);
+    SwerveControllerCommand swerveControllerCommand2 =
+        new SwerveControllerCommand(
+            goBackToScore,
+            s_Swerve::getPose,
+            Constants.Swerve.swerveKinematics,
+            new PIDController(Constants.AutoConstants.kPXController, 0, 0),
+            new PIDController(Constants.AutoConstants.kPYController, 0, 0),
+            thetaController,
+            s_Swerve::setModuleStates,
+            s_Swerve);
 
     SwerveControllerCommand swerveControllerCommand3 =
         new SwerveControllerCommand(

@@ -35,7 +35,7 @@ public class Climb extends SubsystemBase {
     //climber.set(Value.kReverse);
     //angleClimb.set(Value.kReverse);
     climbMotorRight.setInverted(true);
-    climbMotorRight.follow(climbMotorLeft);
+    //climbMotorRight.follow(climbMotorLeft);
   }
 
   public void setAngleDown(){
@@ -60,6 +60,10 @@ public class Climb extends SubsystemBase {
 
   public void extendClimb(double velo){
     climbMotorLeft.set(ControlMode.Velocity, velo);
+  }
+
+  public void extendClimbRight(double power){
+    climbMotorRight.set(ControlMode.PercentOutput, power);
   }
   
   @Override

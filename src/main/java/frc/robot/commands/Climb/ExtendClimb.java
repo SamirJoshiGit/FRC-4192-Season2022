@@ -27,12 +27,14 @@ public class ExtendClimb extends CommandBase {
   @Override
   public void execute() {
     climb.extendClimb(velo);
+    climb.extendClimbRight(velo);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     climb.extendClimb(0);
+    climb.extendClimbRight(velo);
   }
 
   // Returns true when the command should end.

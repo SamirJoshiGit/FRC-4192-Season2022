@@ -157,7 +157,7 @@ public final class Constants {
 
             //motors
             public static final int climbMotorLeft = 5;
-            public static final int climbMotorRight = 0;
+            public static final int climbMotorRight = 6;
 
         }
     }

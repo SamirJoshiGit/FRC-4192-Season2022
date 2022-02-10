@@ -100,7 +100,8 @@ public class RobotContainer {
   private final ChangeClimbAngle climbAngle = new ChangeClimbAngle(m_climb);
   private final StopAtDistance stopDist = new StopAtDistance(s_Swerve, Units.feetToMeters(5));
   private final PassthroughBeamBreak passthroughBeamBreak = new PassthroughBeamBreak(m_passthrough);
-  private final ExtendClimb extend =  new ExtendClimb(m_climb, .5);
+  private final ExtendClimb extend =  new ExtendClimb(m_climb, .2);
+  private final ExtendClimb extendBack = new ExtendClimb(m_climb, -.2);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -124,19 +125,21 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     leftBumper.whenActive(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    yButton.whenHeld(follow, true);
-    xButton.whenHeld(followToPoint, true);
-    aButton.whenHeld(new FollowBallAngle(s_Swerve), true);
+    
+    
+    //yButton.whenHeld(follow, true);
+    //xButton.whenHeld(followToPoint, true);
+    //aButton.whenHeld(new FollowBallAngle(s_Swerve), true);
     //aButton.whenHeld(runPassthrough, true);
-    bJoystickButton.whenHeld(followBall,true);
-    zero.whenHeld(new moveWithManualInput(s_Swerve, 0, 1, 0), true);
-    ninety.whenPressed(turn90, true);
-    oneEighty.whenHeld(new moveWithManualInput(s_Swerve, 0, -1, 0), true);
-    twoSeventy.whenPressed(turn270, true);
+    //bJoystickButton.whenHeld(followBall,true);
+    //zero.whenHeld(new moveWithManualInput(s_Swerve, 0, 1, 0), true);
+    //ninety.whenPressed(turn90, true);
+    //oneEighty.whenHeld(new moveWithManualInput(s_Swerve, 0, -1, 0), true);
+    //twoSeventy.whenPressed(turn270, true);
 
     
-    aButtonSystems.whenHeld(extend , true);
-    //bButtonSystems.whenHeld(runIntake, true);
+    aButtonSystems.whileHeld(extend , true);
+    bButtonSystems.whileHeld(extendBack, true);
     xButtonSystems.toggleWhenPressed(intakePos);
     yButtonSystems.toggleWhenPressed(climbAngle);
     //rightBumperSystems.whenHeld(stopDist, true);
@@ -158,6 +161,7 @@ public class RobotContainer {
       //return new DoubleBallAuto(s_Swerve, m_limelight);
       return new ResetAndMove(s_Swerve, 1);
     }
+
     else if(selected.equals("OneBall")){
       return new StraightBack(s_Swerve, m_limelight, m_intake);
     }
