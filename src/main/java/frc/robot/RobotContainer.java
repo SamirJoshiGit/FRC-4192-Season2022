@@ -32,6 +32,7 @@ import frc.robot.commands.LimelightFollowing.FollowTarget;
 import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
 import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.commands.Passthrough.PassthroughBeamBreak;
+import frc.robot.commands.Passthrough.runMotor;
 import frc.robot.commands.SwerveSpecific.StopAtDistance;
 import frc.robot.commands.SwerveSpecific.SwerveDoubleSupp;
 import frc.robot.commands.SwerveSpecific.TeleopSwerve;

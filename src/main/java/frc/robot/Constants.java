@@ -8,7 +8,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.lib.util.SwerveModuleConstants;
-import frc.robot.commands.runMotor;
+import frc.robot.commands.Passthrough.runMotor;
 
 public final class Constants {
     public static final double stickDeadband = 0.1;
