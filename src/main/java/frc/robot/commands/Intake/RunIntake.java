@@ -21,6 +21,7 @@ public class RunIntake extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //sets power to the intake
     intake.setPower(power);
   }
 
@@ -31,6 +32,7 @@ public class RunIntake extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //sets the power to 0 when the command ends
     intake.setPower(0);
   }
   // Returns true when the command should end.

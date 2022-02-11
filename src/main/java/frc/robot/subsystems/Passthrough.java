@@ -25,14 +25,17 @@ public class Passthrough extends SubsystemBase {
     
   }
 
+  //runs motor of conveyor belt using percent power
   public void runMotor(double power){
     passthroughMotor.set(ControlMode.PercentOutput, power);
   }
 
+  //gets the value of the beam break
   public boolean getBeamBreak(){
     return beamBreak.get();
   }
 
+  //gets the velocity of the motor
   public double getEncoderRate(){
     return encoder.getVelocity();
   }

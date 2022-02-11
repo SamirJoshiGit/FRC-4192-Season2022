@@ -28,6 +28,7 @@ public class moveWithManualInput extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //using parameters it will input that into drive
     s_Swerve.drive(new Translation2d(-xTranslate, yTranslate), rotate, true, true);
   }
 
@@ -41,6 +42,7 @@ public class moveWithManualInput extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //at the end sets all the motors to zero
     s_Swerve.drive(new Translation2d(0, 0), 0, true, true);
   }
 

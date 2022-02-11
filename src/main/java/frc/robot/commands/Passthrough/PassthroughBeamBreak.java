@@ -23,17 +23,22 @@ public class PassthroughBeamBreak extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //20ms it will check if sensor has been tripped
     if(passthrough.getBeamBreak()){
+      //run the motors if broken
       passthrough.runMotor(.2);
     }
     else{
+      //dont if its not broken
       passthrough.runMotor(0);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    passthrough.runMotor(0);
+  }
 
   // Returns true when the command should end.
   @Override

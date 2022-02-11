@@ -25,6 +25,7 @@ public class StopAtDistance extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
+          //field relative is false because we want it to move in the stright direction
           swerve.drive(new Translation2d(output, 0), 0, false, true);
         });
     // Use addRequirements() here to declare subsystem dependencies.

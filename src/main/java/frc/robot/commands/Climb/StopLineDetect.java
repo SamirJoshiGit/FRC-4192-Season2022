@@ -24,6 +24,7 @@ public class StopLineDetect extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //drive straight from the begining
     swerve.drive(new Translation2d(1, 0), 0, false, true);
   }
 
@@ -34,12 +35,14 @@ public class StopLineDetect extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //when the command is ended the robot will stop
     swerve.drive(new Translation2d(0,0), 0, false, true);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //if it finds the gaffe tape, then it ends the command
     return climb.getReflective();
   }
 }

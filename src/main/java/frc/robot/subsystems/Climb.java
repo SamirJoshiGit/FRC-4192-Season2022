@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
@@ -41,42 +42,55 @@ public class Climb extends SubsystemBase {
     //climbMotorRight.follow(climbMotorLeft);
   }
 
+  //sets the angle of the climb above the robot lower
   public void setAngleDown(){
     angleClimb.set(Value.kReverse);
   }
 
+  //sets the angle of the climb above the robot to 90
   public void setAngleUp(){
     angleClimb.set(Value.kForward);
   }
 
+  //secondary hooks activated
   public void setClimberUp(){
     climber.set(Value.kForward);
   }
 
+  //secondary hooks de-activated
   public void setClimberDown(){
     climber.set(Value.kReverse);
   }
 
+  //returns when gaffe tape is visible
   public boolean getReflective(){
     return retroreflective.get();
   }
 
+  //set the climb and follower through power
   public void extendClimb(double velo){
     climbMotorLeft.set(ControlMode.PercentOutput, velo);
   }
 
+  //sets only the right climb 
   public void extendClimbRight(double power){
     climbMotorRight.set(ControlMode.PercentOutput, power);
   }
 
+  //gets the placement of the climb, in rotation
   public double getPlacement(){
     return climbMotorLeft.getSelectedSensorPosition();
   }
 
-  
+  //set through motion magic
+  public void setMotionMagic(double setpoint){
+    climbMotorLeft.set(ControlMode.MotionMagic, setpoint, DemandType.ArbitraryFeedForward, 0.1);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Climb Position", getPlacement());
+  
   }
 }

@@ -29,9 +29,12 @@ public class ExtendClimbWithLimit extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //sets the power to motors every 20ms
     climb.extendClimb(velo);
     climb.extendClimbRight(velo);
+    //checks if the position is less than the original position of the motors
     if(Globals.climberStartPosition+10 < climb.getPlacement()){
+      //ends the command
       triggerStop = true;
     }
   }
@@ -39,6 +42,7 @@ public class ExtendClimbWithLimit extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //sets climb power to zero
     climb.extendClimb(0);
     climb.extendClimbRight(0);
   }

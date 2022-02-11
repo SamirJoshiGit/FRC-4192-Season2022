@@ -23,10 +23,13 @@ public class PassiveHookInstant extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //activates the pistons of the climb
     if(up){
+      //if the climb is up, set it down
       climb.setClimberDown();
     }
     else{
+      //if the climb is down, set it up
       climb.setClimberUp();
     }
   }
