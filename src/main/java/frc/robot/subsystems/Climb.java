@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Globals;
 import frc.robot.Constants.Swerve.ClimbConstants;
 
 public class Climb extends SubsystemBase {
@@ -35,6 +37,7 @@ public class Climb extends SubsystemBase {
     //climber.set(Value.kReverse);
     //angleClimb.set(Value.kReverse);
     climbMotorRight.setInverted(true);
+    Globals.climberStartPosition = getPlacement();
     //climbMotorRight.follow(climbMotorLeft);
   }
 
@@ -59,15 +62,21 @@ public class Climb extends SubsystemBase {
   }
 
   public void extendClimb(double velo){
-    climbMotorLeft.set(ControlMode.Velocity, velo);
+    climbMotorLeft.set(ControlMode.PercentOutput, velo);
   }
 
   public void extendClimbRight(double power){
     climbMotorRight.set(ControlMode.PercentOutput, power);
   }
+
+  public double getPlacement(){
+    return climbMotorLeft.getSelectedSensorPosition();
+  }
+
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Climb Position", getPlacement());
   }
 }

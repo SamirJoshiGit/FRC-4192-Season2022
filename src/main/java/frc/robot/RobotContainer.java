@@ -138,8 +138,8 @@ public class RobotContainer {
     //twoSeventy.whenPressed(turn270, true);
 
     
-    aButtonSystems.whileHeld(extend , true);
-    bButtonSystems.whileHeld(extendBack, true);
+    aButtonSystems.whenHeld(extend , true);
+    bButtonSystems.whenHeld(extendBack, true);
     xButtonSystems.toggleWhenPressed(intakePos);
     yButtonSystems.toggleWhenPressed(climbAngle);
     //rightBumperSystems.whenHeld(stopDist, true);

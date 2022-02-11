@@ -5,15 +5,18 @@
 package frc.robot.commands.Climb;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Globals;
 import frc.robot.subsystems.Climb;
 
-public class ExtendClimb extends CommandBase {
+public class ExtendClimbWithLimit extends CommandBase {
   /** Creates a new ExtendClimb. */
   private Climb climb;
   private double velo;
-  public ExtendClimb(Climb climb, double velo) {
+  private boolean triggerStop;
+  public ExtendClimbWithLimit(Climb climb, double velo) {
     this.climb = climb;
     this.velo = velo;
+    triggerStop = false;
     addRequirements(climb);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -28,6 +31,9 @@ public class ExtendClimb extends CommandBase {
   public void execute() {
     climb.extendClimb(velo);
     climb.extendClimbRight(velo);
+    if(Globals.climberStartPosition+10 < climb.getPlacement()){
+      triggerStop = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -40,6 +46,6 @@ public class ExtendClimb extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return triggerStop;
   }
 }
