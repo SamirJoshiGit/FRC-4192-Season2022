@@ -7,11 +7,11 @@ package frc.robot.commands.Climb;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climb;
 
-public class ExtendClimb extends CommandBase {
+public class ExtendClimbRight extends CommandBase {
   /** Creates a new ExtendClimb. */
   private Climb climb;
   private double velo;
-  public ExtendClimb(Climb climb, double velo) {
+  public ExtendClimbRight(Climb climb, double velo) {
     this.climb = climb;
     this.velo = velo;
     addRequirements(climb);
@@ -21,7 +21,6 @@ public class ExtendClimb extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climb.extendClimb(velo);
     climb.extendClimbRight(velo);
   }
 
@@ -29,14 +28,14 @@ public class ExtendClimb extends CommandBase {
   @Override
   public void execute() {
     
+    //climb.extendClimb(velo);
     
-    //
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climb.extendClimb(0);
+    //climb.extendClimb(0);
     climb.extendClimbRight(0);
   }
 

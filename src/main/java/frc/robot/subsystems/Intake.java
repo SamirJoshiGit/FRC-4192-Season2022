@@ -50,6 +50,7 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(ControlMode.Velocity, velocity);
   }
   
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

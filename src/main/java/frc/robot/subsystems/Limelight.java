@@ -8,6 +8,7 @@ import edu.wpi.first.cscore.HttpCamera;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
@@ -29,6 +30,10 @@ public class Limelight extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    //smartdashborad limlight values
+    SmartDashboard.putNumber("tx value", limelightOffset());
+    SmartDashboard.putNumber("area value", limelightArea());
   }
   //gives our offset from target
   public double limelightOffset() {

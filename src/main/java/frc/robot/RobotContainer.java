@@ -24,6 +24,8 @@ import frc.robot.commands.*;
 import frc.robot.commands.Climb.ChangeClimbAngle;
 import frc.robot.commands.Climb.StopExtend;
 import frc.robot.commands.Climb.ExtendClimb;
+import frc.robot.commands.Climb.ExtendClimbRight;
+import frc.robot.commands.Climb.ExtendClimbLeft;
 import frc.robot.commands.FollowBall.FollowBallTogether;
 import frc.robot.commands.FollowBall.FollowBallAngle;
 import frc.robot.commands.Intake.ChangeIntakePosition;
@@ -101,9 +103,14 @@ public class RobotContainer {
   private final ChangeClimbAngle climbAngle = new ChangeClimbAngle(m_climb);
   private final StopAtDistance stopDist = new StopAtDistance(s_Swerve, Units.feetToMeters(5));
   private final PassthroughBeamBreak passthroughBeamBreak = new PassthroughBeamBreak(m_passthrough);
-  private final ExtendClimb extend =  new ExtendClimb(m_climb, .2);
-  private final ExtendClimb extendBack = new ExtendClimb(m_climb, -.2);
+  private final ExtendClimb extend =  new ExtendClimb(m_climb, .5);
+  private final ExtendClimb extendBack = new ExtendClimb(m_climb, -.5);
 
+  private final ExtendClimbRight extendright = new ExtendClimbRight(m_climb, -.2);
+  private final ExtendClimbRight extendrightback = new ExtendClimbRight(m_climb,.2);
+  
+  private final ExtendClimbLeft extendleft = new ExtendClimbLeft(m_climb, -.2);
+  private final ExtendClimbLeft extendleftBack = new ExtendClimbLeft(m_climb, .2);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
@@ -128,19 +135,24 @@ public class RobotContainer {
     leftBumper.whenActive(new InstantCommand(() -> s_Swerve.zeroGyro()));
     
     
-    //yButton.whenHeld(follow, true);
-    //xButton.whenHeld(followToPoint, true);
-    //aButton.whenHeld(new FollowBallAngle(s_Swerve), true);
+    yButton.whileHeld(extend, false);
+    xButton.whileHeld(extendBack, false);
+
+    zero.whileHeld(extendleft);
+    ninety.whileHeld(extendleftBack);
+    oneEighty.whileHeld(extendright);
+    twoSeventy.whileHeld(extendrightback);
+    //yButton.whileHeld(extendright, false);
     //aButton.whenHeld(runPassthrough, true);
-    //bJoystickButton.whenHeld(followBall,true);
+    //xButton.whileHeld(extendrightback, false);
     //zero.whenHeld(new moveWithManualInput(s_Swerve, 0, 1, 0), true);
     //ninety.whenPressed(turn90, true);
     //oneEighty.whenHeld(new moveWithManualInput(s_Swerve, 0, -1, 0), true);
     //twoSeventy.whenPressed(turn270, true);
 
     
-    aButtonSystems.whenHeld(extend , true);
-    bButtonSystems.whenHeld(extendBack, true);
+    aButtonSystems.whenHeld(extend);
+    bButtonSystems.whenHeld(extendBack);
     xButtonSystems.toggleWhenPressed(intakePos);
     yButtonSystems.toggleWhenPressed(climbAngle);
     //rightBumperSystems.whenHeld(stopDist, true);

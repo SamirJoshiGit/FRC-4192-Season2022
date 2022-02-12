@@ -7,11 +7,11 @@ package frc.robot.commands.Climb;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Climb;
 
-public class ExtendClimb extends CommandBase {
+public class ExtendClimbLeft extends CommandBase {
   /** Creates a new ExtendClimb. */
   private Climb climb;
   private double velo;
-  public ExtendClimb(Climb climb, double velo) {
+  public ExtendClimbLeft(Climb climb, double velo) {
     this.climb = climb;
     this.velo = velo;
     addRequirements(climb);
@@ -22,22 +22,21 @@ public class ExtendClimb extends CommandBase {
   @Override
   public void initialize() {
     climb.extendClimb(velo);
-    climb.extendClimbRight(velo);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
+    //climb.extendClimb(velo);
     
-    //
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //climb.extendClimb(0);
     climb.extendClimb(0);
-    climb.extendClimbRight(0);
   }
 
   // Returns true when the command should end.

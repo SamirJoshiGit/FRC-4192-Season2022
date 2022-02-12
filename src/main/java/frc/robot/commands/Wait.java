@@ -21,6 +21,7 @@ public class Wait extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //stops and resets timer
     timer.reset();
     timer.start();
   }
@@ -32,6 +33,7 @@ public class Wait extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //ends the timer and resets to 0
     timer.stop();
     timer.reset();
     

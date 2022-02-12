@@ -22,7 +22,7 @@ public class LimelightFollower extends PIDCommand {
   public LimelightFollower(Swerve m_Swerve, Limelight m_Limelight, boolean finishAtEnd, boolean runConcurrently) {
     super(
         // The controller that the command will use
-        new PIDController(.35, 0, 0),
+        new PIDController(.2, 0, 0),
         // This should return the measurement
         () -> m_Limelight.limelightOffset(),
         // This should return the setpoint (can also be a constant)

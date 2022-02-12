@@ -11,11 +11,11 @@ import frc.robot.subsystems.Climb;
 public class ExtendClimbWithLimit extends CommandBase {
   /** Creates a new ExtendClimb. */
   private Climb climb;
-  private double velo;
+  private double power;
   private boolean triggerStop;
-  public ExtendClimbWithLimit(Climb climb, double velo) {
+  public ExtendClimbWithLimit(Climb climb, double power) {
     this.climb = climb;
-    this.velo = velo;
+    this.power = power;
     triggerStop = false;
     addRequirements(climb);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,13 +30,13 @@ public class ExtendClimbWithLimit extends CommandBase {
   @Override
   public void execute() {
     //sets the power to motors every 20ms
-    climb.extendClimb(velo);
-    climb.extendClimbRight(velo);
+    climb.extendClimb(power);
+    climb.extendClimbRight(power);
     //checks if the position is less than the original position of the motors
-    if(Globals.climberStartPosition+10 < climb.getPlacement()){
+    /*if(Globals.climberStartPosition+10 < climb.getPlacement()){
       //ends the command
       triggerStop = true;
-    }
+    }*/
   }
 
   // Called once the command ends or is interrupted.
@@ -50,6 +50,6 @@ public class ExtendClimbWithLimit extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return triggerStop;
+    return Globals.climberStartPosition+10 < Math.abs(climb.getPlacement());
   }
 }

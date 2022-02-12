@@ -7,14 +7,15 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.IMotorController;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+//import edu.wpi.first.wpilibj.SpeedController;
+//import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,6 +39,8 @@ public class Climb extends SubsystemBase {
     //climber.set(Value.kReverse);
     //angleClimb.set(Value.kReverse);
     climbMotorRight.setInverted(true);
+    climbMotorLeft.setNeutralMode(NeutralMode.Brake);
+    climbMotorRight.setNeutralMode(NeutralMode.Brake);
     Globals.climberStartPosition = getPlacement();
     //climbMotorRight.follow(climbMotorLeft);
   }
@@ -85,11 +88,17 @@ public class Climb extends SubsystemBase {
   //set through motion magic
   public void setMotionMagic(double setpoint){
     climbMotorLeft.set(ControlMode.MotionMagic, setpoint, DemandType.ArbitraryFeedForward, 0.1);
+    climbMotorRight.follow(climbMotorLeft);
+  }
+
+  public boolean getAtHeightLimit(double setpoint){
+    return getPlacement() >= setpoint; 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    //put smart dashboard numbers
     SmartDashboard.putNumber("Climb Position", getPlacement());
   
   }

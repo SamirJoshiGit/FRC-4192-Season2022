@@ -36,7 +36,7 @@ public class SwerveDoubleSupp extends CommandBase {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
-        this.controller = controller;
+        //this.controller = controller;
         this.translationAxis = translationAxis;
         this.strafeAxis = strafeAxis;
         this.rotationAxis = rotationAxis;
@@ -59,6 +59,7 @@ public class SwerveDoubleSupp extends CommandBase {
         xAxis *= .5;
         yAxis *= .5;
         rAxis *= .5;
+        //plug values into swerve base drive command
         translation = new Translation2d(-yAxis, -xAxis).times(Constants.Swerve.maxSpeed);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
         s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
