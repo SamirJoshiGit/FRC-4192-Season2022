@@ -20,10 +20,7 @@ public class SwerveDoubleSupp extends CommandBase {
     private boolean openLoop;
     
     private Swerve s_Swerve;
-    private Joystick controller;
-    private int translationAxis;
-    private int strafeAxis;
-    private int rotationAxis;
+
     private final DoubleSupplier x;
     private final DoubleSupplier y;
     private final DoubleSupplier r;
@@ -32,14 +29,11 @@ public class SwerveDoubleSupp extends CommandBase {
     /**
      * Driver control
      */
-    public SwerveDoubleSupp(Swerve s_Swerve, DoubleSupplier x, DoubleSupplier y, DoubleSupplier r, int translationAxis, int strafeAxis, int rotationAxis, boolean fieldRelative, boolean openLoop) {
+    public SwerveDoubleSupp(Swerve s_Swerve, DoubleSupplier x, DoubleSupplier y, DoubleSupplier r, boolean fieldRelative, boolean openLoop) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
-        //this.controller = controller;
-        this.translationAxis = translationAxis;
-        this.strafeAxis = strafeAxis;
-        this.rotationAxis = rotationAxis;
+
         this.fieldRelative = fieldRelative;
         this.openLoop = openLoop;
         this.x = x;

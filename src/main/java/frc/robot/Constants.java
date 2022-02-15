@@ -135,7 +135,7 @@ public final class Constants {
 
         public static final class IntakeConstants {
             //filler values
-            public static final int intakeMotorID = 0;
+            public static final int intakeMotorID = 7;
             //public static final int doubleSolenoidIntake = 0;
             public static final int doubleSolenoidReverse = 11;
             public static final int doubleSolenoidForward = 4;

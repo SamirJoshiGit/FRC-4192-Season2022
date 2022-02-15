@@ -30,6 +30,7 @@ import frc.robot.commands.FollowBall.FollowBallTogether;
 import frc.robot.commands.FollowBall.FollowBallAngle;
 import frc.robot.commands.Intake.ChangeIntakePosition;
 import frc.robot.commands.Intake.RunIntake;
+import frc.robot.commands.Intake.TestRunIntake;
 import frc.robot.commands.LimelightFollowing.FollowTarget;
 import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
 import frc.robot.commands.LimelightFollowing.LimelightFollower;
@@ -65,6 +66,7 @@ public class RobotContainer {
   private final JoystickButton xButton = new JoystickButton(driver, XboxController.Button.kX.value);
   private final JoystickButton aButton = new JoystickButton(driver, XboxController.Button.kA.value);
   private final JoystickButton bJoystickButton = new JoystickButton(driver, Button.kB.value);
+  private final JoystickButton rightBumper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   private final POVButton zero = new POVButton(driver, 0);
   private final POVButton oneEighty = new POVButton(driver, 180);
   private final POVButton twoSeventy = new POVButton(driver, 270);
@@ -77,6 +79,8 @@ public class RobotContainer {
   private final JoystickButton xButtonSystems = new JoystickButton(systemsController, XboxController.Button.kX.value);
   private final JoystickButton yButtonSystems = new JoystickButton(systemsController, XboxController.Button.kY.value);
   private final JoystickButton rightBumperSystems = new JoystickButton(systemsController, XboxController.Button.kRightBumper.value);
+  private final JoystickButton leftBumperSystems = new JoystickButton(systemsController, XboxController.Button.kLeftBumper.value);
+
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
   private final Limelight m_limelight = new Limelight();
@@ -84,7 +88,7 @@ public class RobotContainer {
   private final Climb m_climb = new Climb();
   private final Intake m_intake = new Intake();
   //commands
-  private final SwerveDoubleSupp swerveControl = new SwerveDoubleSupp(s_Swerve, () -> xDrive.getLeftX(), () -> xDrive.getLeftY(), () -> xDrive.getRightX(), translationAxis, strafeAxis, rotationAxis, true, true);
+  private final SwerveDoubleSupp swerveControl = new SwerveDoubleSupp(s_Swerve, () -> xDrive.getLeftX(), () -> xDrive.getLeftY(), () -> xDrive.getRightX(), true, true);
   private final TeleopSwerve nonDoubSupp = new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, true, true);
   private final LimelightFollower follow = new LimelightFollower(s_Swerve, m_limelight, false, false);
   private final LimelightFollowToPoint followToPoint = new LimelightFollowToPoint(s_Swerve, m_limelight, false, 1, false);
@@ -106,11 +110,14 @@ public class RobotContainer {
   private final ExtendClimb extend =  new ExtendClimb(m_climb, .5);
   private final ExtendClimb extendBack = new ExtendClimb(m_climb, -.5);
 
-  private final ExtendClimbRight extendright = new ExtendClimbRight(m_climb, -.2);
-  private final ExtendClimbRight extendrightback = new ExtendClimbRight(m_climb,.2);
+  private final ExtendClimbRight extendright = new ExtendClimbRight(m_climb, -.8);
+  private final ExtendClimbRight extendrightback = new ExtendClimbRight(m_climb,.8);
   
-  private final ExtendClimbLeft extendleft = new ExtendClimbLeft(m_climb, -.2);
-  private final ExtendClimbLeft extendleftBack = new ExtendClimbLeft(m_climb, .2);
+  private final ExtendClimbLeft extendleft = new ExtendClimbLeft(m_climb, -.8);
+  private final ExtendClimbLeft extendleftBack = new ExtendClimbLeft(m_climb, .8);
+
+  private final TestRunIntake runForward = new TestRunIntake(0.2, m_intake);
+  private final TestRunIntake runBack = new TestRunIntake(-0.2, m_intake);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
@@ -133,7 +140,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     /* Driver Buttons */
     leftBumper.whenActive(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    
+    rightBumper.toggleWhenPressed(intakePos);
     
     yButton.whileHeld(extend, false);
     xButton.whileHeld(extendBack, false);
@@ -142,6 +149,8 @@ public class RobotContainer {
     ninety.whileHeld(extendleftBack);
     oneEighty.whileHeld(extendright);
     twoSeventy.whileHeld(extendrightback);
+
+    
     //yButton.whileHeld(extendright, false);
     //aButton.whenHeld(runPassthrough, true);
     //xButton.whileHeld(extendrightback, false);
@@ -155,6 +164,9 @@ public class RobotContainer {
     bButtonSystems.whenHeld(extendBack);
     xButtonSystems.toggleWhenPressed(intakePos);
     yButtonSystems.toggleWhenPressed(climbAngle);
+
+    rightBumperSystems.whenHeld(runForward);
+    leftBumperSystems.whenHeld(runBack);
     //rightBumperSystems.whenHeld(stopDist, true);
   }
 
