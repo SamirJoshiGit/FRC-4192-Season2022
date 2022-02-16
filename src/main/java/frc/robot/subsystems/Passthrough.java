@@ -20,7 +20,7 @@ public class Passthrough extends SubsystemBase {
 
   private final CANCoder encoder = new CANCoder(PassthroughConstants.passthroughEncoderID);
 
-  private final DigitalOutput beamBreak = new DigitalOutput(Sensors.beamBreakID); 
+  private final DigitalOutput beamBreak = new DigitalOutput(Sensors.beamBreakPassthroughID); 
   public Passthrough() {
     
   }

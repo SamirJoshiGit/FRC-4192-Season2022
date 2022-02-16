@@ -9,6 +9,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 //import com.revrobotics.CANSparkMax;
 //import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 //import edu.wpi.first.hal.SimDevice.Direction;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -22,7 +24,7 @@ public class Intake extends SubsystemBase {
   private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.doubleSolenoidForward, IntakeConstants.doubleSolenoidReverse);//filler values for plug in locations
   //private final CANSparkMax intakeMotors;
   private final TalonFX intakeMotor = new TalonFX(IntakeConstants.intakeMotorID);
-
+  private final DigitalOutput beamBreaker = new DigitalOutput(IntakeConstants.beamBreakIntakeID);
   /** Creates a new Intake. */
   public Intake() {
     //intakeMotors = new CANSparkMax(1, MotorType.kBrushed);
@@ -45,6 +47,11 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(ControlMode.PercentOutput, power);
   }
 
+  //digital out outputname.get();
+
+  public boolean getBeamBreak(){
+      return beamBreaker.get();
+  }
   //moves intake motors based on velocity 
   public void velocityBasedControl(double velocity){
     intakeMotor.set(ControlMode.Velocity, velocity);

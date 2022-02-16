@@ -83,7 +83,7 @@ public final class Constants {
             public static final int firstPortUltrasonic = 1;
             public static final int secondPortUltrasonic = 2;
 
-            public static final int beamBreakID = 3;//placeholders
+            public static final int beamBreakPassthroughID = 7;//placeholders
         }
 
         /* Module Specific Constants */
@@ -139,6 +139,9 @@ public final class Constants {
             //public static final int doubleSolenoidIntake = 0;
             public static final int doubleSolenoidReverse = 11;
             public static final int doubleSolenoidForward = 4;
+
+            //sensors
+            public static final int beamBreakIntakeID = 3;//temporary
         }
 
         public static final class ClimbConstants{
@@ -159,6 +162,12 @@ public final class Constants {
             public static final int climbMotorLeft = 5;
             public static final int climbMotorRight = 6;
 
+        }
+
+        public static final class ShooterConstants{
+            public static final int shooterMotor = 0;//temporary
+
+            public static final int beamBreakShooterID = 0;//temporary            
         }
     }
 

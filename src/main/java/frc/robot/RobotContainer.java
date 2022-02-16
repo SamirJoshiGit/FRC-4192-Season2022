@@ -35,7 +35,9 @@ import frc.robot.commands.LimelightFollowing.FollowTarget;
 import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
 import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.commands.Passthrough.PassthroughBeamBreak;
+import frc.robot.commands.Passthrough.RunUntilTripped;
 import frc.robot.commands.Passthrough.runMotor;
+import frc.robot.commands.Shooter.RunShooterMotor;
 import frc.robot.commands.SwerveSpecific.StopAtDistance;
 import frc.robot.commands.SwerveSpecific.SwerveDoubleSupp;
 import frc.robot.commands.SwerveSpecific.TeleopSwerve;
@@ -87,6 +89,7 @@ public class RobotContainer {
   private final Passthrough m_passthrough = new Passthrough();
   private final Climb m_climb = new Climb();
   private final Intake m_intake = new Intake();
+  private final Shooter m_shooter = new Shooter();
   //commands
   private final SwerveDoubleSupp swerveControl = new SwerveDoubleSupp(s_Swerve, () -> xDrive.getLeftX(), () -> xDrive.getLeftY(), () -> xDrive.getRightX(), true, true);
   private final TeleopSwerve nonDoubSupp = new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, true, true);
@@ -94,10 +97,10 @@ public class RobotContainer {
   private final LimelightFollowToPoint followToPoint = new LimelightFollowToPoint(s_Swerve, m_limelight, false, 1, false);
   private final FollowTarget followTarget = new FollowTarget(s_Swerve, m_limelight, false, 1.1);
   private final FollowBallTogether followBall = new FollowBallTogether(s_Swerve);
-  private final TurnToSpecifiedAngle turn90 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 90, true);
-  private final TurnToSpecifiedAngle turn180 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, -90, true);
-  private final TurnToSpecifiedAngle turn0 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 0, true);
-  private final TurnToSpecifiedAngle turn270 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 180, true);
+  //private final TurnToSpecifiedAngle turn90 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 90, true);
+  //private final TurnToSpecifiedAngle turn180 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, -90, true);
+  //private final TurnToSpecifiedAngle turn0 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 0, true);
+  //private final TurnToSpecifiedAngle turn270 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 180, true);
   private final runMotor runPassthrough = new runMotor(m_passthrough, .2);
   private final runMotor runPassthroughTwo = new runMotor(m_passthrough, .4);
 
@@ -116,14 +119,17 @@ public class RobotContainer {
   private final ExtendClimbLeft extendleft = new ExtendClimbLeft(m_climb, -.8);
   private final ExtendClimbLeft extendleftBack = new ExtendClimbLeft(m_climb, .8);
 
-  private final TestRunIntake runForward = new TestRunIntake(0.2, m_intake);
-  private final TestRunIntake runBack = new TestRunIntake(-0.2, m_intake);
+  private final TestRunIntake runForward = new TestRunIntake(0.4, m_intake);
+  private final TestRunIntake runBack = new TestRunIntake(-0.4, m_intake);
+
+  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, .2);
+  private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .2);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
     boolean openLoop = true;
     s_Swerve.setDefaultCommand(nonDoubSupp);
-    m_passthrough.setDefaultCommand(passthroughBeamBreak);
+    //m_passthrough.setDefaultCommand(runUntilTripped);
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
 
@@ -165,8 +171,9 @@ public class RobotContainer {
     xButtonSystems.toggleWhenPressed(intakePos);
     yButtonSystems.toggleWhenPressed(climbAngle);
 
-    rightBumperSystems.whenHeld(runForward);
-    leftBumperSystems.whenHeld(runBack);
+    //rightBumperSystems.whenHeld(runShooterMotor);
+    //xButtonSystems.whenHeld(runForward, true);
+    //yButtonSystems.whenHeld(runBack, true);
     //rightBumperSystems.whenHeld(stopDist, true);
   }
 
