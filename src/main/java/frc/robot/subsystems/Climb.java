@@ -41,7 +41,7 @@ public class Climb extends SubsystemBase {
     climbMotorRight.setInverted(true);
     climbMotorLeft.setNeutralMode(NeutralMode.Brake);
     climbMotorRight.setNeutralMode(NeutralMode.Brake);
-    Globals.climberStartPosition = getPlacement();
+    Globals.climberStartPosition = getRightEncoder();
     //climbMotorRight.follow(climbMotorLeft);
   }
 
@@ -81,9 +81,6 @@ public class Climb extends SubsystemBase {
   }
 
   //gets the placement of the climb, in rotation
-  public double getPlacement(){
-    return climbMotorLeft.getSelectedSensorPosition();
-  }
 
   //set through motion magic
   public void setMotionMagic(double setpoint){
@@ -92,14 +89,21 @@ public class Climb extends SubsystemBase {
   }
 
   public boolean getAtHeightLimit(double setpoint){
-    return getPlacement() >= setpoint; 
+    return getLeftEncoder() >= setpoint; 
   }
 
+  public double getRightEncoder(){
+    return climbMotorRight.getSelectedSensorPosition();
+  }
+  
+  public double getLeftEncoder(){
+    return climbMotorLeft.getSelectedSensorPosition();
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     //put smart dashboard numbers
-    SmartDashboard.putNumber("Climb Position", getPlacement());
-  
+    SmartDashboard.putNumber("Right Climb Position", getRightEncoder());
+    SmartDashboard.putNumber("Left Climb Position", getLeftEncoder());
   }
 }

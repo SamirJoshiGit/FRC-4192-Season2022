@@ -21,7 +21,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setPower(double power){
-    shooterMotor.set(ControlMode.PercentOutput, .2);
+    shooterMotor.set(ControlMode.PercentOutput, power);
   }
 
   public void velocityBasedControl(double velo){

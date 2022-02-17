@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
@@ -38,6 +39,10 @@ public class Passthrough extends SubsystemBase {
   //gets the velocity of the motor
   public double getEncoderRate(){
     return encoder.getVelocity();
+  }
+
+  public void magicMotion(){
+    passthroughMotor.set(TalonFXControlMode.MotionMagic, .2);
   }
 
   @Override

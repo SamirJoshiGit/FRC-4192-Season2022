@@ -16,7 +16,7 @@ public class PassthroughPIDRate extends PIDCommand {
   public PassthroughPIDRate(Passthrough passthrough, double setpoint) {
     super(
         // The controller that the command will use
-        new PIDController(.3, 0, 0),//test for values
+        new PIDController(.2, 0, 0),//test for values
         // This should return the measurement
         () -> passthrough.getEncoderRate(),
         // This should return the setpoint (can also be a constant)

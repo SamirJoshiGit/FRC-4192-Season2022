@@ -20,7 +20,7 @@ public class ClimbPositionPID extends PIDCommand {
         // The controller that the command will use
         new PIDController(.2, 0, 0),
         // This should return the measurement
-        () -> climb.getPlacement(),
+        () -> climb.getRightEncoder(),
         // This should return the setpoint (can also be a constant)
         () -> setpoint,
         // This uses the output

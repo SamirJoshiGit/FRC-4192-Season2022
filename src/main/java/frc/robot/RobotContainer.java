@@ -119,11 +119,11 @@ public class RobotContainer {
   private final ExtendClimbLeft extendleft = new ExtendClimbLeft(m_climb, -.8);
   private final ExtendClimbLeft extendleftBack = new ExtendClimbLeft(m_climb, .8);
 
-  private final TestRunIntake runForward = new TestRunIntake(0.4, m_intake);
-  private final TestRunIntake runBack = new TestRunIntake(-0.4, m_intake);
+  //private final TestRunIntake runForward = new TestRunIntake(0.4, m_intake);
+  //private final TestRunIntake runBack = new TestRunIntake(-0.4, m_intake);
 
-  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, .2);
-  private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .2);
+  //private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, m_shooter, .2);
+  //private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .2);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;

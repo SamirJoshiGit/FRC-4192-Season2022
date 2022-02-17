@@ -35,15 +35,17 @@ public class RunUntilTripped extends CommandBase {
   @Override
   public void execute() {
     if(intake.getBeamBreak()){
-      passthrough.runMotor(power);
-      
+      passthrough.runMotor(power); 
     }
-    if(passthrough.getBeamBreak()){
+    if(passthrough.getBeamBreak() && counter != 2){
       passthrough.runMotor(0);
       counter++;
       if(counter == 2){
-        while(shooter.getBeamBreak()){
+        while(!shooter.getBeamBreak()){
           passthrough.runMotor(power);
+        }
+        if(shooter.getBeamBreak()){
+          counter = 0;
         }
       }
     }
@@ -54,6 +56,7 @@ public class RunUntilTripped extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     passthrough.runMotor(0);
+    counter = 0; 
   }
 
   // Returns true when the command should end.
