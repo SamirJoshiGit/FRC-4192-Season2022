@@ -29,7 +29,7 @@ import frc.robot.commands.Climb.ExtendClimbLeft;
 import frc.robot.commands.FollowBall.FollowBallTogether;
 //import frc.robot.commands.FollowBall.FollowBallAngle;
 import frc.robot.commands.Intake.ChangeIntakePosition;
-import frc.robot.commands.Intake.IntakeVelocityControl;
+//import frc.robot.commands.Intake.IntakeVelocityControl;
 import frc.robot.commands.Intake.RunIntake;
 import frc.robot.commands.Intake.TestRunIntake;
 import frc.robot.commands.LimelightFollowing.FollowTarget;
@@ -125,7 +125,7 @@ public class RobotContainer {
   private final EncoderBasedRun encoderBasedRun = new EncoderBasedRun(500, m_shooter);
 
   private final Velocity velocity = new Velocity(500, m_shooter);
-  private final IntakeVelocityControl intakeVelocityControl = new IntakeVelocityControl(500, m_shooter);
+  //private final IntakeVelocityControl intakeVelocityControl = new IntakeVelocityControl(500, m_shooter);
   //private final TestRunIntake runForward = new TestRunIntake(0.4, m_intake);
   //private final TestRunIntake runBack = new TestRunIntake(-0.4, m_intake);
 
@@ -158,7 +158,7 @@ public class RobotContainer {
     yButton.whileHeld(extend, false);
     xButton.whileHeld(extendBack, false);
     aButton.whenHeld(velocity);
-    bButton.whenHeld(intakeVelocityControl);
+    //bButton.whenHeld(intakeVelocityControl);
 
 
     zero.whileHeld(extendleft);
