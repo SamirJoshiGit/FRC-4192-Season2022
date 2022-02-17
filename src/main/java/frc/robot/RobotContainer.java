@@ -39,6 +39,7 @@ import frc.robot.commands.Passthrough.RunUntilTripped;
 import frc.robot.commands.Passthrough.runMotor;
 import frc.robot.commands.Shooter.EncoderBasedRun;
 import frc.robot.commands.Shooter.RunShooterMotor;
+import frc.robot.commands.Shooter.Velocity;
 import frc.robot.commands.SwerveSpecific.StopAtDistance;
 import frc.robot.commands.SwerveSpecific.SwerveDoubleSupp;
 import frc.robot.commands.SwerveSpecific.TeleopSwerve;
@@ -122,6 +123,7 @@ public class RobotContainer {
 
   private final EncoderBasedRun encoderBasedRun = new EncoderBasedRun(500, m_shooter);
 
+  private final Velocity velocity = new Velocity(500, m_shooter);
   //private final TestRunIntake runForward = new TestRunIntake(0.4, m_intake);
   //private final TestRunIntake runBack = new TestRunIntake(-0.4, m_intake);
 
@@ -153,6 +155,7 @@ public class RobotContainer {
     
     yButton.whileHeld(extend, false);
     xButton.whileHeld(extendBack, false);
+    aButton.whenHeld(velocity);
 
     zero.whileHeld(extendleft);
     ninety.whileHeld(extendleftBack);
