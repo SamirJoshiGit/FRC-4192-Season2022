@@ -24,7 +24,7 @@ public class Intake extends SubsystemBase {
   private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH, IntakeConstants.doubleSolenoidForward, IntakeConstants.doubleSolenoidReverse);//filler values for plug in locations
   //private final CANSparkMax intakeMotors;
   private final TalonFX intakeMotor = new TalonFX(IntakeConstants.intakeMotorID);
-  private final DigitalOutput beamBreaker = new DigitalOutput(IntakeConstants.beamBreakIntakeID);
+  private final DigitalInput beamBreaker = new DigitalInput(IntakeConstants.beamBreakIntakeID);
   /** Creates a new Intake. */
   public Intake() {
     //intakeMotors = new CANSparkMax(1, MotorType.kBrushed);

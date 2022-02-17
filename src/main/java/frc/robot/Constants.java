@@ -167,7 +167,9 @@ public final class Constants {
         public static final class ShooterConstants{
             public static final int shooterMotor = 0;//temporary
 
-            public static final int beamBreakShooterID = 4;//temporary            
+            public static final int beamBreakShooterID = 4;//temporary  
+            
+            public static final int shooterEncoderID = 1;//temporary
         }
     }
 

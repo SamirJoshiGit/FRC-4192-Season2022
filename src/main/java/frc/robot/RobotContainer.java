@@ -37,6 +37,7 @@ import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.commands.Passthrough.PassthroughBeamBreak;
 import frc.robot.commands.Passthrough.RunUntilTripped;
 import frc.robot.commands.Passthrough.runMotor;
+import frc.robot.commands.Shooter.EncoderBasedRun;
 import frc.robot.commands.Shooter.RunShooterMotor;
 import frc.robot.commands.SwerveSpecific.StopAtDistance;
 import frc.robot.commands.SwerveSpecific.SwerveDoubleSupp;
@@ -118,6 +119,8 @@ public class RobotContainer {
   
   private final ExtendClimbLeft extendleft = new ExtendClimbLeft(m_climb, -.8);
   private final ExtendClimbLeft extendleftBack = new ExtendClimbLeft(m_climb, .8);
+
+  private final EncoderBasedRun encoderBasedRun = new EncoderBasedRun(500, m_shooter);
 
   //private final TestRunIntake runForward = new TestRunIntake(0.4, m_intake);
   //private final TestRunIntake runBack = new TestRunIntake(-0.4, m_intake);

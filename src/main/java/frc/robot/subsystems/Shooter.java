@@ -6,9 +6,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.sensors.CANCoder;
 
-import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Swerve.ShooterConstants;
 
@@ -16,7 +16,8 @@ public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   private TalonFX shooterMotor = new TalonFX(ShooterConstants.shooterMotor); 
 
-  private final DigitalOutput beam = new DigitalOutput(ShooterConstants.beamBreakShooterID);
+  private CANCoder encoder = new CANCoder(ShooterConstants.shooterEncoderID);
+  private final DigitalInput beam = new DigitalInput(ShooterConstants.beamBreakShooterID);
   public Shooter() {
   }
 
@@ -30,6 +31,10 @@ public class Shooter extends SubsystemBase {
 
   public boolean getBeamBreak(){
     return beam.get();
+  }
+
+  public double getRate(){
+    return encoder.getVelocity();
   }
   @Override
   public void periodic() {

@@ -13,7 +13,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
 //import edu.wpi.first.wpilibj.SpeedController;
 //import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -42,6 +41,7 @@ public class Climb extends SubsystemBase {
     climbMotorLeft.setNeutralMode(NeutralMode.Brake);
     climbMotorRight.setNeutralMode(NeutralMode.Brake);
     Globals.climberStartPosition = getRightEncoder();
+    angleClimb.set(Value.kForward);
     //climbMotorRight.follow(climbMotorLeft);
   }
 
