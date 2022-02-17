@@ -5,20 +5,26 @@
 package frc.robot.commands.Passthrough;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Passthrough;
+import frc.robot.subsystems.Shooter;
 
 public class RunUntilTripped extends CommandBase {
   /** Creates a new RunUntilTripped. */
   private Intake intake;
   private Passthrough passthrough;
   private double power;
-  public RunUntilTripped(Intake intake, Passthrough passthrough, double power) {
+  private double counter;
+  private Shooter shooter;
+  public RunUntilTripped(Intake intake, Passthrough passthrough, Shooter shooter, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
     this.passthrough = passthrough;
     this.power = power;
-    addRequirements(intake, passthrough);
+    this.shooter = shooter;
+    counter = 0;
+    addRequirements(intake, passthrough, shooter);
   }
   //RunUntilTripped(m_intake, m_passthrough)
   // Called when the command is initially scheduled.
@@ -30,9 +36,16 @@ public class RunUntilTripped extends CommandBase {
   public void execute() {
     if(intake.getBeamBreak()){
       passthrough.runMotor(power);
+      
     }
     if(passthrough.getBeamBreak()){
       passthrough.runMotor(0);
+      counter++;
+      if(counter == 2){
+        while(shooter.getBeamBreak()){
+          passthrough.runMotor(power);
+        }
+      }
     }
 
   }
