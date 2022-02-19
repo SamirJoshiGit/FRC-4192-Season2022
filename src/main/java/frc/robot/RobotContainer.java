@@ -26,6 +26,7 @@ import frc.robot.commands.Climb.StopExtend;
 import frc.robot.commands.Climb.UpandDown;
 import frc.robot.commands.Climb.ExtendClimb;
 import frc.robot.commands.Climb.ExtendClimbRight;
+import frc.robot.commands.Climb.MoveThreeBars;
 import frc.robot.commands.Climb.ExtendClimbLeft;
 import frc.robot.commands.FollowBall.FollowBallTogether;
 //import frc.robot.commands.FollowBall.FollowBallAngle;
@@ -131,6 +132,7 @@ public class RobotContainer {
   private final TestRunIntake runBack = new TestRunIntake(-0.6, m_intake);
 
   private final UpandDown upAndDown = new UpandDown(m_climb, 720);
+  private final MoveThreeBars mThreeBars = new MoveThreeBars(m_climb);
 
   //private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, m_shooter, .2);
   //private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .2);
@@ -162,7 +164,7 @@ public class RobotContainer {
     xButton.whileHeld(extendBack, false);
     aButton.whenHeld(runForward, true);
     bButton.whenHeld(runBack, true);
-
+    //rightBumper.whenPressed(mThreeBars);
 
     zero.whileHeld(extendleft);
     ninety.whileHeld(extendleftBack);
