@@ -35,8 +35,8 @@ public class LimelightFollower extends PIDCommand {
           }
           Globals.rotatingOutput = output;
         });
-        this.finishAtEnd= finishAtEnd;
-        this.m_Limelight =m_Limelight;  
+        this.finishAtEnd = finishAtEnd;
+        this.m_Limelight = m_Limelight;  
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
   }

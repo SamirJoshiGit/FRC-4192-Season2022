@@ -18,7 +18,7 @@ import frc.robot.Constants.Swerve.Sensors;
 
 public class Passthrough extends SubsystemBase {
   /** Creates a new Passthrough. */
-  private final TalonFX passthroughMotor = new TalonFX(20);
+  private final TalonFX passthroughMotor = new TalonFX(PassthroughConstants.passthroughMotorID);
 
   private final CANCoder encoder = new CANCoder(PassthroughConstants.passthroughEncoderID);
 
@@ -33,6 +33,10 @@ public class Passthrough extends SubsystemBase {
     passthroughMotor.set(ControlMode.PercentOutput, power);
   }
 
+  public void setVelocity(double velo){
+    passthroughMotor.set(ControlMode.Velocity, velo);
+  }
+
   //gets the value of the beam break
   public boolean getBeamBreak(){
     return beamBreak.get();
@@ -43,6 +47,9 @@ public class Passthrough extends SubsystemBase {
     return encoder.getVelocity();
   }
 
+  public double getInternalEncoder(){
+    return passthroughMotor.getSelectedSensorPosition();
+  }
   public void magicMotion(){
     passthroughMotor.set(TalonFXControlMode.MotionMagic, .2);
   }
@@ -52,7 +59,7 @@ public class Passthrough extends SubsystemBase {
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Passthrough Encoder Rate", getEncoderRate());
+    SmartDashboard.putNumber("Passthrough Encoder Rate", getInternalEncoder());
     // This method will be called once per scheduler run
   }
 }

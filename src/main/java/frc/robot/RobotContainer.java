@@ -15,8 +15,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-import java.util.function.DoubleSupplier;
+//import java.util.function.DoubleSupplier;
 
 import frc.robot.autos.*;
 //import frc.robot.commands.*;
@@ -41,6 +42,7 @@ import frc.robot.commands.Passthrough.RunUntilTripped;
 import frc.robot.commands.Passthrough.runMotor;
 import frc.robot.commands.Shooter.EncoderBasedRun;
 import frc.robot.commands.Shooter.RunShooterMotor;
+import frc.robot.commands.Shooter.ShootWithIndex;
 import frc.robot.commands.Shooter.Velocity;
 import frc.robot.commands.SwerveSpecific.StopAtDistance;
 import frc.robot.commands.SwerveSpecific.SwerveDoubleSupp;
@@ -74,10 +76,11 @@ public class RobotContainer {
   private final JoystickButton bButton = new JoystickButton(driver, Button.kB.value);
   private final JoystickButton rightBumper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
   //driver dpad buttons
-  private final POVButton zero = new POVButton(driver, 0);
+  private final POVButton zero = new POVButton(driver, 0);  
+  private final POVButton ninety = new POVButton(driver, 90);
   private final POVButton oneEighty = new POVButton(driver, 180);
   private final POVButton twoSeventy = new POVButton(driver, 270);
-  private final POVButton ninety = new POVButton(driver, 90);
+
 
 
   /*systems controller*/
@@ -92,6 +95,8 @@ public class RobotContainer {
   private final POVButton oneEightySystems = new POVButton(systemsController, 180);
   private final POVButton twoSeventySystems = new POVButton(systemsController, 270);
   private final POVButton ninetySystems = new POVButton(systemsController, 90);
+
+  //Triggers
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
@@ -133,14 +138,22 @@ public class RobotContainer {
 
   //private final Velocity velocity = new Velocity(500, m_shooter);
   //private final IntakeVelocityControl intakeVelocityControl = new IntakeVelocityControl(500, m_shooter);
-  private final TestRunIntake runForward = new TestRunIntake(0.6, m_intake);
-  private final TestRunIntake runBack = new TestRunIntake(-0.6, m_intake);
+  private final TestRunIntake runForwardIntake = new TestRunIntake(0.6, m_intake);
+  private final TestRunIntake runBackIntake = new TestRunIntake(-0.6, m_intake);
 
   private final UpandDown upAndDown = new UpandDown(m_climb, 720);
   private final MoveThreeBars mThreeBars = new MoveThreeBars(m_climb);
 
+  private final runMotor runPassthroughForward = new runMotor(m_passthrough, .5);
+  private final runMotor runPassthroughBackward = new runMotor(m_passthrough, -.5);
+
   //private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, m_shooter, .2);
-  //private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .2);
+  private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .8);
+  private final RunShooterMotor runShooterMotorBack = new RunShooterMotor(m_shooter, -.8);
+
+
+  private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
@@ -165,17 +178,20 @@ public class RobotContainer {
     leftBumper.whenActive(new InstantCommand(() -> s_Swerve.zeroGyro()));
     rightBumper.toggleWhenPressed(intakePos);
     
-    yButton.whileHeld(extend, false);
-    xButton.whileHeld(extendBack, false);
-    aButton.whenHeld(runForward, true);
-    bButton.whenHeld(runBack, true);
+    //yButton.whileHeld(extend, false);
+    //xButton.whileHeld(extendBack, false);
+    yButton.toggleWhenPressed(runPassthroughForward);
+    xButton.toggleWhenPressed(runPassthroughBackward);
+    aButton.toggleWhenPressed(runForwardIntake);
+    bButton.toggleWhenPressed(runBackIntake);
     //DPAD Buttons 
-    zero.whileHeld(extendleft);
-    ninety.whileHeld(extendleftBack);
-    oneEighty.whileHeld(extendright);
-    twoSeventy.whileHeld(extendrightback);
-
+    //zero.whileHeld(extendleft);
+    //ninety.whileHeld(extendleftBack);
+    //oneEighty.whileHeld(extendright);
+    //twoSeventy.whileHeld(extendrightback);
     
+    zero.toggleWhenPressed(runShooterMotor);
+    oneEighty.toggleWhenPressed(runShooterMotorBack);
     //yButton.whileHeld(extendright, false);
     //aButton.whenHeld(runPassthrough, true);
     //xButton.whileHeld(extendrightback, false);
@@ -190,6 +206,8 @@ public class RobotContainer {
     xButtonSystems.toggleWhenPressed(intakePos);
     yButtonSystems.toggleWhenPressed(climbAngle);
 
+    rightBumperSystems.whenHeld(runShooterMotor);
+    leftBumperSystems.whenHeld(runShooterMotorBack);
     //rightBumperSystems.whenHeld(runShooterMotor);
     //xButtonSystems.whenHeld(runForward, true);
     //yButtonSystems.whenHeld(runBack, true);

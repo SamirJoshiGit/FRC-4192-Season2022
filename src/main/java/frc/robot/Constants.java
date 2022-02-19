@@ -128,7 +128,7 @@ public final class Constants {
         }
 
         public static final class PassthroughConstants {
-            public static final int passthroughMotorID = 0;
+            public static final int passthroughMotorID = 8;
 
             public static final int passthroughEncoderID = 0;
         }
@@ -165,7 +165,7 @@ public final class Constants {
         }
 
         public static final class ShooterConstants{
-            public static final int shooterMotor = 0;//temporary
+            public static final int shooterMotor = 9;//temporary
 
             public static final int beamBreakShooterID = 4;//temporary  
             
