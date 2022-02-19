@@ -34,17 +34,17 @@ public class RunUntilTripped extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(intake.getBeamBreak()){
+    if(!intake.getBeamBreak()){
       passthrough.runMotor(power); 
     }
-    if(passthrough.getBeamBreak() && counter != 2){
+    if(!passthrough.getBeamBreak() && counter != 2){
       passthrough.runMotor(0);
       counter++;
       if(counter == 2){
-        while(!shooter.getBeamBreak()){
+        while(shooter.getBeamBreak()){
           passthrough.runMotor(power);
         }
-        if(shooter.getBeamBreak()){
+        if(!shooter.getBeamBreak()){
           counter = 0;
         }
       }

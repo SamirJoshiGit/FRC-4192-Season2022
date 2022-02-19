@@ -80,12 +80,15 @@ public class Climb extends SubsystemBase {
     climbMotorRight.set(ControlMode.PercentOutput, power);
   }
 
+  public void resetInternalEncoder(){
+    climbMotorLeft.setSelectedSensorPosition(0);
+  }
   //gets the placement of the climb, in rotation
 
   //set through motion magic
   public void setMotionMagic(double setpoint){
-    climbMotorLeft.set(ControlMode.MotionMagic, setpoint, DemandType.ArbitraryFeedForward, 0.1);
     climbMotorRight.follow(climbMotorLeft);
+    climbMotorLeft.set(ControlMode.MotionMagic, setpoint, DemandType.ArbitraryFeedForward, 0.1);
   }
 
   public boolean getAtHeightLimit(double setpoint){

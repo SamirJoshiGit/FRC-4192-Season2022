@@ -23,6 +23,7 @@ import frc.robot.autos.*;
 //import frc.robot.commands.*;
 import frc.robot.commands.Climb.ChangeClimbAngle;
 import frc.robot.commands.Climb.StopExtend;
+import frc.robot.commands.Climb.UpandDown;
 import frc.robot.commands.Climb.ExtendClimb;
 import frc.robot.commands.Climb.ExtendClimbRight;
 import frc.robot.commands.Climb.ExtendClimbLeft;
@@ -122,12 +123,14 @@ public class RobotContainer {
   private final ExtendClimbLeft extendleft = new ExtendClimbLeft(m_climb, -.8);
   private final ExtendClimbLeft extendleftBack = new ExtendClimbLeft(m_climb, .8);
 
-  private final EncoderBasedRun encoderBasedRun = new EncoderBasedRun(500, m_shooter);
+  //private final EncoderBasedRun encoderBasedRun = new EncoderBasedRun(500, m_shooter);
 
-  private final Velocity velocity = new Velocity(500, m_shooter);
+  //private final Velocity velocity = new Velocity(500, m_shooter);
   //private final IntakeVelocityControl intakeVelocityControl = new IntakeVelocityControl(500, m_shooter);
-  //private final TestRunIntake runForward = new TestRunIntake(0.4, m_intake);
-  //private final TestRunIntake runBack = new TestRunIntake(-0.4, m_intake);
+  private final TestRunIntake runForward = new TestRunIntake(0.6, m_intake);
+  private final TestRunIntake runBack = new TestRunIntake(-0.6, m_intake);
+
+  private final UpandDown upAndDown = new UpandDown(m_climb, 720);
 
   //private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, m_shooter, .2);
   //private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .2);
@@ -157,8 +160,8 @@ public class RobotContainer {
     
     yButton.whileHeld(extend, false);
     xButton.whileHeld(extendBack, false);
-    aButton.whenHeld(velocity);
-    //bButton.whenHeld(intakeVelocityControl);
+    aButton.whenHeld(runForward, true);
+    bButton.whenHeld(runBack, true);
 
 
     zero.whileHeld(extendleft);
