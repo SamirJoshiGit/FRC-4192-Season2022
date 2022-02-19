@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 //import com.revrobotics.CANSparkMax;
 //import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 //import edu.wpi.first.hal.SimDevice.Direction;
@@ -25,6 +26,7 @@ public class Intake extends SubsystemBase {
   //private final CANSparkMax intakeMotors;
   private final TalonFX intakeMotor = new TalonFX(IntakeConstants.intakeMotorID);
   private final DigitalInput beamBreaker = new DigitalInput(IntakeConstants.beamBreakIntakeID);
+  private final Debouncer beamDebouncer = new Debouncer(.1);
   /** Creates a new Intake. */
   public Intake() {
     //intakeMotors = new CANSparkMax(1, MotorType.kBrushed);
@@ -51,6 +53,10 @@ public class Intake extends SubsystemBase {
 
   public boolean getBeamBreak(){
       return beamBreaker.get();
+  }
+
+  public boolean debounceBeam(){
+    return beamDebouncer.calculate(beamBreaker.get());
   }
   //moves intake motors based on velocity 
   public void velocityBasedControl(double velocity){

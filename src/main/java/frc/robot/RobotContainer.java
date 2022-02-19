@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
@@ -74,19 +73,25 @@ public class RobotContainer {
   private final JoystickButton aButton = new JoystickButton(driver, XboxController.Button.kA.value);
   private final JoystickButton bButton = new JoystickButton(driver, Button.kB.value);
   private final JoystickButton rightBumper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+  //driver dpad buttons
   private final POVButton zero = new POVButton(driver, 0);
   private final POVButton oneEighty = new POVButton(driver, 180);
   private final POVButton twoSeventy = new POVButton(driver, 270);
   private final POVButton ninety = new POVButton(driver, 90);
 
 
-  //systems controller
+  /*systems controller*/
   private final JoystickButton aButtonSystems = new JoystickButton(systemsController, XboxController.Button.kA.value);
   private final JoystickButton bButtonSystems = new JoystickButton(systemsController, XboxController.Button.kB.value);
   private final JoystickButton xButtonSystems = new JoystickButton(systemsController, XboxController.Button.kX.value);
   private final JoystickButton yButtonSystems = new JoystickButton(systemsController, XboxController.Button.kY.value);
   private final JoystickButton rightBumperSystems = new JoystickButton(systemsController, XboxController.Button.kRightBumper.value);
   private final JoystickButton leftBumperSystems = new JoystickButton(systemsController, XboxController.Button.kLeftBumper.value);
+  //POV Buttons
+  private final POVButton zeroSystems = new POVButton(systemsController, 0);
+  private final POVButton oneEightySystems = new POVButton(systemsController, 180);
+  private final POVButton twoSeventySystems = new POVButton(systemsController, 270);
+  private final POVButton ninetySystems = new POVButton(systemsController, 90);
 
   /* Subsystems */
   private final Swerve s_Swerve = new Swerve();
@@ -164,8 +169,7 @@ public class RobotContainer {
     xButton.whileHeld(extendBack, false);
     aButton.whenHeld(runForward, true);
     bButton.whenHeld(runBack, true);
-    //rightBumper.whenPressed(mThreeBars);
-
+    //DPAD Buttons 
     zero.whileHeld(extendleft);
     ninety.whileHeld(extendleftBack);
     oneEighty.whileHeld(extendright);
@@ -180,7 +184,7 @@ public class RobotContainer {
     //oneEighty.whenHeld(new moveWithManualInput(s_Swerve, 0, -1, 0), true);
     //twoSeventy.whenPressed(turn270, true);
 
-    
+    //Systems Buttons
     aButtonSystems.whenHeld(extend);
     bButtonSystems.whenHeld(extendBack);
     xButtonSystems.toggleWhenPressed(intakePos);

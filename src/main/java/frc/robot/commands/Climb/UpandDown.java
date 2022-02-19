@@ -18,6 +18,6 @@ public class UpandDown extends SequentialCommandGroup {
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new MoveToSetpoint(setpoint, climb));
+    addCommands(new MoveToSetpoint(setpoint, climb), new MoveToSetpoint(-setpoint, climb));
   }
 }

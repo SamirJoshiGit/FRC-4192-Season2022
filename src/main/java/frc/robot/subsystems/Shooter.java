@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Swerve.ShooterConstants;
@@ -18,6 +19,7 @@ public class Shooter extends SubsystemBase {
 
   private CANCoder encoder = new CANCoder(ShooterConstants.shooterEncoderID);
   private final DigitalInput beam = new DigitalInput(ShooterConstants.beamBreakShooterID);
+  private Debouncer beamDebouncer = new Debouncer(.1);
   public Shooter() {
   }
 
@@ -35,6 +37,10 @@ public class Shooter extends SubsystemBase {
 
   public double getRate(){
     return encoder.getVelocity();
+  }
+
+  public boolean debounceBeam(){
+    return beamDebouncer.calculate(beam.get());
   }
   @Override
   public void periodic() {

@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,6 +22,7 @@ public class Passthrough extends SubsystemBase {
 
   private final CANCoder encoder = new CANCoder(PassthroughConstants.passthroughEncoderID);
 
+  private Debouncer breakDebounce = new Debouncer(.1);
   private final DigitalInput beamBreak = new DigitalInput(Sensors.beamBreakPassthroughID); 
   public Passthrough() {
     
@@ -45,6 +47,9 @@ public class Passthrough extends SubsystemBase {
     passthroughMotor.set(TalonFXControlMode.MotionMagic, .2);
   }
 
+  public boolean debouncerGet(){
+    return breakDebounce.calculate(beamBreak.get());
+  }
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Passthrough Encoder Rate", getEncoderRate());
