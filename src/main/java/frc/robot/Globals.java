@@ -12,4 +12,5 @@ public class Globals {
     public static double ballSize;
     public static double ballCenterY;
     public static double climberStartPosition;
+    public static double countedIndex = 0;
 }

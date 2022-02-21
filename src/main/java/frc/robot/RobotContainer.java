@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.XboxController.Axis;
 //import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -58,6 +60,15 @@ import frc.robot.subsystems.*;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+
+  /* Subsystems */
+  private final Swerve s_Swerve = new Swerve();
+  private final Limelight m_limelight = new Limelight();
+  private final Passthrough m_passthrough = new Passthrough();
+  private final Climb m_climb = new Climb();
+  private final Intake m_intake = new Intake();
+  private final Shooter m_shooter = new Shooter();
+
   /* Controllers */
   private final Joystick driver = new Joystick(0);
   private final XboxController xDrive = new XboxController(0);
@@ -75,6 +86,8 @@ public class RobotContainer {
   private final JoystickButton aButton = new JoystickButton(driver, XboxController.Button.kA.value);
   private final JoystickButton bButton = new JoystickButton(driver, Button.kB.value);
   private final JoystickButton rightBumper = new JoystickButton(driver, XboxController.Button.kRightBumper.value);
+
+  
   //driver dpad buttons
   private final POVButton zero = new POVButton(driver, 0);  
   private final POVButton ninety = new POVButton(driver, 90);
@@ -96,15 +109,23 @@ public class RobotContainer {
   private final POVButton twoSeventySystems = new POVButton(systemsController, 270);
   private final POVButton ninetySystems = new POVButton(systemsController, 90);
 
-  //Triggers
+  /*Triggers*/
 
-  /* Subsystems */
-  private final Swerve s_Swerve = new Swerve();
-  private final Limelight m_limelight = new Limelight();
-  private final Passthrough m_passthrough = new Passthrough();
-  private final Climb m_climb = new Climb();
-  private final Intake m_intake = new Intake();
-  private final Shooter m_shooter = new Shooter();
+  //driver hand triggers
+  private final Trigger driverRightTrigger = new Trigger(()->driver.getRawAxis(XboxController.Axis.kRightTrigger.value)>0.2);
+  private final Trigger driverLeftTrigger = new Trigger(()->driver.getRawAxis(XboxController.Axis.kLeftTrigger.value)>0.2);
+
+  //systems hand 
+  private final Trigger systemsRightTrigger = new Trigger(()->driver.getRawAxis(XboxController.Axis.kRightTrigger.value)>0.2);
+  private final Trigger systemsLeftTrigger = new Trigger(()->driver.getRawAxis(XboxController.Axis.kLeftTrigger.value)>0.2);
+
+  //sensor based triggers
+  private Trigger intakeTrigger = new Trigger(()->m_intake.getBeamBreak());
+  private Trigger indexTrigger = new Trigger(()->m_passthrough.getBeamBreak());
+  private Trigger shooterTrigger = new Trigger(()->m_shooter.getBeamBreak());
+  private Trigger ballsInIndex = new Trigger(()->m_passthrough.getCountedBalls() == 2);
+  private Trigger inTheSystem = new Trigger(()->m_passthrough.getCountedBalls()==1);
+
   //commands
   private final SwerveDoubleSupp swerveControl = new SwerveDoubleSupp(s_Swerve, () -> xDrive.getLeftX(), () -> xDrive.getLeftY(), () -> xDrive.getRightX(), true, true);
   private final TeleopSwerve nonDoubSupp = new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, true, true);
@@ -212,6 +233,9 @@ public class RobotContainer {
     //xButtonSystems.whenHeld(runForward, true);
     //yButtonSystems.whenHeld(runBack, true);
     //rightBumperSystems.whenHeld(stopDist, true);
+
+    //triggered bindings
+    //intakeTrigger.whenActive()
   }
 
   /**

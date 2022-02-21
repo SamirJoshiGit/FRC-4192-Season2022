@@ -11,8 +11,10 @@ import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Globals;
 import frc.robot.Constants.Swerve.PassthroughConstants;
 import frc.robot.Constants.Swerve.Sensors;
 
@@ -23,7 +25,7 @@ public class Passthrough extends SubsystemBase {
   private final CANCoder encoder = new CANCoder(PassthroughConstants.passthroughEncoderID);
 
   private Debouncer breakDebounce = new Debouncer(.1);
-  private final DigitalInput beamBreak = new DigitalInput(Sensors.beamBreakPassthroughID); 
+  private DigitalInput beamBreak = new DigitalInput(Sensors.beamBreakPassthroughID); 
   public Passthrough() {
     
   }
@@ -40,6 +42,14 @@ public class Passthrough extends SubsystemBase {
   //gets the value of the beam break
   public boolean getBeamBreak(){
     return beamBreak.get();
+  }
+
+  public double getCountedBalls(){
+    Globals.countedIndex++;
+    if(Globals.countedIndex == 3){
+      Globals.countedIndex = 1;
+    }
+    return Globals.countedIndex;
   }
 
   //gets the velocity of the motor
@@ -60,6 +70,7 @@ public class Passthrough extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Passthrough Encoder Rate", getInternalEncoder());
+    SmartDashboard.putBoolean("line broken", getBeamBreak());
     // This method will be called once per scheduler run
   }
 }

@@ -83,7 +83,7 @@ public final class Constants {
             public static final int firstPortUltrasonic = 1;
             public static final int secondPortUltrasonic = 2;
 
-            public static final int beamBreakPassthroughID = 7;//placeholders
+            public static final int beamBreakPassthroughID = 0;//placeholders
         }
 
         /* Module Specific Constants */
@@ -156,7 +156,7 @@ public final class Constants {
             public static final int doubleSolenoidForwardAngle = 6;
             //sensor (filler values)
 
-            public static final int retroreflectiveID = 0;
+            public static final int retroreflectiveID = 9;
 
             //motors
             public static final int climbMotorLeft = 5;
