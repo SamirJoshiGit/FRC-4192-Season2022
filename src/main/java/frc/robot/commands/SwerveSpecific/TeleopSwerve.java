@@ -3,6 +3,9 @@ package frc.robot.commands.SwerveSpecific;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.wpilibj.Joystick;
+
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -19,13 +22,13 @@ public class TeleopSwerve extends CommandBase {
     private int translationAxis;
     private int strafeAxis;
     private int rotationAxis;
-
+    private DoubleSupplier rightTrigger;
 
     /**
      * Driver control
      */
     //constructor which sets up the controller, the axis, and the swerve
-    public TeleopSwerve(Swerve s_Swerve, Joystick controller, int translationAxis, int strafeAxis, int rotationAxis, boolean fieldRelative, boolean openLoop) {
+    public TeleopSwerve(Swerve s_Swerve, Joystick controller, int translationAxis, int strafeAxis, int rotationAxis, DoubleSupplier rightTrigger, boolean fieldRelative, boolean openLoop) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
@@ -35,14 +38,17 @@ public class TeleopSwerve extends CommandBase {
         this.rotationAxis = rotationAxis;
         this.fieldRelative = fieldRelative;
         this.openLoop = openLoop;
+        this.rightTrigger = rightTrigger;
     }
 
     @Override
     public void execute() {
+        double slowMultiplier = 1 - (rightTrigger.getAsDouble()*.5);
+
         //every scheduled loop it will get the raw data from controller 
-        double yAxis = controller.getRawAxis(translationAxis);
-        double xAxis = controller.getRawAxis(strafeAxis);
-        double rAxis = -controller.getRawAxis(rotationAxis);
+        double yAxis = controller.getRawAxis(translationAxis) * slowMultiplier;
+        double xAxis = controller.getRawAxis(strafeAxis) * slowMultiplier;
+        double rAxis = -controller.getRawAxis(rotationAxis) * slowMultiplier;
         
 
         

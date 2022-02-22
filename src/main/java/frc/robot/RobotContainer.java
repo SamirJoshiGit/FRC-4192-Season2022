@@ -29,6 +29,7 @@ import frc.robot.commands.Climb.UpandDown;
 import frc.robot.commands.Climb.ExtendClimb;
 import frc.robot.commands.Climb.ExtendClimbRight;
 import frc.robot.commands.Climb.MoveThreeBars;
+import frc.robot.commands.Climb.PassiveHookActivate;
 import frc.robot.commands.Climb.ExtendClimbLeft;
 import frc.robot.commands.FollowBall.FollowBallTogether;
 //import frc.robot.commands.FollowBall.FollowBallAngle;
@@ -103,6 +104,7 @@ public class RobotContainer {
   private final JoystickButton yButtonSystems = new JoystickButton(systemsController, XboxController.Button.kY.value);
   private final JoystickButton rightBumperSystems = new JoystickButton(systemsController, XboxController.Button.kRightBumper.value);
   private final JoystickButton leftBumperSystems = new JoystickButton(systemsController, XboxController.Button.kLeftBumper.value);
+  private final JoystickButton startButtonSystems = new JoystickButton(systemsController, XboxController.Button.kStart.value);
   //POV Buttons
   private final POVButton zeroSystems = new POVButton(systemsController, 0);
   private final POVButton oneEightySystems = new POVButton(systemsController, 180);
@@ -129,7 +131,7 @@ public class RobotContainer {
 
   //commands
   private final SwerveDoubleSupp swerveControl = new SwerveDoubleSupp(s_Swerve, () -> xDrive.getLeftX(), () -> xDrive.getLeftY(), () -> xDrive.getRightX(), true, true);
-  private final TeleopSwerve nonDoubSupp = new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, true, true);
+  private final TeleopSwerve nonDoubSupp = new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis,()->xDrive.getLeftTriggerAxis(), true, true);
   private final LimelightFollower follow = new LimelightFollower(s_Swerve, m_limelight, false, false);
   private final LimelightFollowToPoint followToPoint = new LimelightFollowToPoint(s_Swerve, m_limelight, false, 1, false);
   private final FollowTarget followTarget = new FollowTarget(s_Swerve, m_limelight, false, 1.1);
@@ -142,6 +144,7 @@ public class RobotContainer {
   private final StopExtend climbMacro = new StopExtend(s_Swerve, m_climb);
   private final RunIntake runIntake = new RunIntake(m_intake, .5);
   private final ChangeIntakePosition intakePos = new ChangeIntakePosition(m_intake);
+  private final PassiveHookActivate togglePassiveHooks = new PassiveHookActivate(m_climb);
   private final ChangeClimbAngle climbAngle = new ChangeClimbAngle(m_climb);
   private final StopAtDistance stopDist = new StopAtDistance(s_Swerve, Units.feetToMeters(5));
   private final PassthroughBeamBreak passthroughBeamBreak = new PassthroughBeamBreak(m_passthrough);
@@ -223,7 +226,7 @@ public class RobotContainer {
 
     //Systems Buttons
     aButtonSystems.whenHeld(extend);
-    bButtonSystems.whenHeld(extendBack);
+    bButtonSystems.toggleWhenPressed(togglePassiveHooks);
     xButtonSystems.toggleWhenPressed(intakePos);
     yButtonSystems.toggleWhenPressed(climbAngle);
 
@@ -234,11 +237,34 @@ public class RobotContainer {
     //yButtonSystems.whenHeld(runBack, true);
     //rightBumperSystems.whenHeld(stopDist, true);
 
-    //triggered bindings change the interuptables during testing 
-    intakeTrigger.and(noneInTheSystem.or(inTheSystem)).whileActiveOnce(runPassthroughForward, true);
-    indexTrigger.and(intakeTrigger.and(noneInTheSystem.or(inTheSystem)).negate()).whileActiveOnce(stopPassthrough, true);
-    allBallsInIndex.and(shooterTrigger.negate()).whenActive(runPassthroughForward, true);
+    //triggered bindings change the interuptables during testing: uncomment once line breaks are on
+    //intakeTrigger.and(noneInTheSystem.or(inTheSystem)).whileActiveOnce(runPassthroughForward, true);
+    //indexTrigger.and(intakeTrigger.and(noneInTheSystem.or(inTheSystem)).negate()).whileActiveOnce(stopPassthrough, true);
+    //allBallsInIndex.and(shooterTrigger.negate()).whenActive(runPassthroughForward, true);
     //note for later, create an override system for this. 
+
+    /*
+    //prototyped Button Bindings
+    leftBumper.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    zero.toggleWhenPressed(intakePos);
+    oneEighty.toggleWhenPressed(togglePassiveHooks);
+    xButton.toggleWhenPressed(runForwardIntake);
+    bButton.whenPressed(runBackIntake);
+    yButton.toggleWhenPressed(runPassthroughForward);
+    aButton.whenPressed(runPassthroughBackward);
+    //systmes prototype bindings
+    zeroSystems.whenHeld(extend);
+    oneEightySystems.whenHeld(extendBack);
+    yButtonSystems.toggleWhenPressed(climbAngle);
+    bButtonSystems.toggleWhenPressed(togglePassiveHooks);
+    startButtonSystems.whenPressed(climbMacro);
+    aButtonSystems.toggleWhenPressed(shootWithIndex);
+    leftBumperSystems.whenHeld(extendleft);
+    rightBumperSystems.whenPressed(extendright);
+    systemsLeftTrigger.whenActive(extendleftBack);
+    systemsRightTrigger.whenActive(extendrightback);
+    xButtonSystems.toggleWhenPressed(runShooterMotorBack);
+    */
   }
 
   /**
