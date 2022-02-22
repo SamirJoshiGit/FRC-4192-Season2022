@@ -123,8 +123,9 @@ public class RobotContainer {
   private Trigger intakeTrigger = new Trigger(()->m_intake.getBeamBreak());
   private Trigger indexTrigger = new Trigger(()->m_passthrough.getBeamBreak());
   private Trigger shooterTrigger = new Trigger(()->m_shooter.getBeamBreak());
-  private Trigger ballsInIndex = new Trigger(()->m_passthrough.getCountedBalls() == 2);
+  private Trigger allBallsInIndex = new Trigger(()->m_passthrough.getCountedBalls()==2);
   private Trigger inTheSystem = new Trigger(()->m_passthrough.getCountedBalls()==1);
+  private Trigger noneInTheSystem = new Trigger(()->m_passthrough.getCountedBalls()==0);
 
   //commands
   private final SwerveDoubleSupp swerveControl = new SwerveDoubleSupp(s_Swerve, () -> xDrive.getLeftX(), () -> xDrive.getLeftY(), () -> xDrive.getRightX(), true, true);
@@ -137,8 +138,6 @@ public class RobotContainer {
   //private final TurnToSpecifiedAngle turn180 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, -90, true);
   //private final TurnToSpecifiedAngle turn0 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 0, true);
   //private final TurnToSpecifiedAngle turn270 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 180, true);
-  private final runMotor runPassthrough = new runMotor(m_passthrough, .2);
-  private final runMotor runPassthroughTwo = new runMotor(m_passthrough, .4);
 
   private final StopExtend climbMacro = new StopExtend(s_Swerve, m_climb);
   private final RunIntake runIntake = new RunIntake(m_intake, .5);
@@ -167,6 +166,7 @@ public class RobotContainer {
 
   private final runMotor runPassthroughForward = new runMotor(m_passthrough, .5);
   private final runMotor runPassthroughBackward = new runMotor(m_passthrough, -.5);
+  private final runMotor stopPassthrough = new runMotor(m_passthrough, 0);
 
   //private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, m_shooter, .2);
   private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .8);
@@ -202,8 +202,8 @@ public class RobotContainer {
     //yButton.whileHeld(extend, false);
     //xButton.whileHeld(extendBack, false);
     yButton.toggleWhenPressed(runPassthroughForward);
-    xButton.toggleWhenPressed(runPassthroughBackward);
-    aButton.toggleWhenPressed(runForwardIntake);
+    //xButton.toggleWhenPressed(runPassthroughBackward);
+    //aButton.toggleWhenPressed(runForwardIntake);
     bButton.toggleWhenPressed(runBackIntake);
     //DPAD Buttons 
     //zero.whileHeld(extendleft);
@@ -234,8 +234,11 @@ public class RobotContainer {
     //yButtonSystems.whenHeld(runBack, true);
     //rightBumperSystems.whenHeld(stopDist, true);
 
-    //triggered bindings
-    //intakeTrigger.whenActive()
+    //triggered bindings change the interuptables during testing 
+    intakeTrigger.and(noneInTheSystem.or(inTheSystem)).whileActiveOnce(runPassthroughForward, true);
+    indexTrigger.and(intakeTrigger.and(noneInTheSystem.or(inTheSystem)).negate()).whileActiveOnce(stopPassthrough, true);
+    allBallsInIndex.and(shooterTrigger.negate()).whenActive(runPassthroughForward, true);
+    //note for later, create an override system for this. 
   }
 
   /**

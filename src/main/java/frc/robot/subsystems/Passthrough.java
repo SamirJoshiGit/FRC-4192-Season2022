@@ -41,13 +41,15 @@ public class Passthrough extends SubsystemBase {
 
   //gets the value of the beam break
   public boolean getBeamBreak(){
-    return beamBreak.get();
+    return !beamBreak.get();
   }
 
   public double getCountedBalls(){
-    Globals.countedIndex++;
-    if(Globals.countedIndex == 3){
-      Globals.countedIndex = 1;
+    if(!getBeamBreak()){
+      Globals.countedIndex++;
+      if(Globals.countedIndex == 3){
+        Globals.countedIndex = 1;
+      }
     }
     return Globals.countedIndex;
   }

@@ -169,7 +169,6 @@ public class Swerve extends SubsystemBase {
             SmartDashboard.putNumber("BallCenterX", Globals.ballCenterX);
             SmartDashboard.putNumber("BallArea", Globals.ballSize);
             SmartDashboard.putNumber("BallCenterY", Globals.ballCenterY);
-
         }
     }
 }

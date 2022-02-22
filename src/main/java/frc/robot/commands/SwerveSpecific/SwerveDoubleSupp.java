@@ -32,8 +32,6 @@ public class SwerveDoubleSupp extends CommandBase {
     public SwerveDoubleSupp(Swerve s_Swerve, DoubleSupplier x, DoubleSupplier y, DoubleSupplier r, boolean fieldRelative, boolean openLoop) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
-
-
         this.fieldRelative = fieldRelative;
         this.openLoop = openLoop;
         this.x = x;
