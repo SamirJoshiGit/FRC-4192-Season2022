@@ -11,16 +11,16 @@ import frc.robot.subsystems.Passthrough;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class PassthroughPIDRate extends PIDCommand {
-  /** Creates a new PassthroughPIDRate. */
-  public PassthroughPIDRate(Passthrough passthrough, double setpoint) {
+public class PassthroughPIDPosition extends PIDCommand {
+  /** Creates a new PassthroughPIDPosition. */
+  public PassthroughPIDPosition(Passthrough passthrough, double setpoint, double initialPos) {
     super(
         // The controller that the command will use
-        new PIDController(.2, 0, 0),//test for values
+        new PIDController(0.2, 0, 0),
         // This should return the measurement
-        () -> passthrough.getEncoderRate(),
+        () -> passthrough.getInternalEncoder(),
         // This should return the setpoint (can also be a constant)
-        () -> setpoint,
+        () -> setpoint + initialPos,
         // This uses the output
         output -> {
           // Use the output here

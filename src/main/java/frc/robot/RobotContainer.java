@@ -41,6 +41,7 @@ import frc.robot.commands.LimelightFollowing.FollowTarget;
 import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
 import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.commands.Passthrough.PassthroughBeamBreak;
+import frc.robot.commands.Passthrough.PassthroughPIDPosition;
 import frc.robot.commands.Passthrough.RunUntilTripped;
 import frc.robot.commands.Passthrough.runMotor;
 import frc.robot.commands.Shooter.EncoderBasedRun;
@@ -50,6 +51,7 @@ import frc.robot.commands.Shooter.Velocity;
 import frc.robot.commands.SwerveSpecific.StopAtDistance;
 import frc.robot.commands.SwerveSpecific.SwerveDoubleSupp;
 import frc.robot.commands.SwerveSpecific.TeleopSwerve;
+import frc.robot.commands.SwerveSpecific.TurnToSpecifiedAngle;
 //import frc.robot.commands.SwerveSpecific.TurnToSpecifiedAngle;
 //import frc.robot.commands.SwerveSpecific.moveWithManualInput;
 import frc.robot.subsystems.*;
@@ -136,10 +138,10 @@ public class RobotContainer {
   private final LimelightFollowToPoint followToPoint = new LimelightFollowToPoint(s_Swerve, m_limelight, false, 1, false);
   private final FollowTarget followTarget = new FollowTarget(s_Swerve, m_limelight, false, 1.1);
   private final FollowBallTogether followBall = new FollowBallTogether(s_Swerve);
-  //private final TurnToSpecifiedAngle turn90 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 90, true);
-  //private final TurnToSpecifiedAngle turn180 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, -90, true);
-  //private final TurnToSpecifiedAngle turn0 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 0, true);
-  //private final TurnToSpecifiedAngle turn270 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 180, true);
+  private final TurnToSpecifiedAngle turn90 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 90, true);
+  private final TurnToSpecifiedAngle turn180 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, -90, true);
+  private final TurnToSpecifiedAngle turn0 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 0, true);
+  private final TurnToSpecifiedAngle turn270 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 180, true);
 
   private final StopExtend climbMacro = new StopExtend(s_Swerve, m_climb);
   private final RunIntake runIntake = new RunIntake(m_intake, .5);
@@ -170,6 +172,7 @@ public class RobotContainer {
   private final runMotor runPassthroughForward = new runMotor(m_passthrough, .5);
   private final runMotor runPassthroughBackward = new runMotor(m_passthrough, -.5);
   private final runMotor stopPassthrough = new runMotor(m_passthrough, 0);
+  private final PassthroughPIDPosition positionIndexing = new PassthroughPIDPosition(m_passthrough, 2000, 0);
 
   //private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, m_shooter, .2);
   private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .8);
@@ -198,6 +201,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+    //testing Bindings
     /* Driver Buttons */
     leftBumper.whenActive(new InstantCommand(() -> s_Swerve.zeroGyro()));
     rightBumper.toggleWhenPressed(intakePos);
@@ -238,9 +243,9 @@ public class RobotContainer {
     //rightBumperSystems.whenHeld(stopDist, true);
 
     //triggered bindings change the interuptables during testing: uncomment once line breaks are on
-    //intakeTrigger.and(noneInTheSystem.or(inTheSystem)).whileActiveOnce(runPassthroughForward, true);
-    //indexTrigger.and(intakeTrigger.and(noneInTheSystem.or(inTheSystem)).negate()).whileActiveOnce(stopPassthrough, true);
-    //allBallsInIndex.and(shooterTrigger.negate()).whenActive(runPassthroughForward, true);
+    //intakeTrigger.and(noneInTheSystem.or(inTheSystem)).whileActiveOnce(runPassthroughForward);
+    //indexTrigger.and(noneInTheSystem.or(inTheSystem)).whileActiveOnce(stopPassthrough);
+    //allBallsInIndex.whileActiveOnce(positionIndexing);
     //note for later, create an override system for this. 
 
     /*
@@ -252,12 +257,13 @@ public class RobotContainer {
     bButton.whenPressed(runBackIntake);
     yButton.toggleWhenPressed(runPassthroughForward);
     aButton.whenPressed(runPassthroughBackward);
+
     //systmes prototype bindings
     zeroSystems.whenHeld(extend);
     oneEightySystems.whenHeld(extendBack);
     yButtonSystems.toggleWhenPressed(climbAngle);
     bButtonSystems.toggleWhenPressed(togglePassiveHooks);
-    startButtonSystems.whenPressed(climbMacro);
+    startButtonSystems.whenPressed(mThreeBars);
     aButtonSystems.toggleWhenPressed(shootWithIndex);
     leftBumperSystems.whenHeld(extendleft);
     rightBumperSystems.whenPressed(extendright);

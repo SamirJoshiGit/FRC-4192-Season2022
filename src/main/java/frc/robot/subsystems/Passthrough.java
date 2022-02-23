@@ -12,6 +12,9 @@ import com.ctre.phoenix.sensors.CANCoder;
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Globals;
@@ -21,6 +24,8 @@ import frc.robot.Constants.Swerve.Sensors;
 public class Passthrough extends SubsystemBase {
   /** Creates a new Passthrough. */
   private final TalonFX passthroughMotor = new TalonFX(PassthroughConstants.passthroughMotorID);
+
+  private XboxController controller = new XboxController(0);
 
   private final CANCoder encoder = new CANCoder(PassthroughConstants.passthroughEncoderID);
 
@@ -45,7 +50,7 @@ public class Passthrough extends SubsystemBase {
   }
 
   public double getCountedBalls(){
-    if(!getBeamBreak()){
+    if(getBeamBreak()){
       Globals.countedIndex++;
       if(Globals.countedIndex == 3){
         Globals.countedIndex = 1;
@@ -69,10 +74,18 @@ public class Passthrough extends SubsystemBase {
   public boolean debouncerGet(){
     return breakDebounce.calculate(beamBreak.get());
   }
+
+  public double getMatchTime(){
+    return DriverStation.getMatchTime();
+  }
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Passthrough Encoder Rate", getInternalEncoder());
     SmartDashboard.putBoolean("line broken", getBeamBreak());
+    SmartDashboard.putBoolean("Debounced beam break", debouncerGet());
+    if(getMatchTime()>29 && getMatchTime() < 30){
+      controller.setRumble(RumbleType.kLeftRumble, .1);
+    }
     // This method will be called once per scheduler run
   }
 }

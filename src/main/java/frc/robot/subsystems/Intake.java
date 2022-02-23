@@ -52,7 +52,7 @@ public class Intake extends SubsystemBase {
   //digital out outputname.get();
 
   public boolean getBeamBreak(){
-      return beamBreaker.get();
+      return !beamBreaker.get();
   }
 
   public boolean debounceBeam(){
