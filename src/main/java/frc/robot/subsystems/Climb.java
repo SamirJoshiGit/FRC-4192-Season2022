@@ -80,6 +80,13 @@ public class Climb extends SubsystemBase {
     climbMotorRight.set(ControlMode.PercentOutput, power);
   }
 
+  public void extendLeftVelo(double velocity){
+    climbMotorLeft.set(ControlMode.Velocity, velocity);
+  }
+
+  public void extendRightVelo(double velocity){
+    climbMotorRight.set(ControlMode.Velocity, velocity);
+  }
   public void resetInternalEncoder(){
     climbMotorLeft.setSelectedSensorPosition(0);
   }
@@ -101,6 +108,10 @@ public class Climb extends SubsystemBase {
   
   public double getLeftEncoder(){
     return climbMotorLeft.getSelectedSensorPosition();
+  }
+
+  public void bangBangControl(){
+    //climbMotorLeft.set(ControlMode.bangBangControl, .5);
   }
   
   @Override

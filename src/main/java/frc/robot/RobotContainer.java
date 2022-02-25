@@ -28,6 +28,7 @@ import frc.robot.commands.Climb.StopExtend;
 import frc.robot.commands.Climb.UpandDown;
 import frc.robot.commands.Climb.ExtendClimb;
 import frc.robot.commands.Climb.ExtendClimbRight;
+import frc.robot.commands.Climb.ExtendClimbVelo;
 import frc.robot.commands.Climb.MoveThreeBars;
 import frc.robot.commands.Climb.PassiveHookActivate;
 import frc.robot.commands.Climb.ExtendClimbLeft;
@@ -152,6 +153,9 @@ public class RobotContainer {
   private final PassthroughBeamBreak passthroughBeamBreak = new PassthroughBeamBreak(m_passthrough);
   private final ExtendClimb extend =  new ExtendClimb(m_climb, .5);
   private final ExtendClimb extendBack = new ExtendClimb(m_climb, -.5);
+  
+  private final ExtendClimbVelo extendClimbVelo = new ExtendClimbVelo(m_climb, 1000);
+  private final ExtendClimbVelo detractClimbVelo = new ExtendClimbVelo(m_climb, -1000);
 
   private final ExtendClimbRight extendright = new ExtendClimbRight(m_climb, -.8);
   private final ExtendClimbRight extendrightback = new ExtendClimbRight(m_climb,.8);
