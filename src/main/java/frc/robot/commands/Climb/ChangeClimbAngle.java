@@ -19,17 +19,19 @@ public class ChangeClimbAngle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climb.setAngleDown();
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    climb.setAngleUp();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climb.setAngleUp();
+    climb.setAngleDown();
   }
 
   // Returns true when the command should end.

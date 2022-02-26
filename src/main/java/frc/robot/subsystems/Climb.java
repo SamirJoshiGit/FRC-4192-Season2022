@@ -87,6 +87,7 @@ public class Climb extends SubsystemBase {
   public void extendRightVelo(double velocity){
     climbMotorRight.set(ControlMode.Velocity, velocity);
   }
+  
   public void resetInternalEncoder(){
     climbMotorLeft.setSelectedSensorPosition(0);
   }

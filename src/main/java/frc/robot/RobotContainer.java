@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.autos.*;
 //import frc.robot.commands.*;
 import frc.robot.commands.Climb.ChangeClimbAngle;
+import frc.robot.commands.Climb.ClimbAngleInstant;
 import frc.robot.commands.Climb.StopExtend;
 import frc.robot.commands.Climb.UpandDown;
 import frc.robot.commands.Climb.ExtendClimb;
@@ -31,6 +32,7 @@ import frc.robot.commands.Climb.ExtendClimbRight;
 import frc.robot.commands.Climb.ExtendClimbVelo;
 import frc.robot.commands.Climb.MoveThreeBars;
 import frc.robot.commands.Climb.PassiveHookActivate;
+import frc.robot.commands.Climb.PassiveHookInstant;
 import frc.robot.commands.Climb.ExtendClimbLeft;
 import frc.robot.commands.FollowBall.FollowBallTogether;
 //import frc.robot.commands.FollowBall.FollowBallAngle;
@@ -108,6 +110,7 @@ public class RobotContainer {
   private final JoystickButton rightBumperSystems = new JoystickButton(systemsController, XboxController.Button.kRightBumper.value);
   private final JoystickButton leftBumperSystems = new JoystickButton(systemsController, XboxController.Button.kLeftBumper.value);
   private final JoystickButton startButtonSystems = new JoystickButton(systemsController, XboxController.Button.kStart.value);
+  private final JoystickButton optionsButtonSystems = new JoystickButton(systemsController, XboxController.Button.kBack.value);
   //POV Buttons
   private final POVButton zeroSystems = new POVButton(systemsController, 0);
   private final POVButton oneEightySystems = new POVButton(systemsController, 180);
@@ -121,8 +124,8 @@ public class RobotContainer {
   private final Trigger driverLeftTrigger = new Trigger(()->driver.getRawAxis(XboxController.Axis.kLeftTrigger.value)>0.2);
 
   //systems hand 
-  private final Trigger systemsRightTrigger = new Trigger(()->driver.getRawAxis(XboxController.Axis.kRightTrigger.value)>0.2);
-  private final Trigger systemsLeftTrigger = new Trigger(()->driver.getRawAxis(XboxController.Axis.kLeftTrigger.value)>0.2);
+  private final Trigger systemsRightTrigger = new Trigger(()->(driver.getRawAxis(XboxController.Axis.kRightTrigger.value)>0.1));
+  private final Trigger systemsLeftTrigger = new Trigger(()->(driver.getRawAxis(XboxController.Axis.kLeftTrigger.value)>0.1));
 
   //sensor based triggers
   private Trigger intakeTrigger = new Trigger(()->m_intake.getBeamBreak());
@@ -151,8 +154,8 @@ public class RobotContainer {
   private final ChangeClimbAngle climbAngle = new ChangeClimbAngle(m_climb);
   private final StopAtDistance stopDist = new StopAtDistance(s_Swerve, Units.feetToMeters(5));
   private final PassthroughBeamBreak passthroughBeamBreak = new PassthroughBeamBreak(m_passthrough);
-  private final ExtendClimb extend =  new ExtendClimb(m_climb, .5);
-  private final ExtendClimb extendBack = new ExtendClimb(m_climb, -.5);
+  private final ExtendClimb extend =  new ExtendClimb(m_climb, .75);
+  private final ExtendClimb extendBack = new ExtendClimb(m_climb, -.75);
   
   private final ExtendClimbVelo extendClimbVelo = new ExtendClimbVelo(m_climb, 1000);
   private final ExtendClimbVelo detractClimbVelo = new ExtendClimbVelo(m_climb, -1000);
@@ -167,8 +170,8 @@ public class RobotContainer {
 
   //private final Velocity velocity = new Velocity(500, m_shooter);
   //private final IntakeVelocityControl intakeVelocityControl = new IntakeVelocityControl(500, m_shooter);
-  private final TestRunIntake runForwardIntake = new TestRunIntake(0.6, m_intake);
-  private final TestRunIntake runBackIntake = new TestRunIntake(-0.6, m_intake);
+  private final TestRunIntake runForwardIntake = new TestRunIntake(0.9, m_intake);
+  private final TestRunIntake runBackIntake = new TestRunIntake(-0.9, m_intake);
 
   private final UpandDown upAndDown = new UpandDown(m_climb, 720);
   private final MoveThreeBars mThreeBars = new MoveThreeBars(m_climb);
@@ -179,8 +182,8 @@ public class RobotContainer {
   private final PassthroughPIDPosition positionIndexing = new PassthroughPIDPosition(m_passthrough, 2000, 0);
 
   //private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, m_shooter, .2);
-  private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .8);
-  private final RunShooterMotor runShooterMotorBack = new RunShooterMotor(m_shooter, -.8);
+  private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .9);
+  private final RunShooterMotor runShooterMotorBack = new RunShooterMotor(m_shooter, -.9);
 
 
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
@@ -207,7 +210,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     //testing Bindings
+    
     /* Driver Buttons */
+    /*
     leftBumper.whenActive(new InstantCommand(() -> s_Swerve.zeroGyro()));
     rightBumper.toggleWhenPressed(intakePos);
     
@@ -232,15 +237,19 @@ public class RobotContainer {
     //ninety.whenPressed(turn90, true);
     //oneEighty.whenHeld(new moveWithManualInput(s_Swerve, 0, -1, 0), true);
     //twoSeventy.whenPressed(turn270, true);
+    */
 
     //Systems Buttons
+    /*
     aButtonSystems.whenHeld(extend);
     bButtonSystems.toggleWhenPressed(togglePassiveHooks);
     xButtonSystems.toggleWhenPressed(intakePos);
     yButtonSystems.toggleWhenPressed(climbAngle);
+    */
 
-    rightBumperSystems.whenHeld(runShooterMotor);
-    leftBumperSystems.whenHeld(runShooterMotorBack);
+    //uncomment later
+    //rightBumperSystems.whenHeld(runShooterMotor);
+    //leftBumperSystems.whenHeld(runShooterMotorBack);
     //rightBumperSystems.whenHeld(runShooterMotor);
     //xButtonSystems.whenHeld(runForward, true);
     //yButtonSystems.whenHeld(runBack, true);
@@ -251,30 +260,36 @@ public class RobotContainer {
     //indexTrigger.and(noneInTheSystem.or(inTheSystem)).whileActiveOnce(stopPassthrough);
     //allBallsInIndex.whileActiveOnce(positionIndexing);
     //note for later, create an override system for this. 
-
-    /*
+    
+    
     //prototyped Button Bindings
     leftBumper.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     zero.toggleWhenPressed(intakePos);
-    oneEighty.toggleWhenPressed(togglePassiveHooks);
-    xButton.toggleWhenPressed(runForwardIntake);
-    bButton.whenPressed(runBackIntake);
-    yButton.toggleWhenPressed(runPassthroughForward);
+    //oneEighty.toggleWhenPressed(togglePassiveHooks);
+    xButton.toggleWhenPressed(runBackIntake);
+    bButton.toggleWhenActive(runShooterMotorBack);
+    //yButton.toggleWhenPressed(runPassthroughForward);
     aButton.whenPressed(runPassthroughBackward);
+    //right bumper or trigger for intake
 
     //systmes prototype bindings
     zeroSystems.whenHeld(extend);
     oneEightySystems.whenHeld(extendBack);
-    yButtonSystems.toggleWhenPressed(climbAngle);
-    bButtonSystems.toggleWhenPressed(togglePassiveHooks);
-    startButtonSystems.whenPressed(mThreeBars);
-    aButtonSystems.toggleWhenPressed(shootWithIndex);
-    leftBumperSystems.whenHeld(extendleft);
-    rightBumperSystems.whenPressed(extendright);
-    systemsLeftTrigger.whenActive(extendleftBack);
-    systemsRightTrigger.whenActive(extendrightback);
-    xButtonSystems.toggleWhenPressed(runShooterMotorBack);
-    */
+    //yButtonSystems.toggleWhenActive(climbAngle, false);
+    //bButtonSystems.toggleWhenActive(togglePassiveHooks, false);
+    //startButtonSystems.whenPressed(mThreeBars);
+    aButtonSystems.toggleWhenPressed(runShooterMotorBack);
+    //leftBumperSystems.whenHeld(extendleft);
+    //rightBumperSystems.whenHeld(extendright);
+    //startButtonSystems.whenHeld(extendleftBack);
+    //startButtonSystems.whenHeld(extendrightback);
+    xButtonSystems.whenHeld(runPassthroughForward); 
+    
+    optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, true));
+    startButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, false));
+
+    yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
+    bButtonSystems.whenPressed(new PassiveHookInstant(m_climb, true));
   }
 
   /**
@@ -290,12 +305,12 @@ public class RobotContainer {
     //return new exampleAuto(s_Swerve);
 
     if(selected.equals("TwoBall")){
-      //return new DoubleBallAuto(s_Swerve, m_limelight);
-      return new ResetAndMove(s_Swerve, 1);
+      return new DoubleBallAuto(s_Swerve, m_limelight, m_intake, m_passthrough);
+      //return new ResetAndMove(s_Swerve, 1);
     }
 
     else if(selected.equals("OneBall")){
-      return new StraightBack(s_Swerve, m_limelight, m_intake);
+      return new StraightBack(s_Swerve, m_limelight, m_intake, m_passthrough, m_shooter);
     }
     return new MoveStraightForDist(s_Swerve);
     //return new exampleAuto(s_Swerve);

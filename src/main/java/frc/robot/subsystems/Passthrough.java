@@ -81,11 +81,11 @@ public class Passthrough extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Passthrough Encoder Rate", getInternalEncoder());
-    SmartDashboard.putBoolean("line broken", getBeamBreak());
-    SmartDashboard.putBoolean("Debounced beam break", debouncerGet());
-    if(getMatchTime()>29 && getMatchTime() < 30){
-      controller.setRumble(RumbleType.kLeftRumble, .1);
-    }
+    //SmartDashboard.putBoolean("line broken", getBeamBreak());
+    //SmartDashboard.putBoolean("Debounced beam break", debouncerGet());
+    //if(getMatchTime()>29 && getMatchTime() < 30){
+    //  controller.setRumble(RumbleType.kLeftRumble, .1);
+    //}
     // This method will be called once per scheduler run
   }
 }

@@ -30,16 +30,20 @@ import frc.robot.commands.Wait;
 import frc.robot.commands.Intake.ChangeIntakeInstant;
 import frc.robot.commands.Intake.RunIntake;
 import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
+import frc.robot.commands.Passthrough.runMotor;
+import frc.robot.commands.Shooter.ShootWithIndex;
 import frc.robot.subsystems.Intake;
 //import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.Passthrough;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class StraightBack extends SequentialCommandGroup {
-  public StraightBack(Swerve s_Swerve, Limelight m_Limelight, Intake intake){
+  public StraightBack(Swerve s_Swerve, Limelight m_Limelight, Intake intake, Passthrough m_Passthrough, Shooter shooter){
     TrajectoryConfig config =
         new TrajectoryConfig(
                 1.0,//max spped
@@ -114,12 +118,14 @@ public class StraightBack extends SequentialCommandGroup {
 
     addCommands(
         new ChangeIntakeInstant(intake, true),
+        new AutonShootOut(shooter, m_Passthrough, intake, 1),
         new InstantCommand(() -> s_Swerve.resetOdometry(goToMid.getInitialPose())),
-        //new LimelightFollower(s_Swerve, m_Limelight, true, false)
-        new ParallelRaceGroup(swerveControllerCommand3, new RunIntake(intake, .2)),
-        new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 
-        new Wait(2),
-        swerveControllerCommand2
+        //new LimelightFollower(s_Swerve, m_Limelight,true, false)
+        new ParallelRaceGroup(swerveControllerCommand3, new RunIntake(intake, .2), new runMotor(m_Passthrough, .1))
+        //new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 
+        //new Wait(2),
+        //swerveControllerCommand2,
+        //new ShootWithIndex(shooter, m_Passthrough, 500, 500)
         //,swerveControllerCommand3,
         /*, 
         new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 

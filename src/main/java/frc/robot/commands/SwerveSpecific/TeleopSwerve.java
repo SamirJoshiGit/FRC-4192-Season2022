@@ -46,9 +46,9 @@ public class TeleopSwerve extends CommandBase {
         double slowMultiplier = 1 - (rightTrigger.getAsDouble()*.5);
 
         //every scheduled loop it will get the raw data from controller 
-        double yAxis = controller.getRawAxis(translationAxis) * slowMultiplier;
-        double xAxis = controller.getRawAxis(strafeAxis) * slowMultiplier;
-        double rAxis = -controller.getRawAxis(rotationAxis) * slowMultiplier;
+        double yAxis = controller.getRawAxis(translationAxis) * .7;
+        double xAxis = controller.getRawAxis(strafeAxis) * .7;
+        double rAxis = controller.getRawAxis(rotationAxis) * .7;
         
 
         
