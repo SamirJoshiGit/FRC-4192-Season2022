@@ -114,6 +114,14 @@ public class Climb extends SubsystemBase {
   public void bangBangControl(){
     //climbMotorLeft.set(ControlMode.bangBangControl, .5);
   }
+
+  public boolean getAngle(){
+    return angleClimb.get().equals(DoubleSolenoid.Value.kForward);
+  }
+
+  public boolean getHooks(){
+    return climber.get().equals(DoubleSolenoid.Value.kForward);
+  }
   
   @Override
   public void periodic() {

@@ -36,13 +36,13 @@ public final class Constants {
                 new Translation2d(-wheelBase / 2.0, -trackWidth / 2.0));
 
         /* Swerve Current Limiting */
-        public static final int angleContinuousCurrentLimit =  25;//25
-        public static final int anglePeakCurrentLimit = 40;//40
+        public static final int angleContinuousCurrentLimit =  15;//25
+        public static final int anglePeakCurrentLimit = 30;//40
         public static final double anglePeakCurrentDuration = 0.1;
         public static final boolean angleEnableCurrentLimit = true;
 
-        public static final int driveContinuousCurrentLimit = 35;
-        public static final int drivePeakCurrentLimit = 65;
+        public static final int driveContinuousCurrentLimit = 25;//35
+        public static final int drivePeakCurrentLimit = 40;//65
         public static final double drivePeakCurrentDuration = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
 

@@ -281,15 +281,18 @@ public class RobotContainer {
     aButtonSystems.toggleWhenPressed(runShooterMotorBack);
     //leftBumperSystems.whenHeld(extendleft);
     //rightBumperSystems.whenHeld(extendright);
-    //startButtonSystems.whenHeld(extendleftBack);
-    //startButtonSystems.whenHeld(extendrightback);
+    //startButtonSystems.whenHeld(extendleftBack);    
+    //optionsButtonSystems.whenHeld(extendrightback);
     xButtonSystems.whenHeld(runPassthroughForward); 
     
-    optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, true));
-    startButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, false));
+    //optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, true));
+    //startButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, false));
 
-    yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
-    bButtonSystems.whenPressed(new PassiveHookInstant(m_climb, true));
+    optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, m_climb.getAngle()));
+    yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, m_climb.getHooks())); 
+
+    //yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
+    //bButtonSystems.whenPressed(new PassiveHookInstant(m_climb, true));
   }
 
   /**
@@ -305,7 +308,7 @@ public class RobotContainer {
     //return new exampleAuto(s_Swerve);
 
     if(selected.equals("TwoBall")){
-      return new DoubleBallAuto(s_Swerve, m_limelight, m_intake, m_passthrough);
+      return new DoubleBallAuto(s_Swerve, m_limelight, m_intake, m_passthrough, m_shooter);
       //return new ResetAndMove(s_Swerve, 1);
     }
 

@@ -33,13 +33,14 @@ import frc.robot.subsystems.Intake;
 //import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Passthrough;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Swerve;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DoubleBallAuto extends SequentialCommandGroup {
-  public DoubleBallAuto(Swerve s_Swerve, Limelight m_Limelight, Intake intake, Passthrough passthrough){
+  public DoubleBallAuto(Swerve s_Swerve, Limelight m_Limelight, Intake intake, Passthrough passthrough, Shooter shooter){
     TrajectoryConfig config =
         new TrajectoryConfig(
                 1.0,//max spped
@@ -127,6 +128,7 @@ public class DoubleBallAuto extends SequentialCommandGroup {
 
     addCommands(
         new ChangeIntakeInstant(intake, false),
+        new AutonShootOut(shooter, passthrough, intake, 1),
         new InstantCommand(() -> s_Swerve.resetOdometry(goToMid.getInitialPose())),
         //new LimelightFollower(s_Swerve, m_Limelight, true, false)
         new ParallelRaceGroup(swerveControllerCommand3, new RunIntake(intake, .2)),
