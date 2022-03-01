@@ -146,6 +146,8 @@ public class RobotContainer {
   private final TurnToSpecifiedAngle turn180 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, -90, true);
   private final TurnToSpecifiedAngle turn0 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 0, true);
   private final TurnToSpecifiedAngle turn270 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 180, true);
+  private final ExtendClimbVelo climbVelocityUp = new ExtendClimbVelo(m_climb, 200);
+  private final ExtendClimbVelo climbVelocityDown = new ExtendClimbVelo(m_climb, -200);
 
   private final StopExtend climbMacro = new StopExtend(s_Swerve, m_climb);
   private final RunIntake runIntake = new RunIntake(m_intake, .5);
@@ -273,8 +275,8 @@ public class RobotContainer {
     //right bumper or trigger for intake
 
     //systmes prototype bindings
-    zeroSystems.whenHeld(extend);
-    oneEightySystems.whenHeld(extendBack);
+    zeroSystems.whenHeld(climbVelocityUp);
+    oneEightySystems.whenHeld(climbVelocityDown);
     //yButtonSystems.toggleWhenActive(climbAngle, false);
     //bButtonSystems.toggleWhenActive(togglePassiveHooks, false);
     //startButtonSystems.whenPressed(mThreeBars);
