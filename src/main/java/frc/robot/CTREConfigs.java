@@ -7,15 +7,19 @@ import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.SensorTimeBase;
 
+import frc.robot.Constants.Swerve.IntakeConstants;
+
 public final class CTREConfigs {
     public TalonFXConfiguration swerveAngleFXConfig;
     public TalonFXConfiguration swerveDriveFXConfig;
+    public static TalonFXConfiguration intakeFXConfig;
     public CANCoderConfiguration swerveCanCoderConfig;
 
 
     public CTREConfigs(){
         swerveAngleFXConfig = new TalonFXConfiguration();
         swerveDriveFXConfig = new TalonFXConfiguration();
+        intakeFXConfig = new TalonFXConfiguration();
         swerveCanCoderConfig = new CANCoderConfiguration();
 
         /* Swerve Angle Motor Configurations */
@@ -49,7 +53,13 @@ public final class CTREConfigs {
         swerveDriveFXConfig.openloopRamp = Constants.Swerve.openLoopRamp;
         swerveDriveFXConfig.closedloopRamp = Constants.Swerve.closedLoopRamp;
 
-        
+        SupplyCurrentLimitConfiguration intakeSupplyLimit = new SupplyCurrentLimitConfiguration(
+            IntakeConstants.intakeEnableCurrentLimit,
+            IntakeConstants.intakeContinuousCurrentLimit,
+            IntakeConstants.intakePeakCurrentLimit,
+            IntakeConstants.intakePeakCurrentDuration
+        );
+        intakeFXConfig.supplyCurrLimit = intakeSupplyLimit;
         /* Swerve CANCoder Configuration */
         swerveCanCoderConfig.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
         swerveCanCoderConfig.sensorDirection = Constants.Swerve.canCoderInvert;

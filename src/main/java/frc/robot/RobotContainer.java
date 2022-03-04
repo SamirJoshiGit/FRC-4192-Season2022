@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -124,8 +126,8 @@ public class RobotContainer {
   private final Trigger driverLeftTrigger = new Trigger(()->driver.getRawAxis(XboxController.Axis.kLeftTrigger.value)>0.2);
 
   //systems hand 
-  private final Trigger systemsRightTrigger = new Trigger(()->(driver.getRawAxis(XboxController.Axis.kRightTrigger.value)>0.1));
-  private final Trigger systemsLeftTrigger = new Trigger(()->(driver.getRawAxis(XboxController.Axis.kLeftTrigger.value)>0.1));
+  private final Trigger systemsRightTrigger = new Trigger(()->((systemsController.getRawAxis(XboxController.Axis.kRightTrigger.value))>0.2));
+  private final Trigger systemsLeftTrigger = new Trigger(()->((systemsController.getRawAxis(XboxController.Axis.kLeftTrigger.value))>0.2));
 
   //sensor based triggers
   private Trigger intakeTrigger = new Trigger(()->m_intake.getBeamBreak());
@@ -137,7 +139,8 @@ public class RobotContainer {
 
   //commands
   private final SwerveDoubleSupp swerveControl = new SwerveDoubleSupp(s_Swerve, () -> xDrive.getLeftX(), () -> xDrive.getLeftY(), () -> xDrive.getRightX(), true, true);
-  private final TeleopSwerve nonDoubSupp = new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis,()->xDrive.getLeftTriggerAxis(), true, true);
+  private final TeleopSwerve nonDoubSupp = new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, 1, true, true);
+  private final TeleopSwerve nonDoubSuppSlow = new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, .5, true, true);
   private final LimelightFollower follow = new LimelightFollower(s_Swerve, m_limelight, false, false);
   private final LimelightFollowToPoint followToPoint = new LimelightFollowToPoint(s_Swerve, m_limelight, false, 1, false);
   private final FollowTarget followTarget = new FollowTarget(s_Swerve, m_limelight, false, 1.1);
@@ -156,11 +159,11 @@ public class RobotContainer {
   private final ChangeClimbAngle climbAngle = new ChangeClimbAngle(m_climb);
   private final StopAtDistance stopDist = new StopAtDistance(s_Swerve, Units.feetToMeters(5));
   private final PassthroughBeamBreak passthroughBeamBreak = new PassthroughBeamBreak(m_passthrough);
-  private final ExtendClimb extend =  new ExtendClimb(m_climb, .75);
-  private final ExtendClimb extendBack = new ExtendClimb(m_climb, -.75);
+  private final ExtendClimb extend =  new ExtendClimb(m_climb, .85);
+  private final ExtendClimb extendBack = new ExtendClimb(m_climb, -.85);
   
-  private final ExtendClimbVelo extendClimbVelo = new ExtendClimbVelo(m_climb, 1000);
-  private final ExtendClimbVelo detractClimbVelo = new ExtendClimbVelo(m_climb, -1000);
+  private final ExtendClimbVelo extendClimbVelo = new ExtendClimbVelo(m_climb, -500);
+  private final ExtendClimbVelo detractClimbVelo = new ExtendClimbVelo(m_climb, 500);
 
   private final ExtendClimbRight extendright = new ExtendClimbRight(m_climb, -.8);
   private final ExtendClimbRight extendrightback = new ExtendClimbRight(m_climb,.8);
@@ -266,33 +269,41 @@ public class RobotContainer {
     
     //prototyped Button Bindings
     leftBumper.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    zero.toggleWhenPressed(intakePos);
+    yButton.toggleWhenPressed(intakePos);
     //oneEighty.toggleWhenPressed(togglePassiveHooks);
-    xButton.toggleWhenPressed(runBackIntake);
-    bButton.toggleWhenActive(runShooterMotorBack);
+    aButton.toggleWhenPressed(runBackIntake);
+    rightBumper.whenHeld(nonDoubSuppSlow);
+    bButton.toggleWhenPressed(runForwardIntake);
+    //bButton.toggleWhenActive(runShooterMotorBack);
     //yButton.toggleWhenPressed(runPassthroughForward);
-    aButton.whenPressed(runPassthroughBackward);
+    //aButton.whenPressed(runPassthroughBackward);
     //right bumper or trigger for intake
 
     //systmes prototype bindings
-    zeroSystems.whenHeld(climbVelocityUp);
-    oneEightySystems.whenHeld(climbVelocityDown);
+    zeroSystems.whenHeld(extend);
+    oneEightySystems.whenHeld(extendBack);
     //yButtonSystems.toggleWhenActive(climbAngle, false);
     //bButtonSystems.toggleWhenActive(togglePassiveHooks, false);
     //startButtonSystems.whenPressed(mThreeBars);
     aButtonSystems.toggleWhenPressed(runShooterMotorBack);
-    //leftBumperSystems.whenHeld(extendleft);
-    //rightBumperSystems.whenHeld(extendright);
-    //startButtonSystems.whenHeld(extendleftBack);    
-    //optionsButtonSystems.whenHeld(extendrightback);
+
+    //change later to the requirements
+    leftBumperSystems.whenHeld(extendleft);
+    rightBumperSystems.whenHeld(extendright);
+    systemsLeftTrigger.whileActiveContinuous(extendleftBack);
+    systemsRightTrigger.whileActiveContinuous(extendrightback);
+    //twoSeventySystems.whenHeld(extendleftBack);    
+    //ninetySystems.whenHeld(extendrightback);
+
     xButtonSystems.whenHeld(runPassthroughForward); 
     
     //optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, true));
     //startButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, false));
 
     optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, m_climb.getAngle()));
-    yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, m_climb.getHooks())); 
+    yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, m_climb.getHooks()));
 
+    bButtonSystems.whenHeld(runBackIntake);
     //yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
     //bButtonSystems.whenPressed(new PassiveHookInstant(m_climb, true));
   }
@@ -315,7 +326,8 @@ public class RobotContainer {
     }
 
     else if(selected.equals("OneBall")){
-      return new StraightBack(s_Swerve, m_limelight, m_intake, m_passthrough, m_shooter);
+      return new SequentialCommandGroup(new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3,1));
+      //return new StraightBack(s_Swerve, m_limelight, m_intake, m_passthrough, m_shooter);
     }
     return new MoveStraightForDist(s_Swerve);
     //return new exampleAuto(s_Swerve);

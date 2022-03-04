@@ -25,7 +25,7 @@ public class ClimbAngleInstant extends InstantCommand {
   public void initialize() {
     //extend the climb if it is already down
     //retract if it is up
-    if(up){
+    if(climb.getAngle()){
       climb.setAngleDown();
     }
     else{

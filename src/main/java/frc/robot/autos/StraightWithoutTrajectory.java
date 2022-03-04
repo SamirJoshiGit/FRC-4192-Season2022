@@ -19,9 +19,9 @@ import frc.robot.subsystems.Swerve;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class StraightWithoutTrajectory extends ParallelRaceGroup {
   /** Creates a new StraightWithoutTrajectory. */
-  public StraightWithoutTrajectory(Intake m_intake, Shooter m_shooter, Passthrough m_passthrough, Swerve s_Swerve, double wait) {
+  public StraightWithoutTrajectory(Intake m_intake, Shooter m_shooter, Passthrough m_passthrough, Swerve s_Swerve, double wait, double direction) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new RunIntake(m_intake, .4), new runMotor(m_passthrough, .3), new moveWithManualInput(s_Swerve, 0, -2, 0), new Wait(wait));
+    addCommands(new RunIntake(m_intake, .4), new runMotor(m_passthrough, .3), new moveWithManualInput(s_Swerve, 0, -2*direction, 0), new Wait(wait));
   }
 }

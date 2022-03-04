@@ -24,8 +24,8 @@ import frc.robot.Constants.Swerve.Sensors;
 public class Passthrough extends SubsystemBase {
   /** Creates a new Passthrough. */
   private final TalonFX passthroughMotor = new TalonFX(PassthroughConstants.passthroughMotorID);
-
-  private XboxController controller = new XboxController(0);
+  
+  private XboxController controller = new XboxController(1);
 
   private final CANCoder encoder = new CANCoder(PassthroughConstants.passthroughEncoderID);
 
@@ -81,6 +81,7 @@ public class Passthrough extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Passthrough Encoder Rate", getInternalEncoder());
+    SmartDashboard.putNumber("trigger value", controller.getRawAxis(XboxController.Axis.kLeftTrigger.value));
     //SmartDashboard.putBoolean("line broken", getBeamBreak());
     //SmartDashboard.putBoolean("Debounced beam break", debouncerGet());
     //if(getMatchTime()>29 && getMatchTime() < 30){

@@ -22,6 +22,6 @@ public class AutonShootOut extends ParallelRaceGroup {
   public AutonShootOut(Shooter shooter, Passthrough passthrough, Intake intake, double wait) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new RunShooterMotor(shooter, .8), new runMotor(passthrough, .3), new Wait(wait), new RunIntake(intake, .3));
+    addCommands(new RunShooterMotor(shooter, .8), new runMotor(passthrough, .5), new Wait(wait), new RunIntake(intake, .3));
   }
 }

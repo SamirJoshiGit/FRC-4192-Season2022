@@ -10,8 +10,10 @@ import frc.robot.subsystems.Climb;
 public class PassiveHookActivate extends CommandBase {
   /** Creates a new PassiveHookActivate. */
   private Climb climb;
+  private boolean passiveHook;
   public PassiveHookActivate(Climb climb) {
     this.climb = climb;
+    passiveHook = climb.getAngle();
     addRequirements(climb);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -25,13 +27,18 @@ public class PassiveHookActivate extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climb.setClimberUp();
+    if(passiveHook){
+      climb.setClimberUp();
+    }
+    else{
+      climb.setClimberDown();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climb.setClimberDown();
+    //climb.setClimberDown();
   }
 
   // Returns true when the command should end.

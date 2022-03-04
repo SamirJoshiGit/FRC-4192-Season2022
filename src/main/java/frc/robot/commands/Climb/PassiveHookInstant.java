@@ -24,7 +24,7 @@ public class PassiveHookInstant extends InstantCommand {
   @Override
   public void initialize() {
     //activates the pistons of the climb
-    if(up){
+    if(climb.getHooks()){
       //if the climb is up, set it down
       climb.setClimberDown();
     }

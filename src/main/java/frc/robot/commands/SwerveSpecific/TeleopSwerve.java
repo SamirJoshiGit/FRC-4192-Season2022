@@ -22,13 +22,13 @@ public class TeleopSwerve extends CommandBase {
     private int translationAxis;
     private int strafeAxis;
     private int rotationAxis;
-    private DoubleSupplier rightTrigger;
+    private double rightTrigger;
 
     /**
      * Driver control
      */
     //constructor which sets up the controller, the axis, and the swerve
-    public TeleopSwerve(Swerve s_Swerve, Joystick controller, int translationAxis, int strafeAxis, int rotationAxis, DoubleSupplier rightTrigger, boolean fieldRelative, boolean openLoop) {
+    public TeleopSwerve(Swerve s_Swerve, Joystick controller, int translationAxis, int strafeAxis, int rotationAxis, double rightTrigger, boolean fieldRelative, boolean openLoop) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
@@ -43,7 +43,7 @@ public class TeleopSwerve extends CommandBase {
 
     @Override
     public void execute() {
-        double slowMultiplier = 1 - (rightTrigger.getAsDouble()*.5);
+        //double slowMultiplier = 1 - (rightTrigger.getAsDouble()*.5);
 
         //every scheduled loop it will get the raw data from controller 
         double yAxis = controller.getRawAxis(translationAxis) * .7;
@@ -58,8 +58,8 @@ public class TeleopSwerve extends CommandBase {
         rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
 
         //takes the translation2d and multiplies by the wanted speed
-        translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed);
+        translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed).times(rightTrigger);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
-        s_Swerve.drive(translation, rotation, fieldRelative, openLoop);
+        s_Swerve.drive(translation, rotation*rightTrigger, fieldRelative, openLoop);
     }
 }

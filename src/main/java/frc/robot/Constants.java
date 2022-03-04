@@ -46,6 +46,8 @@ public final class Constants {
         public static final double drivePeakCurrentDuration = 0.1;
         public static final boolean driveEnableCurrentLimit = true;
 
+
+        
         /* Angle Motor PID Values */
         public static final double angleKP = 0.6;
         public static final double angleKI = 0.0;
@@ -139,9 +141,14 @@ public final class Constants {
             //public static final int doubleSolenoidIntake = 0;
             public static final int doubleSolenoidReverse = 11;
             public static final int doubleSolenoidForward = 4;
-
             //sensors
             public static final int beamBreakIntakeID = 3;//temporary
+
+            //intake current limiting 
+            public static final int intakeContinuousCurrentLimit = 15;
+            public static final int intakePeakCurrentLimit = 30;
+            public static final double intakePeakCurrentDuration = .1;
+            public static final boolean intakeEnableCurrentLimit = false;
         }
 
         public static final class ClimbConstants{
