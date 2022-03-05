@@ -27,6 +27,7 @@ import frc.robot.autos.*;
 //import frc.robot.commands.*;
 import frc.robot.commands.Climb.ChangeClimbAngle;
 import frc.robot.commands.Climb.ClimbAngleInstant;
+import frc.robot.commands.Climb.ExtendBasedOnPush;
 import frc.robot.commands.Climb.StopExtend;
 import frc.robot.commands.Climb.UpandDown;
 import frc.robot.commands.Climb.ExtendClimb;
@@ -126,8 +127,8 @@ public class RobotContainer {
   private final Trigger driverLeftTrigger = new Trigger(()->driver.getRawAxis(XboxController.Axis.kLeftTrigger.value)>0.2);
 
   //systems hand 
-  private final Trigger systemsRightTrigger = new Trigger(()->((systemsController.getRawAxis(XboxController.Axis.kRightTrigger.value))>0.2));
-  private final Trigger systemsLeftTrigger = new Trigger(()->((systemsController.getRawAxis(XboxController.Axis.kLeftTrigger.value))>0.2));
+  private final Trigger systemsRightTrigger = new Trigger(()->((systemsController.getRawAxis(XboxController.Axis.kRightTrigger.value))>0.5));
+  private final Trigger systemsLeftTrigger = new Trigger(()->((systemsController.getRawAxis(XboxController.Axis.kLeftTrigger.value))>0.5));
 
   //sensor based triggers
   private Trigger intakeTrigger = new Trigger(()->m_intake.getBeamBreak());
@@ -171,6 +172,8 @@ public class RobotContainer {
   private final ExtendClimbLeft extendleft = new ExtendClimbLeft(m_climb, -.8);
   private final ExtendClimbLeft extendleftBack = new ExtendClimbLeft(m_climb, .8);
 
+  private ExtendBasedOnPush pushUp = new ExtendBasedOnPush(m_climb, ()->systemsController.getRawAxis(XboxController.Axis.kRightTrigger.value), 1);
+  private ExtendBasedOnPush pushDown = new ExtendBasedOnPush(m_climb, ()->systemsController.getRawAxis(XboxController.Axis.kLeftTrigger.value), -1);
   //private final EncoderBasedRun encoderBasedRun = new EncoderBasedRun(500, m_shooter);
 
   //private final Velocity velocity = new Velocity(500, m_shooter);
@@ -294,6 +297,8 @@ public class RobotContainer {
     systemsRightTrigger.whileActiveContinuous(extendrightback);
     //twoSeventySystems.whenHeld(extendleftBack);    
     //ninetySystems.whenHeld(extendrightback);
+    //systemsLeftTrigger.whileActiveContinuous(pushDown);
+    //systemsRightTrigger.whileActiveContinuous(pushUp);
 
     xButtonSystems.whenHeld(runPassthroughForward); 
     
