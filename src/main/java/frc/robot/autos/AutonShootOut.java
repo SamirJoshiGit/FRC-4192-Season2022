@@ -5,6 +5,7 @@
 package frc.robot.autos;
 
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Wait;
 import frc.robot.commands.Intake.RunIntake;
 import frc.robot.commands.Passthrough.runMotor;
@@ -22,6 +23,6 @@ public class AutonShootOut extends ParallelRaceGroup {
   public AutonShootOut(Shooter shooter, Passthrough passthrough, Intake intake, double wait) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new RunShooterMotor(shooter, .8), new runMotor(passthrough, .5), new Wait(wait), new RunIntake(intake, .3));
+    addCommands(new SequentialCommandGroup( new ParallelRaceGroup(new RunShooterMotor(shooter, -.8), new Wait(8),new runMotor(passthrough, .5))),  new Wait(wait), new RunIntake(intake, .0));
   }
 }

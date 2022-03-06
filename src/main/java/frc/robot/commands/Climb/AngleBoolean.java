@@ -2,35 +2,32 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.Intake;
+package frc.robot.commands.Climb;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-//import frc.robot.subsystems.Climb;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Climb;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ChangeIntakeInstant extends InstantCommand {
-  private Intake intake;
+public class AngleBoolean extends InstantCommand {
+  private Climb climb;
   private boolean up;
-  public ChangeIntakeInstant(Intake intake, boolean up) {
-    this.intake = intake;
+  public AngleBoolean(Climb climb, boolean up) {
+    this.climb =climb;
     this.up = up;
-    addRequirements(intake);
+    addRequirements(climb);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //extend the intakeif it is already down
-    //retract if it is up
-    if(intake.getIntake()){
-      intake.setDown();
+    if(up){
+      climb.setAngleDown();
     }
     else{
-      intake.setUp();
+      climb.setAngleUp();
     }
   }
 }

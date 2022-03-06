@@ -66,6 +66,9 @@ public class Intake extends SubsystemBase {
     intakeMotor.set(ControlMode.Velocity, velocity);
   }
   
+  public boolean getIntake(){
+    return intakeSolenoid.get().equals(DoubleSolenoid.Value.kForward);
+  }
   
   @Override
   public void periodic() {
