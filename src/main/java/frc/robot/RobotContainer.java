@@ -294,7 +294,6 @@ public class RobotContainer {
     //bButtonSystems.toggleWhenActive(togglePassiveHooks, false);
     //startButtonSystems.whenPressed(mThreeBars);
     aButtonSystems.toggleWhenPressed(runShooterMotorBack);
-
     //change later to the requirements
     leftBumperSystems.whenHeld(extendleft);
     rightBumperSystems.whenHeld(extendright);
@@ -328,7 +327,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    String[] autons = {"OneBall", "TwoBall"};
+    String[] autons = {"OneBall", "TwoBall", "TwoNearWall", "OneNearWall"};
     SmartDashboard.putStringArray("Auto List", autons);
     String selected = SmartDashboard.getString("Auto Selector", "OneBall");
     // An ExampleCommand will run in autonomous
@@ -340,16 +339,36 @@ public class RobotContainer {
     //}
 
     //else if(selected.equals("OneBall")){
+    if(selected.equals("TwoBall")){
         return new SequentialCommandGroup(
         new InstantCommand(()->s_Swerve.zeroGyro()), 
         new AngleBoolean(m_climb, true), 
         new ChangeIntakeInstant(m_intake, false), 
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.1,1.5)),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.4,1.5)),
         new Wait(1),
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.2,-1.5)),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.5,-1.5)),
         new Wait(1),
-        new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.74), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2))
+        new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2))
       ); 
+    }
+    else if(selected.equals("TwoNearWall")){
+      return new SequentialCommandGroup(
+        new InstantCommand(()->s_Swerve.zeroGyro()), 
+        new AngleBoolean(m_climb, true), 
+        new ChangeIntakeInstant(m_intake, false), 
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 1.9,1.5)),
+        new Wait(1),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.0,-1.5)),
+        new Wait(1),
+        new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2))
+      ); 
+    }
+    else if(selected.equals("OneNearWall")){
+      return new SequentialCommandGroup(new InstantCommand(()->s_Swerve.zeroGyro()), new AngleBoolean(m_climb, true), new Wait(.1), new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), new Wait(2), new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3.7,1));
+    }
+    else{
+      return new SequentialCommandGroup(new InstantCommand(()->s_Swerve.zeroGyro()), new AngleBoolean(m_climb, true), new Wait(.1), new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), new Wait(2), new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1));
+    }
       //return new SequentialCommandGroup(new InstantCommand(()->s_Swerve.zeroGyro()), new AngleBoolean(m_climb, true), new Wait(.1), new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), new Wait(2), new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1));
       //return new StraightBack(s_Swerve, m_limelight, m_intake, m_passthrough, m_shooter);
     //}
