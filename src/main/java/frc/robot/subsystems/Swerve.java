@@ -143,6 +143,7 @@ public class Swerve extends SubsystemBase {
     public double getDoubleYaw(){
         return gyro.getYaw();
     }
+
     //x displacment from the navx gyro
     public double getDistanceX(){
         return gyro.getDisplacementX();
@@ -154,6 +155,14 @@ public class Swerve extends SubsystemBase {
 
     public void resetDistance(){
         gyro.resetDisplacement();
+    }
+
+    public void setGyroOffset(double displacement){
+        gyro.setAngleAdjustment(displacement);
+    }
+
+    public void storeOffset(){
+        Globals.changeSinceLastInvoked = gyro.getAngle();
     }
 
     @Override
