@@ -17,8 +17,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 //import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.CTREConfigs;
+import frc.robot.Globals;
 import frc.robot.Constants.Swerve.IntakeConstants;
 
 public class Intake extends SubsystemBase {
@@ -57,6 +59,17 @@ public class Intake extends SubsystemBase {
   public boolean getBeamBreak(){
       return !beamBreaker.get();
   }
+  
+  public double getCountedBalls(){
+    
+    if(getBeamBreak()){
+      Globals.countedIndex++;
+      if(Globals.countedIndex == 3){
+        Globals.countedIndex = 1;
+      }
+    }
+    return Globals.countedIndex;
+  }
 
   public boolean debounceBeam(){
     return beamDebouncer.calculate(beamBreaker.get());
@@ -72,6 +85,8 @@ public class Intake extends SubsystemBase {
   
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Balls_In_System", Globals.countedIndex);
+    SmartDashboard.putBoolean("Intake_Beam_Broken", getBeamBreak());
     // This method will be called once per scheduler run
   }
 }

@@ -49,15 +49,6 @@ public class Passthrough extends SubsystemBase {
     return !beamBreak.get();
   }
 
-  public double getCountedBalls(){
-    if(getBeamBreak()){
-      Globals.countedIndex++;
-      if(Globals.countedIndex == 3){
-        Globals.countedIndex = 1;
-      }
-    }
-    return Globals.countedIndex;
-  }
 
   //gets the velocity of the motor
   public double getEncoderRate(){
@@ -78,10 +69,18 @@ public class Passthrough extends SubsystemBase {
   public double getMatchTime(){
     return DriverStation.getMatchTime();
   }
+
+  public void changeBallCount(){
+    Globals.countedIndex += 1;
+    if(Globals.countedIndex == 3){
+      Globals.countedIndex = 0;
+    }
+  }
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Passthrough Encoder Rate", getInternalEncoder());
     SmartDashboard.putNumber("trigger value", controller.getRawAxis(XboxController.Axis.kLeftTrigger.value));
+    SmartDashboard.putBoolean("Index_Beam_Broken", getBeamBreak());
     //SmartDashboard.putBoolean("line broken", getBeamBreak());
     //SmartDashboard.putBoolean("Debounced beam break", debouncerGet());
     //if(getMatchTime()>29 && getMatchTime() < 30){

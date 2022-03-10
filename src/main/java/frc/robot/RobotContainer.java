@@ -137,9 +137,9 @@ public class RobotContainer {
   private Trigger intakeTrigger = new Trigger(()->m_intake.getBeamBreak());
   private Trigger indexTrigger = new Trigger(()->m_passthrough.getBeamBreak());
   private Trigger shooterTrigger = new Trigger(()->m_shooter.getBeamBreak());
-  private Trigger allBallsInIndex = new Trigger(()->m_passthrough.getCountedBalls()==2);
-  private Trigger inTheSystem = new Trigger(()->m_passthrough.getCountedBalls()==1);
-  private Trigger noneInTheSystem = new Trigger(()->m_passthrough.getCountedBalls()==0);
+  private Trigger allBallsInIndex = new Trigger(()->Globals.countedIndex==2);
+  private Trigger inTheSystem = new Trigger(()->Globals.countedIndex==1);
+  private Trigger noneInTheSystem = new Trigger(()->Globals.countedIndex==0);
 
   //commands
   private final SwerveDoubleSupp swerveControl = new SwerveDoubleSupp(s_Swerve, () -> xDrive.getLeftX(), () -> xDrive.getLeftY(), () -> xDrive.getRightX(), true, true);
@@ -269,10 +269,13 @@ public class RobotContainer {
 
     //triggered bindings change the interuptables during testing: uncomment once line breaks are on
     //intakeTrigger.and(noneInTheSystem.or(inTheSystem)).whileActiveOnce(runPassthroughForward);
-    //indexTrigger.and(noneInTheSystem.or(inTheSystem)).whileActiveOnce(stopPassthrough);
+    //indexTrigger.and(noneInTheSystem.or(inTheSystem).negate()).whileActiveOnce(stopPassthrough);
     //allBallsInIndex.whileActiveOnce(positionIndexing);
     //note for later, create an override system for this. 
+    //intakeTrigger.whileActiveContinuous(new InstantCommand(()->m_passthrough.changeBallCount()));
+    //intakeTrigger.and((noneInTheSystem.or(inTheSystem)).and(indexTrigger).negate()).whileActiveContinuous(runPassthroughForward);
     
+
     
     //prototyped Button Bindings
     leftBumper.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
