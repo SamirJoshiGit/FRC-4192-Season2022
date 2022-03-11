@@ -19,6 +19,7 @@ public class RunUntilTripped extends CommandBase {
   private double power;
   private double counter;
   private Shooter shooter;
+  private boolean intakeTripped;
   public RunUntilTripped(Intake intake, Passthrough passthrough, Shooter shooter, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
@@ -26,23 +27,26 @@ public class RunUntilTripped extends CommandBase {
     this.power = power;
     this.shooter = shooter;
     counter = 0;
+    intakeTripped = !intake.debounceBeam();
     addRequirements(intake, passthrough, shooter);
   }
   //RunUntilTripped(m_intake, m_passthrough)
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    SmartDashboard.putBoolean("Motor Running", false);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Globals.countedIndex==0 || Globals.countedIndex == 1){
-      if(!passthrough.getBeamBreak()){
-        SmartDashboard.putBoolean("Motor Running", true);
-      }
+    intakeTripped = !intake.debounceBeam();
+    if(Globals.countedIndex <= 2 && intakeTripped){
+      SmartDashboard.putBoolean("Motor Running", true);
+    }
+    if(Globals.countedIndex == Globals.countedSecond){
       SmartDashboard.putBoolean("Motor Running", false);
     }
-    
 
   }
 

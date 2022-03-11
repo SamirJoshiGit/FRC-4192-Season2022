@@ -275,7 +275,7 @@ public class RobotContainer {
     //allBallsInIndex.whileActiveOnce(positionIndexing);
     //note for later, create an override system for this. 
     intakeTrigger.whenActive(new InstantCommand(()->m_passthrough.changeBallCount()));
-
+    indexTrigger.whenActive(new InstantCommand(()->m_passthrough.changeIndexCount()));
     //secondTrigger.and((noneInTheSystem.or(inTheSystem)).and(indexTrigger)).whileActiveContinuous(runPassthroughForward, false);
     
 

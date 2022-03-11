@@ -77,11 +77,19 @@ public class Passthrough extends SubsystemBase {
       Globals.countedIndex = 0;
     }
   }
+
+  public void changeIndexCount(){
+    Globals.countedSecond += 1;
+    if(Globals.countedSecond == 3){
+      Globals.countedSecond = 0;
+    }
+  }
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Passthrough Encoder Rate", getInternalEncoder());
     SmartDashboard.putNumber("trigger value", controller.getRawAxis(XboxController.Axis.kLeftTrigger.value));
     SmartDashboard.putBoolean("Index_Beam_Broken", getBeamBreak());
+    SmartDashboard.putNumber("Balls_In_Index", Globals.countedSecond);
     //SmartDashboard.putBoolean("line broken", getBeamBreak());
     //SmartDashboard.putBoolean("Debounced beam break", debouncerGet());
     //if(getMatchTime()>29 && getMatchTime() < 30){
