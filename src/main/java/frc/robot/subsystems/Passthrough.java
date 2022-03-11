@@ -46,7 +46,7 @@ public class Passthrough extends SubsystemBase {
 
   //gets the value of the beam break
   public boolean getBeamBreak(){
-    return !beamBreak.get();
+    return beamBreak.get();
   }
 
 
@@ -70,6 +70,7 @@ public class Passthrough extends SubsystemBase {
     return DriverStation.getMatchTime();
   }
 
+  
   public void changeBallCount(){
     Globals.countedIndex += 1;
     if(Globals.countedIndex == 3){

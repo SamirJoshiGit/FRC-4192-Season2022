@@ -4,7 +4,9 @@
 
 package frc.robot.commands.Passthrough;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Globals;
 import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Passthrough;
@@ -34,20 +36,11 @@ public class RunUntilTripped extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!intake.getBeamBreak()){
-      passthrough.runMotor(power); 
-    }
-    if(!passthrough.getBeamBreak() && counter != 2){
-      passthrough.runMotor(0);
-      counter++;
-      if(counter == 2){
-        while(shooter.getBeamBreak()){
-          passthrough.runMotor(power);
-        }
-        if(!shooter.getBeamBreak()){
-          counter = 0;
-        }
+    if(Globals.countedIndex==0 || Globals.countedIndex == 1){
+      if(!passthrough.getBeamBreak()){
+        SmartDashboard.putBoolean("Motor Running", true);
       }
+      SmartDashboard.putBoolean("Motor Running", false);
     }
     
 

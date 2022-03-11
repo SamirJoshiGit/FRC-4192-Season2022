@@ -134,7 +134,8 @@ public class RobotContainer {
   private final Trigger systemsLeftTrigger = new Trigger(()->((systemsController.getRawAxis(XboxController.Axis.kLeftTrigger.value))>0.2));
 
   //sensor based triggers
-  private Trigger intakeTrigger = new Trigger(()->m_intake.getBeamBreak());
+  private Trigger secondTrigger = new Trigger(()->m_intake.debounceBeam());
+  private Trigger intakeTrigger = new Trigger(()->m_intake.debounceBeam());
   private Trigger indexTrigger = new Trigger(()->m_passthrough.getBeamBreak());
   private Trigger shooterTrigger = new Trigger(()->m_shooter.getBeamBreak());
   private Trigger allBallsInIndex = new Trigger(()->Globals.countedIndex==2);
@@ -199,13 +200,14 @@ public class RobotContainer {
 
 
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
-
+  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake
+  , m_passthrough, m_shooter, .1);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
     boolean openLoop = true;
     s_Swerve.setDefaultCommand(nonDoubSupp);
-    //m_passthrough.setDefaultCommand(runUntilTripped);
+    m_passthrough.setDefaultCommand(runUntilTripped);
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
 
@@ -272,8 +274,9 @@ public class RobotContainer {
     //indexTrigger.and(noneInTheSystem.or(inTheSystem).negate()).whileActiveOnce(stopPassthrough);
     //allBallsInIndex.whileActiveOnce(positionIndexing);
     //note for later, create an override system for this. 
-    //intakeTrigger.whileActiveContinuous(new InstantCommand(()->m_passthrough.changeBallCount()));
-    //intakeTrigger.and((noneInTheSystem.or(inTheSystem)).and(indexTrigger).negate()).whileActiveContinuous(runPassthroughForward);
+    intakeTrigger.whenActive(new InstantCommand(()->m_passthrough.changeBallCount()));
+
+    //secondTrigger.and((noneInTheSystem.or(inTheSystem)).and(indexTrigger)).whileActiveContinuous(runPassthroughForward, false);
     
 
     
