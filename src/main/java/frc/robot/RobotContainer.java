@@ -287,6 +287,12 @@ public class RobotContainer {
     driverRightTrigger.whileActiveContinuous(runBackIntake);
     rightBumper.whenHeld(nonDoubSuppSlow);
     driverLeftTrigger.whileActiveContinuous(runForwardIntake);
+    driverLeftTrigger.whileActiveOnce(new InstantCommand(()->{
+      Globals.countedIndex -= 1;
+      if(Globals.countedIndex <= 0){
+        Globals.countedIndex = 0;
+      }
+    }));
     //bButton.toggleWhenActive(runShooterMotorBack);
     //yButton.toggleWhenPressed(runPassthroughForward);
     //aButton.whenPressed(runPassthroughBackward);
@@ -310,6 +316,7 @@ public class RobotContainer {
 
     systemsLeftTrigger.whileActiveContinuous(pushDown);
     systemsRightTrigger.whileActiveContinuous(pushUp);
+
 
     //oneEighty.whenHeld(extendleftBack);
     //twoSeventy.whenHeld(extendrightback);

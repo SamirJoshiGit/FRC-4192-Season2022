@@ -41,13 +41,16 @@ public class RunUntilTripped extends CommandBase {
   @Override
   public void execute() {
     intakeTripped = !intake.debounceBeam();
-    if(Globals.countedIndex <= 2 && intakeTripped){
+    if(Globals.countedIndex <= 2){
       SmartDashboard.putBoolean("Motor Running", true);
     }
     if(Globals.countedIndex == Globals.countedSecond){
       SmartDashboard.putBoolean("Motor Running", false);
     }
-
+    if((Globals.countedIndex == 2)&&(Globals.countedSecond == 2)){
+      Globals.countedIndex = 0;
+      Globals.countedSecond = 0;
+    }
   }
 
   // Called once the command ends or is interrupted.
