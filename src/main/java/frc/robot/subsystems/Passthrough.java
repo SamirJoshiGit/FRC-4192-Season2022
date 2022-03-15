@@ -88,7 +88,7 @@ public class Passthrough extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Passthrough Encoder Rate", getInternalEncoder());
     SmartDashboard.putNumber("trigger value", controller.getRawAxis(XboxController.Axis.kLeftTrigger.value));
-    SmartDashboard.putBoolean("Index_Beam_Broken", getBeamBreak());
+    SmartDashboard.putBoolean("Index_Beam_Broken", debouncerGet());
     SmartDashboard.putNumber("Balls_In_Index", Globals.countedSecond);
     //SmartDashboard.putBoolean("line broken", getBeamBreak());
     //SmartDashboard.putBoolean("Debounced beam break", debouncerGet());

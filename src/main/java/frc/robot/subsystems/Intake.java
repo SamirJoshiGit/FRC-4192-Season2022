@@ -86,7 +86,7 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Balls_In_System", Globals.countedIndex);
-    SmartDashboard.putBoolean("Intake_Beam_Broken", getBeamBreak());
+    SmartDashboard.putBoolean("Intake_Beam_Broken", debounceBeam());
     // This method will be called once per scheduler run
   }
 }

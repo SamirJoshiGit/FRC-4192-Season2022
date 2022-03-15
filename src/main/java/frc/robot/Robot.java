@@ -59,6 +59,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     ctreConfigs = new CTREConfigs();
+    //RobotContainer.s_Swerve.zeroGyro();
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -102,7 +103,6 @@ public class Robot extends TimedRobot {
               Globals.ballCenterX = a.x + (a.width / 2);
               Globals.ballCenterY = a.y + (a.height /2);
               Globals.ballSize =a.area();
-              
           }
       }
     });

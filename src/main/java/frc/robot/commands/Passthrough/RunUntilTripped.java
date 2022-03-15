@@ -34,6 +34,7 @@ public class RunUntilTripped extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    passthrough.runMotor(0);
     SmartDashboard.putBoolean("Motor Running", false);
   }
 
@@ -42,12 +43,14 @@ public class RunUntilTripped extends CommandBase {
   public void execute() {
     intakeTripped = !intake.debounceBeam();
     if(Globals.countedIndex <= 2){
+      passthrough.runMotor(.3);
       SmartDashboard.putBoolean("Motor Running", true);
     }
     if(Globals.countedIndex == Globals.countedSecond){
+      passthrough.runMotor(0);
       SmartDashboard.putBoolean("Motor Running", false);
     }
-    if((Globals.countedIndex == 2)&&(Globals.countedSecond == 2)){
+    if((Globals.countedIndex == Globals.countedSecond)&&(Globals.countedSecond >= 2)){
       Globals.countedIndex = 0;
       Globals.countedSecond = 0;
     }

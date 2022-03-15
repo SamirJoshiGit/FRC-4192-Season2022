@@ -206,8 +206,9 @@ public class RobotContainer {
   public RobotContainer() {
     boolean fieldRelative = true;
     boolean openLoop = true;
+    s_Swerve.zeroGyro();
     s_Swerve.setDefaultCommand(nonDoubSupp);
-    m_passthrough.setDefaultCommand(runUntilTripped);
+    //m_passthrough.setDefaultCommand(runUntilTripped);
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
 
@@ -274,8 +275,8 @@ public class RobotContainer {
     //indexTrigger.and(noneInTheSystem.or(inTheSystem).negate()).whileActiveOnce(stopPassthrough);
     //allBallsInIndex.whileActiveOnce(positionIndexing);
     //note for later, create an override system for this. 
-    intakeTrigger.whenActive(new InstantCommand(()->m_passthrough.changeBallCount()));
-    indexTrigger.whenActive(new InstantCommand(()->m_passthrough.changeIndexCount()));
+    //intakeTrigger.whileActiveOnce(new InstantCommand(()->m_passthrough.changeBallCount()));
+    //indexTrigger.whileActiveOnce(new InstantCommand(()->m_passthrough.changeIndexCount()));
     //secondTrigger.and((noneInTheSystem.or(inTheSystem)).and(indexTrigger)).whileActiveContinuous(runPassthroughForward, false);
     
 
@@ -287,12 +288,12 @@ public class RobotContainer {
     driverRightTrigger.whileActiveContinuous(runBackIntake);
     rightBumper.whenHeld(nonDoubSuppSlow);
     driverLeftTrigger.whileActiveContinuous(runForwardIntake);
-    driverLeftTrigger.whileActiveOnce(new InstantCommand(()->{
+    /*driverLeftTrigger.whileActiveOnce(new InstantCommand(()->{
       Globals.countedIndex -= 1;
       if(Globals.countedIndex <= 0){
         Globals.countedIndex = 0;
       }
-    }));
+    }));*/
     //bButton.toggleWhenActive(runShooterMotorBack);
     //yButton.toggleWhenPressed(runPassthroughForward);
     //aButton.whenPressed(runPassthroughBackward);
@@ -363,7 +364,7 @@ public class RobotContainer {
         new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.5,-1.5)),
         new Wait(1),
         new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2),
-        new InstantCommand(()->s_Swerve.setGyroOffset(66.2 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))))
+        new InstantCommand(()->s_Swerve.setGyroOffset(33.2 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))))
       ); 
     }
     else if(selected.equals("TwoNearWall")){
@@ -377,7 +378,7 @@ public class RobotContainer {
         new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.0,-1.5)),
         new Wait(1),
         new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2),
-        new InstantCommand(()->s_Swerve.setGyroOffset(66.2 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))))
+        new InstantCommand(()->s_Swerve.setGyroOffset(-33.2 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))))
       ); 
     }
     else if(selected.equals("OneNearWall")){
@@ -387,7 +388,7 @@ public class RobotContainer {
       new AngleBoolean(m_climb, true), new Wait(.1), new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), 
       new Wait(2), 
       new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3.7,1),
-      new InstantCommand(()->s_Swerve.setGyroOffset(66 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))));
+      new InstantCommand(()->s_Swerve.setGyroOffset(-33 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))));
     }
     else{
       return new SequentialCommandGroup(
@@ -398,7 +399,7 @@ public class RobotContainer {
       new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), 
       new Wait(2), 
       new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1),
-      new InstantCommand(()->s_Swerve.setGyroOffset(66 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))));
+      new InstantCommand(()->s_Swerve.setGyroOffset(33 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))));
     }
       //return new SequentialCommandGroup(new InstantCommand(()->s_Swerve.zeroGyro()), new AngleBoolean(m_climb, true), new Wait(.1), new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), new Wait(2), new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1));
       //return new StraightBack(s_Swerve, m_limelight, m_intake, m_passthrough, m_shooter);
