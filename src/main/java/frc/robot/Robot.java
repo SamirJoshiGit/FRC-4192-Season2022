@@ -65,6 +65,10 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     PortForwarder.add(5800, "10.41.92.11", 5800);
+
+    PortForwarder.add(5800, "limelight.local", 5800);
+    PortForwarder.add(5801, "limelight.local", 5801);
+    PortForwarder.add(5805, "limelight.local", 5805);
     UsbCamera camera = CameraServer.startAutomaticCapture(0);
     camera.setResolution(IMG_WIDTH, IMG_HEIGHT);
     

@@ -10,6 +10,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Swerve.ShooterConstants;
 
@@ -24,6 +25,12 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setPower(double power){
+    if(power != 0){
+      SmartDashboard.putBoolean("DB/LED 0", true);
+    }
+    else{
+      SmartDashboard.putBoolean("DB/LED 0", false);
+    }
     shooterMotor.set(ControlMode.PercentOutput, power);
   }
 

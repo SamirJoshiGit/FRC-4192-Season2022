@@ -288,6 +288,7 @@ public class RobotContainer {
     driverRightTrigger.whileActiveContinuous(runBackIntake);
     rightBumper.whenHeld(nonDoubSuppSlow);
     driverLeftTrigger.whileActiveContinuous(runForwardIntake);
+    driverLeftTrigger.whileActiveContinuous(runPassthroughBackward);
     /*driverLeftTrigger.whileActiveOnce(new InstantCommand(()->{
       Globals.countedIndex -= 1;
       if(Globals.countedIndex <= 0){
@@ -308,12 +309,12 @@ public class RobotContainer {
     //startButtonSystems.whenPressed(mThreeBars);
     aButtonSystems.toggleWhenPressed(runShooterMotorBack);
     //change later to the requirements
-    leftBumperSystems.whenHeld(extendleft);
-    rightBumperSystems.whenHeld(extendright);
+    leftBumperSystems.whenHeld(extendleftBack);
+    rightBumperSystems.whenHeld(extendrightback);
     //systemsLeftTrigger.whileActiveContinuous(extendleftBack);
     //systemsRightTrigger.whileActiveContinuous(extendrightback);
-    twoSeventySystems.whenHeld(extendleftBack);    
-    ninetySystems.whenHeld(extendrightback);
+    twoSeventySystems.whenHeld(extendleft);    
+    ninetySystems.whenHeld(extendright);
 
     systemsLeftTrigger.whileActiveContinuous(pushDown);
     systemsRightTrigger.whileActiveContinuous(pushUp);
@@ -329,7 +330,7 @@ public class RobotContainer {
 
     optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, m_climb.getAngle()));
     yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, m_climb.getHooks()));
-
+    
     bButtonSystems.whenHeld(runBackIntake);
     //yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
     //bButtonSystems.whenPressed(new PassiveHookInstant(m_climb, true));
