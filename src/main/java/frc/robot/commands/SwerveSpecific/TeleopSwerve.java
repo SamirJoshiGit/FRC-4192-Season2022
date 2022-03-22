@@ -1,6 +1,7 @@
 package frc.robot.commands.SwerveSpecific;
 
 import frc.robot.Constants;
+import frc.robot.Globals;
 import frc.robot.subsystems.Swerve;
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -46,11 +47,11 @@ public class TeleopSwerve extends CommandBase {
         //double slowMultiplier = 1 - (rightTrigger.getAsDouble()*.5);
 
         //every scheduled loop it will get the raw data from controller 
-        double yAxis = controller.getRawAxis(translationAxis) * .7;
-        double xAxis = controller.getRawAxis(strafeAxis) * .7;
-        double rAxis = controller.getRawAxis(rotationAxis) * .7;
+        double yAxis = controller.getRawAxis(translationAxis) * .75;
+        double xAxis = controller.getRawAxis(strafeAxis) * .75;
+        double rAxis = controller.getRawAxis(rotationAxis) * .5;
         
-
+        
         
         /* Deadbands */
         yAxis = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : yAxis;
@@ -60,6 +61,7 @@ public class TeleopSwerve extends CommandBase {
         //takes the translation2d and multiplies by the wanted speed
         translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed).times(rightTrigger);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
-        s_Swerve.drive(translation, rotation*rightTrigger, fieldRelative, openLoop);
+        //s_Swerve.drive(translation, rotation*rightTrigger, fieldRelative, openLoop);
+        s_Swerve.drive(translation, rotation*.9, Globals.fieldBased, openLoop);
     }
 }

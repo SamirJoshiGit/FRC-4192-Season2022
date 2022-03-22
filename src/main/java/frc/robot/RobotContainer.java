@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.XboxController.Axis;
@@ -59,6 +61,7 @@ import frc.robot.commands.Shooter.ShootWithIndex;
 import frc.robot.commands.Shooter.Velocity;
 import frc.robot.commands.SwerveSpecific.StopAtDistance;
 import frc.robot.commands.SwerveSpecific.SwerveDoubleSupp;
+import frc.robot.commands.SwerveSpecific.TankToggle;
 import frc.robot.commands.SwerveSpecific.TeleopSwerve;
 import frc.robot.commands.SwerveSpecific.TurnToSpecifiedAngle;
 //import frc.robot.commands.SwerveSpecific.TurnToSpecifiedAngle;
@@ -80,6 +83,9 @@ public class RobotContainer {
   private final Climb m_climb = new Climb();
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
+
+  //compressor object
+  //private final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH );
 
   /* Controllers */
   private final Joystick driver = new Joystick(0);
@@ -195,8 +201,8 @@ public class RobotContainer {
   private final PassthroughPIDPosition positionIndexing = new PassthroughPIDPosition(m_passthrough, 2000, 0);
 
   //private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, m_shooter, .2);
-  private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .74);
-  private final RunShooterMotor runShooterMotorBack = new RunShooterMotor(m_shooter, -.74);
+  private final RunShooterMotor runShooterMotor = new RunShooterMotor(m_shooter, .78);
+  private final RunShooterMotor runShooterMotorBack = new RunShooterMotor(m_shooter, -.78);
 
 
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
@@ -208,6 +214,8 @@ public class RobotContainer {
     boolean openLoop = true;
     s_Swerve.zeroGyro();
     s_Swerve.setDefaultCommand(nonDoubSupp);
+
+    //compressor.enableHybrid(0, 100);
     //m_passthrough.setDefaultCommand(runUntilTripped);
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
@@ -284,6 +292,7 @@ public class RobotContainer {
     //prototyped Button Bindings
     leftBumper.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     yButton.toggleWhenPressed(intakePos);
+    bButton.toggleWhenPressed(new TankToggle());
     //oneEighty.toggleWhenPressed(togglePassiveHooks);
     driverRightTrigger.whileActiveContinuous(runBackIntake);
     rightBumper.whenHeld(nonDoubSuppSlow);
@@ -300,7 +309,7 @@ public class RobotContainer {
     //aButton.whenPressed(runPassthroughBackward);
     //right bumper or trigger for intake
     //yButton.whenPressed(instantIntake);
-
+    //b button for tank thing
     //systmes prototype bindings
     //zeroSystems.whenHeld(extend);
     //oneEightySystems.whenHeld(extendBack);
@@ -308,6 +317,7 @@ public class RobotContainer {
     //bButtonSystems.toggleWhenActive(togglePassiveHooks, false);
     //startButtonSystems.whenPressed(mThreeBars);
     aButtonSystems.toggleWhenPressed(runShooterMotorBack);
+    
     //change later to the requirements
     leftBumperSystems.whenHeld(extendleftBack);
     rightBumperSystems.whenHeld(extendrightback);
@@ -357,50 +367,54 @@ public class RobotContainer {
     if(selected.equals("TwoBall")){
         return new SequentialCommandGroup(
         new InstantCommand(()->s_Swerve.zeroGyro()),
-        new InstantCommand(()->s_Swerve.storeOffset()), 
+        //new InstantCommand(()->s_Swerve.storeOffset()), 
         new AngleBoolean(m_climb, true), 
         new ChangeIntakeInstant(m_intake, false), 
         new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.4,1.5)),
         new Wait(1),
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.5,-1.5)),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3,-1.5)),
         new Wait(1),
-        new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2),
-        new InstantCommand(()->s_Swerve.setGyroOffset(33.2 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))))
+        new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2)
+        //new InstantCommand(()->s_Swerve.setGyroOffset(33.2 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked)))
+        )
       ); 
     }
     else if(selected.equals("TwoNearWall")){
       return new SequentialCommandGroup(
         new InstantCommand(()->s_Swerve.zeroGyro()), 
-        new InstantCommand(()->s_Swerve.storeOffset()),
+        //new InstantCommand(()->s_Swerve.storeOffset()),
         new AngleBoolean(m_climb, true), 
         new ChangeIntakeInstant(m_intake, false), 
         new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 1.9,1.5)),
         new Wait(1),
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.0,-1.5)),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.5,-1.5)),
         new Wait(1),
-        new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2),
-        new InstantCommand(()->s_Swerve.setGyroOffset(-33.2 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))))
+        new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2)
+        //new InstantCommand(()->s_Swerve.setGyroOffset(-33.2 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked)))
+        )
       ); 
     }
     else if(selected.equals("OneNearWall")){
       return new SequentialCommandGroup(
       new InstantCommand(()->s_Swerve.zeroGyro()),
-      new InstantCommand(()->s_Swerve.storeOffset()), 
+      //new InstantCommand(()->s_Swerve.storeOffset()), 
       new AngleBoolean(m_climb, true), new Wait(.1), new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), 
       new Wait(2), 
-      new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3.7,1),
-      new InstantCommand(()->s_Swerve.setGyroOffset(-33 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))));
+      new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3.7,1)
+      //new InstantCommand(()->s_Swerve.setGyroOffset(-33 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked)))
+      );
     }
     else{
       return new SequentialCommandGroup(
       new InstantCommand(()->s_Swerve.zeroGyro()), 
-      new InstantCommand(()->s_Swerve.storeOffset()),
+      //new InstantCommand(()->s_Swerve.storeOffset()),
       new AngleBoolean(m_climb, true), 
       new Wait(.1), 
       new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), 
       new Wait(2), 
-      new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1),
-      new InstantCommand(()->s_Swerve.setGyroOffset(33 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked))));
+      new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1)
+      //new InstantCommand(()->s_Swerve.setGyroOffset(33 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked)))
+      );
     }
       //return new SequentialCommandGroup(new InstantCommand(()->s_Swerve.zeroGyro()), new AngleBoolean(m_climb, true), new Wait(.1), new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), new Wait(2), new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1));
       //return new StraightBack(s_Swerve, m_limelight, m_intake, m_passthrough, m_shooter);
