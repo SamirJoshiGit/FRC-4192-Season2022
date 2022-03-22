@@ -353,8 +353,11 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     String[] autons = {"OneBall", "TwoBall", "TwoNearWall", "OneNearWall"};
+    double[] offset = {0, 33.33, 45, 60, 90};
     SmartDashboard.putStringArray("Auto List", autons);
+    SmartDashboard.putNumberArray("Offset", offset);
     String selected = SmartDashboard.getString("Auto Selector", "OneBall");
+    Double selectedOffset = SmartDashboard.getNumber("Offset", 33.3);
     // An ExampleCommand will run in autonomous
     //return new exampleAuto(s_Swerve);
 
@@ -375,10 +378,11 @@ public class RobotContainer {
         new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3,-1.5)),
         new Wait(1),
         new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2)
-        //new InstantCommand(()->s_Swerve.setGyroOffset(33.2 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked)))
+        ,new InstantCommand(()->s_Swerve.setGyroOffset(selectedOffset))
         )
       ); 
     }
+
     else if(selected.equals("TwoNearWall")){
       return new SequentialCommandGroup(
         new InstantCommand(()->s_Swerve.zeroGyro()), 
@@ -390,10 +394,11 @@ public class RobotContainer {
         new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.5,-1.5)),
         new Wait(1),
         new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2)
-        //new InstantCommand(()->s_Swerve.setGyroOffset(-33.2 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked)))
+        ,new InstantCommand(()->s_Swerve.setGyroOffset(-selectedOffset))
         )
       ); 
     }
+
     else if(selected.equals("OneNearWall")){
       return new SequentialCommandGroup(
       new InstantCommand(()->s_Swerve.zeroGyro()),
@@ -401,9 +406,26 @@ public class RobotContainer {
       new AngleBoolean(m_climb, true), new Wait(.1), new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), 
       new Wait(2), 
       new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3.7,1)
-      //new InstantCommand(()->s_Swerve.setGyroOffset(-33 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked)))
+      ,new InstantCommand(()->s_Swerve.setGyroOffset(-selectedOffset))
       );
     }
+
+    //go back (121.19)
+    //turn (-157)
+    //move forward (100)
+    //
+    else if(selected.equals("ThreeBall")){
+      return new SequentialCommandGroup(
+      new InstantCommand(()->s_Swerve.zeroGyro()),
+      //new InstantCommand(()->s_Swerve.storeOffset()), 
+      new AngleBoolean(m_climb, true), new Wait(.1), new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), 
+      new Wait(2), 
+      new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3.7,1)
+      ,new InstantCommand(()->s_Swerve.setGyroOffset(selectedOffset))
+      );
+    }
+
+
     else{
       return new SequentialCommandGroup(
       new InstantCommand(()->s_Swerve.zeroGyro()), 
@@ -413,7 +435,7 @@ public class RobotContainer {
       new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), 
       new Wait(2), 
       new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1)
-      //new InstantCommand(()->s_Swerve.setGyroOffset(33 + (s_Swerve.getDoubleYaw()-Globals.changeSinceLastInvoked)))
+      ,new InstantCommand(()->s_Swerve.setGyroOffset(selectedOffset))
       );
     }
       //return new SequentialCommandGroup(new InstantCommand(()->s_Swerve.zeroGyro()), new AngleBoolean(m_climb, true), new Wait(.1), new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), new Wait(2), new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1));

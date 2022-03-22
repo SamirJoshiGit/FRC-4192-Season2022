@@ -54,7 +54,7 @@ public class DoubleBallAuto extends SequentialCommandGroup {
     TrajectoryGenerator.generateTrajectory(
         List.of(new Pose2d(0, 0, new Rotation2d(0)),
             //new Pose2d(0, 0, new Rotation2d(Units.degreesToRadians(-90))) 
-            new Pose2d(Units.feetToMeters(9.4), -Units.feetToMeters(4), new Rotation2d(0))
+            new Pose2d(Units.feetToMeters(9.4), -Units.feetToMeters(2), new Rotation2d(0))
             //,new Pose2d(1.7, -1.3, new Rotation2d(0))
             //new Pose2d(-Units.feetToMeters(5)-AutoConstants.kOffset, -AutoConstants.kOffsetSide, new Rotation2d(Units.degreesToRadians(-90)))
             ), 
@@ -62,11 +62,14 @@ public class DoubleBallAuto extends SequentialCommandGroup {
 
     Trajectory goToMid = TrajectoryGenerator.generateTrajectory(
     List.of(new Pose2d(0, 0, new Rotation2d(0)), 
-    new Pose2d(Units.feetToMeters(9.4), -Units.feetToMeters(2.5), new Rotation2d(0))),    
+    new Pose2d(Units.feetToMeters(8.33), -Units.feetToMeters(21), new Rotation2d(0))),    
     config);
+    //x distance 260
+    //y distance 100
 
     Trajectory goBackToScore = TrajectoryGenerator.generateTrajectory(
-        List.of(new Pose2d(0, 0, new Rotation2d(0)), new Pose2d(-Units.feetToMeters(9.4), Units.feetToMeters(2), new Rotation2d(0)))
+        List.of(new Pose2d(Units.feetToMeters(8.33), -Units.feetToMeters(21), new Rotation2d(0)), 
+        new Pose2d(-Units.feetToMeters(0), Units.feetToMeters(0), new Rotation2d(0)))
     
     , config);
 
@@ -129,18 +132,19 @@ public class DoubleBallAuto extends SequentialCommandGroup {
     addCommands(
         new ChangeIntakeInstant(intake, false),
         new AutonShootOut(shooter, passthrough, intake, 1),
-        new InstantCommand(() -> s_Swerve.resetOdometry(goToMid.getInitialPose())),
+        new InstantCommand(() -> s_Swerve.resetOdometry(firstWaypoint.getInitialPose())),
         //new LimelightFollower(s_Swerve, m_Limelight, true, false)
+        new ParallelRaceGroup(swerveControllerCommand1, new RunIntake(intake, .2)),
+        //swerveControllerCommand3,
+        //new Wait(2),
         new ParallelRaceGroup(swerveControllerCommand3, new RunIntake(intake, .2)),
-        //swerveControllerCommand3, 
-        new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 
-        new Wait(2),
-        new InstantCommand(() -> s_Swerve.resetOdometry(goBackToScore.getInitialPose())), 
-        swerveControllerCommand2,
-        new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)), 
+        //new Wait(1),
+        new ParallelRaceGroup(swerveControllerCommand2, new RunIntake(intake, .2)),
+        new InstantCommand(() ->  s_Swerve.drive(new Translation2d(0, 0), 0, true, true)),
         new Wait(1),
-        new InstantCommand(() -> s_Swerve.resetOdometry(goToSecondBall.getInitialPose())),
-        new ParallelRaceGroup(swerveControllerCommand4, new RunIntake(intake, .2))
+        new AutonShootOut(shooter, passthrough, intake, 1)
+
+
         //swerveControllerCommand4
     );
 }
