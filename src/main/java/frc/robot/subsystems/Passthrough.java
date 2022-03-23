@@ -84,6 +84,11 @@ public class Passthrough extends SubsystemBase {
       Globals.countedSecond = 0;
     }
   }
+
+  public void globalUpdateBeam(){
+    Globals.indexBeam = debouncerGet();
+  }
+
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Passthrough Encoder Rate", getInternalEncoder());
@@ -96,5 +101,6 @@ public class Passthrough extends SubsystemBase {
     //  controller.setRumble(RumbleType.kLeftRumble, .1);
     //}
     // This method will be called once per scheduler run
+    debouncerGet();
   }
 }

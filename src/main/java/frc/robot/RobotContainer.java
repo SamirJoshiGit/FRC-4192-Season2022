@@ -206,17 +206,16 @@ public class RobotContainer {
 
 
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
-  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake
-  , m_passthrough, m_shooter, .1);
+  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .3);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
     boolean openLoop = true;
     s_Swerve.zeroGyro();
     s_Swerve.setDefaultCommand(nonDoubSupp);
-
+    
     //compressor.enableHybrid(0, 100);
-    //m_passthrough.setDefaultCommand(runUntilTripped);
+    m_passthrough.setDefaultCommand(runUntilTripped);
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
 
@@ -283,8 +282,8 @@ public class RobotContainer {
     //indexTrigger.and(noneInTheSystem.or(inTheSystem).negate()).whileActiveOnce(stopPassthrough);
     //allBallsInIndex.whileActiveOnce(positionIndexing);
     //note for later, create an override system for this. 
-    //intakeTrigger.whileActiveOnce(new InstantCommand(()->m_passthrough.changeBallCount()));
-    //indexTrigger.whileActiveOnce(new InstantCommand(()->m_passthrough.changeIndexCount()));
+    intakeTrigger.whenActive(new InstantCommand(()->m_passthrough.changeBallCount()));
+    indexTrigger.whenActive(new InstantCommand(()->m_passthrough.changeIndexCount()));
     //secondTrigger.and((noneInTheSystem.or(inTheSystem)).and(indexTrigger)).whileActiveContinuous(runPassthroughForward, false);
     
 

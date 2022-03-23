@@ -16,4 +16,7 @@ public class Globals {
     public static double countedSecond = 0;
     public static double changeSinceLastInvoked = 0;
     public static boolean fieldBased = true; 
+
+    public static boolean intakeBeam;
+    public static boolean indexBeam;
 }

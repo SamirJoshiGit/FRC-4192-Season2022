@@ -14,21 +14,17 @@ import frc.robot.subsystems.Shooter;
 
 public class RunUntilTripped extends CommandBase {
   /** Creates a new RunUntilTripped. */
-  private Intake intake;
   private Passthrough passthrough;
-  private double power;
   private double counter;
-  private Shooter shooter;
   private boolean intakeTripped;
-  public RunUntilTripped(Intake intake, Passthrough passthrough, Shooter shooter, double power) {
+  private double power; 
+  public RunUntilTripped(Passthrough passthrough, double power) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.intake = intake;
     this.passthrough = passthrough;
-    this.power = power;
-    this.shooter = shooter;
     counter = 0;
-    intakeTripped = !intake.debounceBeam();
-    addRequirements(intake, passthrough, shooter);
+    this.power = power;
+    intakeTripped = !Globals.intakeBeam;
+    addRequirements(passthrough);
   }
   //RunUntilTripped(m_intake, m_passthrough)
   // Called when the command is initially scheduled.
@@ -41,9 +37,9 @@ public class RunUntilTripped extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeTripped = !intake.debounceBeam();
+    intakeTripped = !Globals.intakeBeam;
     if(Globals.countedIndex <= 2){
-      passthrough.runMotor(.3);
+      passthrough.runMotor(power);
       SmartDashboard.putBoolean("Motor Running", true);
     }
     if(Globals.countedIndex == Globals.countedSecond){

@@ -82,11 +82,17 @@ public class Intake extends SubsystemBase {
   public boolean getIntake(){
     return intakeSolenoid.get().equals(DoubleSolenoid.Value.kForward);
   }
+
+  public void globalUpdateBeam(){
+    Globals.intakeBeam = debounceBeam();
+  }
   
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Balls_In_System", Globals.countedIndex);
     SmartDashboard.putBoolean("Intake_Beam_Broken", debounceBeam());
     // This method will be called once per scheduler run
+
+    globalUpdateBeam();
   }
 }
