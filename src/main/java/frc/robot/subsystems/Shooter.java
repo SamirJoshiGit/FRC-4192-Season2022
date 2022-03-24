@@ -18,6 +18,7 @@ public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
   private TalonFX shooterMotor = new TalonFX(ShooterConstants.shooterMotor); 
 
+  
   private CANCoder encoder = new CANCoder(ShooterConstants.shooterEncoderID);
   private final DigitalInput beam = new DigitalInput(ShooterConstants.beamBreakShooterID);
   private Debouncer beamDebouncer = new Debouncer(.1);

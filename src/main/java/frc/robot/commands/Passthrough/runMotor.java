@@ -6,6 +6,7 @@ package frc.robot.commands.Passthrough;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Globals;
 import frc.robot.subsystems.Passthrough;
 
 public class runMotor extends CommandBase {
@@ -23,6 +24,8 @@ public class runMotor extends CommandBase {
   @Override
   public void initialize() {
     passthrough.runMotor(output);
+    Globals.runningPassthrough = true;
+    Globals.runningindexPower = output;
     //SmartDashboard.putBoolean("Motor running", true);
   }
 
@@ -36,6 +39,8 @@ public class runMotor extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     passthrough.runMotor(0);
+    Globals.runningPassthrough = false;
+    Globals.runningindexPower = 0;
     //SmartDashboard.putBoolean("Motor running", false);
   }
 

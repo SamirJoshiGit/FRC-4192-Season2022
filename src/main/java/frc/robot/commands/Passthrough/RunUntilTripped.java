@@ -37,19 +37,22 @@ public class RunUntilTripped extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeTripped = !Globals.intakeBeam;
-    if(Globals.countedIndex <= 2){
+    //intakeTripped = !Globals.intakeBeam;
+    if(Globals.countedIntake <= 1 && (intakeTripped)){
       passthrough.runMotor(power);
       SmartDashboard.putBoolean("Motor Running", true);
     }
-    if(Globals.countedIndex == Globals.countedSecond){
+
+    else if((Globals.countedIntake == Globals.countedSecond)||(Globals.countedIntake <= 2)){
       passthrough.runMotor(0);
       SmartDashboard.putBoolean("Motor Running", false);
     }
-    if((Globals.countedIndex == Globals.countedSecond)&&(Globals.countedSecond >= 2)){
-      Globals.countedIndex = 0;
+
+    if((Globals.countedIntake == Globals.countedSecond)&&(Globals.countedSecond >= 2)){
+      Globals.countedIntake = 0;
       Globals.countedSecond = 0;
     }
+    intakeTripped = !Globals.intakeBeam;
   }
 
   // Called once the command ends or is interrupted.

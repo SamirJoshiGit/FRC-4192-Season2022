@@ -29,7 +29,7 @@ public class Intake extends SubsystemBase {
   //private final CANSparkMax intakeMotors;
   private final TalonFX intakeMotor = new TalonFX(IntakeConstants.intakeMotorID);
   private final DigitalInput beamBreaker = new DigitalInput(IntakeConstants.beamBreakIntakeID);
-  private final Debouncer beamDebouncer = new Debouncer(.1);
+  private final Debouncer beamDebouncer = new Debouncer(.4);
   /** Creates a new Intake. */
   public Intake() {
     //intakeMotors = new CANSparkMax(1, MotorType.kBrushed);
@@ -63,12 +63,12 @@ public class Intake extends SubsystemBase {
   public double getCountedBalls(){
     
     if(getBeamBreak()){
-      Globals.countedIndex++;
-      if(Globals.countedIndex == 3){
-        Globals.countedIndex = 1;
+      Globals.countedIntake++;
+      if(Globals.countedIntake == 3){
+        Globals.countedIntake = 1;
       }
     }
-    return Globals.countedIndex;
+    return Globals.countedIntake;
   }
 
   public boolean debounceBeam(){
@@ -89,7 +89,7 @@ public class Intake extends SubsystemBase {
   
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Balls_In_System", Globals.countedIndex);
+    SmartDashboard.putNumber("Balls_In_System", Globals.countedIntake);
     SmartDashboard.putBoolean("Intake_Beam_Broken", debounceBeam());
     // This method will be called once per scheduler run
 

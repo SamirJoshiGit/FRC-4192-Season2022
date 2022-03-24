@@ -72,9 +72,9 @@ public class Passthrough extends SubsystemBase {
 
   
   public void changeBallCount(){
-    Globals.countedIndex += 1;
-    if(Globals.countedIndex == 3){
-      Globals.countedIndex = 0;
+    Globals.countedIntake += 1;
+    if(Globals.countedIntake == 3){
+      Globals.countedIntake = 0;
     }
   }
 
@@ -86,7 +86,7 @@ public class Passthrough extends SubsystemBase {
   }
 
   public void globalUpdateBeam(){
-    Globals.indexBeam = debouncerGet();
+    Globals.indexBeam = getBeamBreak();
   }
 
   @Override

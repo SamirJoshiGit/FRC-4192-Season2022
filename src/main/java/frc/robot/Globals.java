@@ -12,11 +12,15 @@ public class Globals {
     public static double ballSize;
     public static double ballCenterY;
     public static double climberStartPosition;
-    public static double countedIndex = 0;
+    public static double countedIntake = 0;
     public static double countedSecond = 0;
     public static double changeSinceLastInvoked = 0;
     public static boolean fieldBased = true; 
 
     public static boolean intakeBeam;
     public static boolean indexBeam;
+
+    //delete later if not needed.
+    public static boolean runningPassthrough;
+    public static double runningindexPower;
 }

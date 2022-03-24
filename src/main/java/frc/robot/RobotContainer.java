@@ -85,7 +85,7 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
 
   //compressor object
-  //private final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH );
+  private final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH );
 
   /* Controllers */
   private final Joystick driver = new Joystick(0);
@@ -144,9 +144,9 @@ public class RobotContainer {
   private Trigger intakeTrigger = new Trigger(()->m_intake.debounceBeam());
   private Trigger indexTrigger = new Trigger(()->m_passthrough.getBeamBreak());
   private Trigger shooterTrigger = new Trigger(()->m_shooter.getBeamBreak());
-  private Trigger allBallsInIndex = new Trigger(()->Globals.countedIndex==2);
-  private Trigger inTheSystem = new Trigger(()->Globals.countedIndex==1);
-  private Trigger noneInTheSystem = new Trigger(()->Globals.countedIndex==0);
+  private Trigger allBallsInIndex = new Trigger(()->Globals.countedIntake==2);
+  private Trigger inTheSystem = new Trigger(()->Globals.countedIntake==1);
+  private Trigger noneInTheSystem = new Trigger(()->Globals.countedIntake==0);
 
   //commands
   private final SwerveDoubleSupp swerveControl = new SwerveDoubleSupp(s_Swerve, () -> xDrive.getLeftX(), () -> xDrive.getLeftY(), () -> xDrive.getRightX(), true, true);
@@ -160,8 +160,8 @@ public class RobotContainer {
   private final TurnToSpecifiedAngle turn180 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, -90, true);
   private final TurnToSpecifiedAngle turn0 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 0, true);
   private final TurnToSpecifiedAngle turn270 = new TurnToSpecifiedAngle(s_Swerve, s_Swerve.startAngle, 180, true);
-  private final ExtendClimbVelo climbVelocityUp = new ExtendClimbVelo(m_climb, 200);
-  private final ExtendClimbVelo climbVelocityDown = new ExtendClimbVelo(m_climb, -200);
+  //private final ExtendClimbVelo climbVelocityUp = new ExtendClimbVelo(m_climb, 200);
+  //private final ExtendClimbVelo climbVelocityDown = new ExtendClimbVelo(m_climb, -200);
 
   private final StopExtend climbMacro = new StopExtend(s_Swerve, m_climb);
   private final RunIntake runIntake = new RunIntake(m_intake, .5);
@@ -197,7 +197,7 @@ public class RobotContainer {
 
   private final runMotor runPassthroughForward = new runMotor(m_passthrough, .5);
   private final runMotor runPassthroughBackward = new runMotor(m_passthrough, -.5);
-  private final runMotor stopPassthrough = new runMotor(m_passthrough, 0);
+  //private final runMotor stopPassthrough = new runMotor(m_passthrough, 0);
   private final PassthroughPIDPosition positionIndexing = new PassthroughPIDPosition(m_passthrough, 2000, 0);
 
   //private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_intake, m_passthrough, m_shooter, .2);
@@ -206,7 +206,7 @@ public class RobotContainer {
 
 
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
-  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .3);
+  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .4);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
@@ -214,7 +214,7 @@ public class RobotContainer {
     s_Swerve.zeroGyro();
     s_Swerve.setDefaultCommand(nonDoubSupp);
     
-    //compressor.enableHybrid(0, 100);
+    compressor.enableHybrid(0, 40);
     m_passthrough.setDefaultCommand(runUntilTripped);
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
@@ -295,6 +295,7 @@ public class RobotContainer {
     //oneEighty.toggleWhenPressed(togglePassiveHooks);
     driverRightTrigger.whileActiveContinuous(runBackIntake);
     rightBumper.whenHeld(nonDoubSuppSlow);
+
     driverLeftTrigger.whileActiveContinuous(runForwardIntake);
     driverLeftTrigger.whileActiveContinuous(runPassthroughBackward);
     /*driverLeftTrigger.whileActiveOnce(new InstantCommand(()->{
