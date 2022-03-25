@@ -10,19 +10,23 @@ import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Swerve.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
   /** Creates a new Shooter. */
-  private TalonFX shooterMotor = new TalonFX(ShooterConstants.shooterMotor); 
-
+  private TalonFX shooterMotor = new TalonFX(ShooterConstants.shooterMotorID); 
+  private TalonFX shooterFollower = new TalonFX(ShooterConstants.shooterFollowerID);
+  private TalonFX shooterMain = new TalonFX(ShooterConstants.shooterFollowerID);
   
   private CANCoder encoder = new CANCoder(ShooterConstants.shooterEncoderID);
   private final DigitalInput beam = new DigitalInput(ShooterConstants.beamBreakShooterID);
   private Debouncer beamDebouncer = new Debouncer(.1);
   public Shooter() {
+    //shooterFollower.follow(shooterMotor);
+    shooterFollower.setInverted(true);
   }
 
   public void setPower(double power){
@@ -47,11 +51,35 @@ public class Shooter extends SubsystemBase {
     return encoder.getVelocity();
   }
 
+  public double getMainRate(){
+    return shooterMotor.getSelectedSensorVelocity();
+  }
+
+  public double getFollowerRate(){
+    return shooterFollower.getSelectedSensorVelocity();
+  }
+
+  public void twoMotorVelocity(double velo){
+    shooterMotor.set(ControlMode.Velocity, velo);
+    shooterFollower.set(ControlMode.Velocity, -velo);
+  }
+
+  public void twoMotorPower(double power){
+    shooterMotor.set(ControlMode.PercentOutput, -power);
+    shooterFollower.set(ControlMode.PercentOutput, power);
+  }
+
+  public void twoMotorCurrent(double curr){
+    shooterMotor.set(ControlMode.Current, curr);
+    shooterFollower.set(ControlMode.Current, curr);
+  }
   public boolean debounceBeam(){
     return beamDebouncer.calculate(beam.get());
   }
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Main motor rate", getMainRate());
+    SmartDashboard.putNumber("FollowerRate", getFollowerRate());
     // This method will be called once per scheduler run
   }
 }

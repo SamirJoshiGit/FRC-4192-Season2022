@@ -58,6 +58,9 @@ import frc.robot.commands.Passthrough.runMotor;
 import frc.robot.commands.Shooter.EncoderBasedRun;
 import frc.robot.commands.Shooter.RunShooterMotor;
 import frc.robot.commands.Shooter.ShootWithIndex;
+import frc.robot.commands.Shooter.TwoMotorCurrent;
+import frc.robot.commands.Shooter.TwoMotorPower;
+import frc.robot.commands.Shooter.TwoMotorVelo;
 import frc.robot.commands.Shooter.Velocity;
 import frc.robot.commands.SwerveSpecific.StopAtDistance;
 import frc.robot.commands.SwerveSpecific.SwerveDoubleSupp;
@@ -85,7 +88,7 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
 
   //compressor object
-  private final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH );
+  //private final Compressor compressor = new Compressor(PneumaticsModuleType.REVPH );
 
   /* Controllers */
   private final Joystick driver = new Joystick(0);
@@ -207,6 +210,11 @@ public class RobotContainer {
 
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
   private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .4);
+
+  private final TwoMotorVelo turretVelo = new TwoMotorVelo(m_shooter, 100);
+  private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .35);
+  private final TwoMotorCurrent turretCurrent = new TwoMotorCurrent(m_shooter, 150);
+  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-1000, m_shooter);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
@@ -214,7 +222,7 @@ public class RobotContainer {
     s_Swerve.zeroGyro();
     s_Swerve.setDefaultCommand(nonDoubSupp);
     
-    compressor.enableHybrid(0, 40);
+    //compressor.enableHybrid(0, 40);
     m_passthrough.setDefaultCommand(runUntilTripped);
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
@@ -316,8 +324,9 @@ public class RobotContainer {
     //yButtonSystems.toggleWhenActive(climbAngle, false);
     //bButtonSystems.toggleWhenActive(togglePassiveHooks, false);
     //startButtonSystems.whenPressed(mThreeBars);
-    aButtonSystems.toggleWhenPressed(runShooterMotorBack);
     
+    //aButtonSystems.toggleWhenPressed(runShooterMotorBack);
+    aButtonSystems.toggleWhenPressed(turretPower);
     //change later to the requirements
     leftBumperSystems.whenHeld(extendleftBack);
     rightBumperSystems.whenHeld(extendrightback);

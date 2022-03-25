@@ -16,15 +16,16 @@ public class EncoderBasedRun extends PIDCommand {
   public EncoderBasedRun(double setpointSpeed, Shooter shooter) {
     super(
         // The controller that the command will use
-        new PIDController(.2, 0, 0),
+        new PIDController(.09, 0, 0),
         // This should return the measurement
-        () -> shooter.getRate(),
+        () -> shooter.getMainRate(),
         // This should return the setpoint (can also be a constant)
         () -> setpointSpeed,
         // This uses the output
         output -> {
           // Use the output here
-          shooter.setPower(output);
+          shooter.twoMotorPower(-output);
+          
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
