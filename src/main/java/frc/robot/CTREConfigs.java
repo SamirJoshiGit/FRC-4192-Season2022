@@ -7,6 +7,7 @@ import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.SensorTimeBase;
 
+import frc.robot.Constants.TurretPIDConstants;
 import frc.robot.Constants.Swerve.IntakeConstants;
 
 public final class CTREConfigs {
@@ -74,17 +75,17 @@ public final class CTREConfigs {
         swerveCanCoderConfig.sensorTimeBase = SensorTimeBase.PerSecond;
 
         /*TopShooter Config put values in constants later*/
-        topShooterFXConfig.slot0.kP = 0.1;
-        topShooterFXConfig.slot0.kI = 0.00025;  
-        topShooterFXConfig.slot0.kD = 0.0;
-        topShooterFXConfig.slot0.kF = 0.0345;
+        topShooterFXConfig.slot0.kP = TurretPIDConstants.topShooterkP;
+        topShooterFXConfig.slot0.kI = TurretPIDConstants.topShooterkI;  
+        topShooterFXConfig.slot0.kD = TurretPIDConstants.topShooterkD;
+        topShooterFXConfig.slot0.kF = TurretPIDConstants.topShooterkF;
         topShooterFXConfig.slot0.maxIntegralAccumulator = .99;  
         
         /*BottomShooter Config put values in constants later*/
-        bottomShooterFXConfig.slot0.kP = 0.1;
-        bottomShooterFXConfig.slot0.kI = 0.00025;  
-        bottomShooterFXConfig.slot0.kD = 0.0;
-        bottomShooterFXConfig.slot0.kF = 0.0345; 
+        bottomShooterFXConfig.slot0.kP = TurretPIDConstants.bottomShooterkP;
+        bottomShooterFXConfig.slot0.kI = TurretPIDConstants.bottomShooterkI;
+        bottomShooterFXConfig.slot0.kD = TurretPIDConstants.bottomShooterkD;
+        bottomShooterFXConfig.slot0.kF = TurretPIDConstants.bottomShooterkF;
         bottomShooterFXConfig.slot0.maxIntegralAccumulator = .99;
     }
 

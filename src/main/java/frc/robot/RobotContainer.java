@@ -211,7 +211,7 @@ public class RobotContainer {
 
 
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
-  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .2);
+  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .25);
 
   private final TwoMotorVelo turretVelo = new TwoMotorVelo(m_shooter, 100);
   private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .35);
@@ -243,49 +243,6 @@ public class RobotContainer {
 
     //testing Bindings
     
-    /* Driver Buttons */
-    /*
-    leftBumper.whenActive(new InstantCommand(() -> s_Swerve.zeroGyro()));
-    rightBumper.toggleWhenPressed(intakePos);
-    
-    //yButton.whileHeld(extend, false);
-    //xButton.whileHeld(extendBack, false);
-    yButton.toggleWhenPressed(runPassthroughForward);
-    //xButton.toggleWhenPressed(runPassthroughBackward);
-    //aButton.toggleWhenPressed(runForwardIntake);
-    bButton.toggleWhenPressed(runBackIntake);
-    //DPAD Buttons 
-    //zero.whileHeld(extendleft);
-    //ninety.whileHeld(extendleftBack);
-    //oneEighty.whileHeld(extendright);
-    //twoSeventy.whileHeld(extendrightback);
-    
-    zero.toggleWhenPressed(runShooterMotor);
-    oneEighty.toggleWhenPressed(runShooterMotorBack);
-    //yButton.whileHeld(extendright, false);
-    //aButton.whenHeld(runPassthrough, true);
-    //xButton.whileHeld(extendrightback, false);
-    //zero.whenHeld(new moveWithManualInput(s_Swerve, 0, 1, 0), true);
-    //ninety.whenPressed(turn90, true);
-    //oneEighty.whenHeld(new moveWithManualInput(s_Swerve, 0, -1, 0), true);
-    //twoSeventy.whenPressed(turn270, true);
-    */
-
-    //Systems Buttons
-    /*
-    aButtonSystems.whenHeld(extend);
-    bButtonSystems.toggleWhenPressed(togglePassiveHooks);
-    xButtonSystems.toggleWhenPressed(intakePos);
-    yButtonSystems.toggleWhenPressed(climbAngle);
-    */
-
-    //uncomment later
-    //rightBumperSystems.whenHeld(runShooterMotor);
-    //leftBumperSystems.whenHeld(runShooterMotorBack);
-    //rightBumperSystems.whenHeld(runShooterMotor);
-    //xButtonSystems.whenHeld(runForward, true);
-    //yButtonSystems.whenHeld(runBack, true);
-    //rightBumperSystems.whenHeld(stopDist, true);
 
     //triggered bindings change the interuptables during testing: uncomment once line breaks are on
     //intakeTrigger.and(noneInTheSystem.or(inTheSystem)).whileActiveOnce(runPassthroughForward);
@@ -312,9 +269,6 @@ public class RobotContainer {
     //bButton.toggleWhenActive(runShooterMotorBack);
     //yButton.toggleWhenPressed(runPassthroughForward);
     //aButton.whenPressed(runPassthroughBackward);
-    //right bumper or trigger for intake
-    //yButton.whenPressed(instantIntake);
-    //b button for tank thing
     //systmes prototype bindings
     //zeroSystems.whenHeld(extend);
     //oneEightySystems.whenHeld(extendBack);
