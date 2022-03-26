@@ -57,9 +57,9 @@ public class TeleopSwerve extends CommandBase {
         SlewRateLimiter rotLimiter = new SlewRateLimiter(.5);
         
         /* Deadbands */
-        yAxis = (Math.abs(yLimiter.calculate(yAxis)) < Constants.stickDeadband) ? 0 : yAxis;
-        xAxis = (Math.abs(xLimiter.calculate(xAxis)) < Constants.stickDeadband) ? 0 : xAxis;
-        rAxis = (Math.abs(rotLimiter.calculate(rAxis)) < Constants.stickDeadband) ? 0 : rAxis;
+        yAxis = (Math.abs(yAxis) < Constants.stickDeadband) ? 0 : yAxis;
+        xAxis = (Math.abs(xAxis) < Constants.stickDeadband) ? 0 : xAxis;
+        rAxis = (Math.abs(rAxis) < Constants.stickDeadband) ? 0 : rAxis;
 
 
         //takes the translation2d and multiplies by the wanted speed

@@ -209,7 +209,7 @@ public class RobotContainer {
 
 
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
-  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .4);
+  private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .2);
 
   private final TwoMotorVelo turretVelo = new TwoMotorVelo(m_shooter, 100);
   private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .35);
@@ -223,7 +223,7 @@ public class RobotContainer {
     s_Swerve.setDefaultCommand(nonDoubSupp);
     
     //compressor.enableHybrid(0, 40);
-    m_passthrough.setDefaultCommand(runUntilTripped);
+    //m_passthrough.setDefaultCommand(runUntilTripped);
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
 
@@ -297,9 +297,9 @@ public class RobotContainer {
 
     
     //prototyped Button Bindings
-    leftBumper.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
+    bButton.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     yButton.toggleWhenPressed(intakePos);
-    bButton.toggleWhenPressed(new TankToggle());
+    leftBumper.whenHeld(new TankToggle());
     //oneEighty.toggleWhenPressed(togglePassiveHooks);
     driverRightTrigger.whileActiveContinuous(runBackIntake);
     rightBumper.whenHeld(nonDoubSuppSlow);
@@ -325,8 +325,8 @@ public class RobotContainer {
     //bButtonSystems.toggleWhenActive(togglePassiveHooks, false);
     //startButtonSystems.whenPressed(mThreeBars);
     
-    //aButtonSystems.toggleWhenPressed(runShooterMotorBack);
-    aButtonSystems.toggleWhenPressed(turretPower);
+    aButtonSystems.toggleWhenPressed(runShooterMotorBack);
+    //aButtonSystems.toggleWhenPressed(turretPower);
     //change later to the requirements
     leftBumperSystems.whenHeld(extendleftBack);
     rightBumperSystems.whenHeld(extendrightback);

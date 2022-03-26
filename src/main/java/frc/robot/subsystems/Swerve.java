@@ -192,6 +192,7 @@ public class Swerve extends SubsystemBase {
         swerveOdometry.update(getYaw(true), getStates());  
         SmartDashboard.putNumber("Y displacement", getDistanceY());
         SmartDashboard.putNumber("X displacement", getDistanceX());
+        SmartDashboard.putBoolean("DB/LED 3", !Globals.fieldBased);
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Cancoder", mod.getCanCoder().getDegrees());
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Integrated", mod.getState().angle.getDegrees());

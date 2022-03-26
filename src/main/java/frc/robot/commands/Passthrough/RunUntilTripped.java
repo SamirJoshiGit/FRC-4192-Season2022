@@ -38,7 +38,7 @@ public class RunUntilTripped extends CommandBase {
   @Override
   public void execute() {
     //intakeTripped = !Globals.intakeBeam;
-    if(Globals.countedIntake <= 1 && (Globals.countedSecond == 0)){
+    if((Globals.countedIntake == 1) && (Globals.countedSecond == 0)){
       passthrough.runMotor(power);
       SmartDashboard.putBoolean("Motor Running", true);
     }

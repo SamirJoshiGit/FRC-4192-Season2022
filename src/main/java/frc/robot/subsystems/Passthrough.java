@@ -29,7 +29,7 @@ public class Passthrough extends SubsystemBase {
 
   private final CANCoder encoder = new CANCoder(PassthroughConstants.passthroughEncoderID);
 
-  private Debouncer breakDebounce = new Debouncer(.1);
+  private Debouncer breakDebounce = new Debouncer(.001);
   private DigitalInput beamBreak = new DigitalInput(Sensors.beamBreakPassthroughID); 
   public Passthrough() {
     
