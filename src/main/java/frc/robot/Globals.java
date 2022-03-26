@@ -20,6 +20,7 @@ public class Globals {
     public static boolean intakeBeam;
     public static boolean indexBeam;
 
+    public static double topSpinRate; 
     //delete later if not needed.
     public static boolean runningPassthrough;
     public static double runningindexPower;

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -55,6 +56,7 @@ import frc.robot.commands.Passthrough.PassthroughBeamBreak;
 import frc.robot.commands.Passthrough.PassthroughPIDPosition;
 import frc.robot.commands.Passthrough.RunUntilTripped;
 import frc.robot.commands.Passthrough.runMotor;
+import frc.robot.commands.Shooter.AutoShoot;
 import frc.robot.commands.Shooter.EncoderBasedRun;
 import frc.robot.commands.Shooter.RunShooterMotor;
 import frc.robot.commands.Shooter.ShootWithIndex;
@@ -144,7 +146,7 @@ public class RobotContainer {
 
   //sensor based triggers
   private Trigger secondTrigger = new Trigger(()->m_intake.debounceBeam());
-  private Trigger intakeTrigger = new Trigger(()->m_intake.debounceBeam());
+  private Trigger intakeTrigger = new Trigger(()->m_intake.getBeamBreak());
   private Trigger indexTrigger = new Trigger(()->m_passthrough.getBeamBreak());
   private Trigger shooterTrigger = new Trigger(()->m_shooter.getBeamBreak());
   private Trigger allBallsInIndex = new Trigger(()->Globals.countedIntake==2);
@@ -306,12 +308,7 @@ public class RobotContainer {
 
     driverLeftTrigger.whileActiveContinuous(runForwardIntake);
     driverLeftTrigger.whileActiveContinuous(runPassthroughBackward);
-    /*driverLeftTrigger.whileActiveOnce(new InstantCommand(()->{
-      Globals.countedIndex -= 1;
-      if(Globals.countedIndex <= 0){
-        Globals.countedIndex = 0;
-      }
-    }));*/
+
     //bButton.toggleWhenActive(runShooterMotorBack);
     //yButton.toggleWhenPressed(runPassthroughForward);
     //aButton.whenPressed(runPassthroughBackward);
@@ -324,9 +321,12 @@ public class RobotContainer {
     //yButtonSystems.toggleWhenActive(climbAngle, false);
     //bButtonSystems.toggleWhenActive(togglePassiveHooks, false);
     //startButtonSystems.whenPressed(mThreeBars);
-    
+
+    /*three different possible combinations for aButton *shooter*/
     aButtonSystems.toggleWhenPressed(runShooterMotorBack);
+    //aButtonSystems.toggleWhenPressed(new ParallelCommandGroup(new TwoMotorVelo(m_shooter, 300), new AutoShoot(m_passthrough, 6000)));
     //aButtonSystems.toggleWhenPressed(turretPower);
+
     //change later to the requirements
     leftBumperSystems.whenHeld(extendleftBack);
     rightBumperSystems.whenHeld(extendrightback);
@@ -366,7 +366,8 @@ public class RobotContainer {
     SmartDashboard.putStringArray("Auto List", autons);
     SmartDashboard.putNumberArray("Offset", offset);
     String selected = SmartDashboard.getString("Auto Selector", "OneBall");
-    Double selectedOffset = SmartDashboard.getNumber("Offset", 33.3);
+    double selectedOffset = 33;//SmartDashboard.getNumber("Offset", 33.3);
+    
     // An ExampleCommand will run in autonomous
     //return new exampleAuto(s_Swerve);
 

@@ -14,6 +14,8 @@ public final class CTREConfigs {
     public TalonFXConfiguration swerveDriveFXConfig;
     public static TalonFXConfiguration intakeFXConfig;
     public CANCoderConfiguration swerveCanCoderConfig;
+    public static TalonFXConfiguration topShooterFXConfig;
+    public static TalonFXConfiguration bottomShooterFXConfig;
 
 
     public CTREConfigs(){
@@ -21,6 +23,10 @@ public final class CTREConfigs {
         swerveDriveFXConfig = new TalonFXConfiguration();
         intakeFXConfig = new TalonFXConfiguration();
         swerveCanCoderConfig = new CANCoderConfiguration();
+
+        topShooterFXConfig = new TalonFXConfiguration();
+        bottomShooterFXConfig = new TalonFXConfiguration();
+        
 
         /* Swerve Angle Motor Configurations */
         SupplyCurrentLimitConfiguration angleSupplyLimit = new SupplyCurrentLimitConfiguration(
@@ -35,6 +41,7 @@ public final class CTREConfigs {
         swerveAngleFXConfig.slot0.kF = Constants.Swerve.angleKF;
         swerveAngleFXConfig.supplyCurrLimit = angleSupplyLimit;
         swerveAngleFXConfig.initializationStrategy = SensorInitializationStrategy.BootToZero;
+
 
 
         /* Swerve Drive Motor Configuration */
@@ -66,8 +73,19 @@ public final class CTREConfigs {
         swerveCanCoderConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
         swerveCanCoderConfig.sensorTimeBase = SensorTimeBase.PerSecond;
 
+        /*TopShooter Config put values in constants later*/
+        topShooterFXConfig.slot0.kP = 0.1;
+        topShooterFXConfig.slot0.kI = 0.00025;  
+        topShooterFXConfig.slot0.kD = 0.0;
+        topShooterFXConfig.slot0.kF = 0.0345;
+        topShooterFXConfig.slot0.maxIntegralAccumulator = .99;  
         
-
+        /*BottomShooter Config put values in constants later*/
+        bottomShooterFXConfig.slot0.kP = 0.1;
+        bottomShooterFXConfig.slot0.kI = 0.00025;  
+        bottomShooterFXConfig.slot0.kD = 0.0;
+        bottomShooterFXConfig.slot0.kF = 0.0345; 
+        bottomShooterFXConfig.slot0.maxIntegralAccumulator = .99;
     }
 
 }

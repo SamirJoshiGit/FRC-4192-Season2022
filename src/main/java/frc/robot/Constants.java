@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -178,9 +179,23 @@ public final class Constants {
 
             public static final int beamBreakShooterID = 4;//temporary
             
-            
+        
             public static final int shooterEncoderID = 1;//temporary
         }
+    }
+
+    public static final class TurretPIDConstants{
+        public static double topShooterkP = .1;
+        public static double topShooterkI = 0;
+        public static double topShooterkD = 0;
+        public static double topShooterkF = .0345;
+        public static boolean topSensorPhase = true; 
+
+        public static double bottomShooterkP = .1;
+        public static double bottomShooterkI = 0;
+        public static double bottomShooterkD = 0;
+        public static double bottomShooterkF = .0345;
+        public static boolean bottomSensorPhase = true; 
     }
 
     public static final class AutoConstants {
