@@ -55,6 +55,7 @@ import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.commands.Passthrough.PassthroughBeamBreak;
 import frc.robot.commands.Passthrough.PassthroughPIDPosition;
 import frc.robot.commands.Passthrough.RunUntilTripped;
+import frc.robot.commands.Passthrough.ShortRunTripped;
 import frc.robot.commands.Passthrough.runMotor;
 import frc.robot.commands.Shooter.AutoShoot;
 import frc.robot.commands.Shooter.EncoderBasedRun;
@@ -212,6 +213,7 @@ public class RobotContainer {
 
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
   private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .25);
+  private final  ShortRunTripped shortRunTripped = new ShortRunTripped(m_passthrough, .3);
 
   private final TwoMotorVelo turretVelo = new TwoMotorVelo(m_shooter, 100);
   private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .35);
@@ -277,9 +279,9 @@ public class RobotContainer {
     //startButtonSystems.whenPressed(mThreeBars);
 
     /*three different possible combinations for aButton *shooter*/
-    aButtonSystems.toggleWhenPressed(runShooterMotorBack);
+    //aButtonSystems.toggleWhenPressed(runShooterMotorBack);
     //aButtonSystems.toggleWhenPressed(new ParallelCommandGroup(new TwoMotorVelo(m_shooter, 300), new AutoShoot(m_passthrough, 6000)));
-    //aButtonSystems.toggleWhenPressed(turretPower);
+    aButtonSystems.toggleWhenPressed(turretPower);
 
     //change later to the requirements
     leftBumperSystems.whenHeld(extendleftBack);
@@ -297,6 +299,7 @@ public class RobotContainer {
     //twoSeventy.whenHeld(extendrightback);
 
     xButtonSystems.whenHeld(runPassthroughForward); 
+    xButtonSystems.whenHeld(shortRunTripped);
     
     //optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, true));
     //startButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, false));
@@ -307,6 +310,11 @@ public class RobotContainer {
     bButtonSystems.whenHeld(runBackIntake);
     //yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
     //bButtonSystems.whenPressed(new PassiveHookInstant(m_climb, true));
+
+    //intake updown start
+    //shooter on driver A
+    //systems A is intake 
+    //
   }
 
   /**

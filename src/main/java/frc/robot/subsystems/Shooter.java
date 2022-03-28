@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
     shooterMotor.config_kI(0, TurretPIDConstants.topShooterkI);
     shooterMotor.config_kD(0, TurretPIDConstants.topShooterkD);
     shooterMotor.config_kF(0, TurretPIDConstants.topShooterkF);
-    shooterMotor.setNeutralMode(NeutralMode.Brake);
+    shooterMotor.setNeutralMode(NeutralMode.Coast);
     shooterMotor.setSensorPhase(TurretPIDConstants.topSensorPhase);
 
     //shooterFollower config hardcode (put in CTRE configs later)
@@ -46,7 +46,7 @@ public class Shooter extends SubsystemBase {
     shooterFollower.config_kI(0, TurretPIDConstants.bottomShooterkI);
     shooterFollower.config_kD(0, TurretPIDConstants.bottomShooterkD);
     shooterFollower.config_kF(0, TurretPIDConstants.bottomShooterkF);
-    shooterFollower.setNeutralMode(NeutralMode.Brake);
+    shooterFollower.setNeutralMode(NeutralMode.Coast);
     shooterFollower.setSensorPhase(TurretPIDConstants.bottomSensorPhase);
     shooterFollower.setInverted(true);
   }

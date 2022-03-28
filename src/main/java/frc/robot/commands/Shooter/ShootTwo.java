@@ -18,12 +18,14 @@ public class ShootTwo extends CommandBase {
   private double countedBalls;
   private boolean alreadyRun;
   private boolean alreadyDropped;
+  private Timer timer;
   public ShootTwo(Passthrough passthrough, double setpoint) {
     this.passthrough = passthrough;
     this.setpoint = setpoint;
     countedBalls = 0;
     alreadyRun = false; 
     alreadyDropped = false;
+    timer = new Timer();
     addRequirements(passthrough);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -33,12 +35,13 @@ public class ShootTwo extends CommandBase {
   public void initialize() {
     passthrough.runMotor(0);
     countedBalls = 0;
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Math.abs(Math.abs(Globals.topSpinRate) - setpoint) <= 300){
+    if((Math.abs(Math.abs(Globals.topSpinRate) - setpoint) <= 300) && timer.get() >= 1){
       passthrough.runMotor(.4);
       if(!alreadyRun){
         alreadyRun = true; 
