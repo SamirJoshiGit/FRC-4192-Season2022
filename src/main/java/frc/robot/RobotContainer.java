@@ -201,8 +201,8 @@ public class RobotContainer {
   private final UpandDown upAndDown = new UpandDown(m_climb, 720);
   private final MoveThreeBars mThreeBars = new MoveThreeBars(m_climb);
 
-  private final runMotor runPassthroughForward = new runMotor(m_passthrough, .5);
-  private final runMotor runPassthroughBackward = new runMotor(m_passthrough, -.5);
+  private final runMotor runPassthroughForward = new runMotor(m_passthrough, -.6);
+  private final runMotor runPassthroughBackward = new runMotor(m_passthrough, -.6);
   //private final runMotor stopPassthrough = new runMotor(m_passthrough, 0);
   private final PassthroughPIDPosition positionIndexing = new PassthroughPIDPosition(m_passthrough, 2000, 0);
 
@@ -216,7 +216,7 @@ public class RobotContainer {
   private final  ShortRunTripped shortRunTripped = new ShortRunTripped(m_passthrough, .3);
 
   private final TwoMotorVelo turretVelo = new TwoMotorVelo(m_shooter, 100);
-  private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .35);
+  private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .3);
   private final TwoMotorCurrent turretCurrent = new TwoMotorCurrent(m_shooter, 150);
   private final EncoderBasedRun encoderRun = new EncoderBasedRun(-1000, m_shooter);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -298,8 +298,8 @@ public class RobotContainer {
     //oneEighty.whenHeld(extendleftBack);
     //twoSeventy.whenHeld(extendrightback);
 
-    xButtonSystems.whenHeld(runPassthroughForward); 
-    xButtonSystems.whenHeld(shortRunTripped);
+    xButtonSystems.whenHeld(runPassthroughBackward); 
+    //xButtonSystems.whenHeld(shortRunTripped);
     
     //optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, true));
     //startButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, false));

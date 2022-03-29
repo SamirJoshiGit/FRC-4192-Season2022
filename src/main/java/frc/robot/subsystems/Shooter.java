@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.math.filter.Debouncer;
@@ -28,6 +29,10 @@ public class Shooter extends SubsystemBase {
   private CANCoder encoder = new CANCoder(ShooterConstants.shooterEncoderID);
   private final DigitalInput beam = new DigitalInput(ShooterConstants.beamBreakShooterID);
   private Debouncer beamDebouncer = new Debouncer(.001);
+
+  private TalonFXConfiguration mainConfig = new TalonFXConfiguration();
+  private TalonFXConfiguration followerConfig = new TalonFXConfiguration();
+
   public Shooter() {
     //shooterMotor config hardcode (put in CTRE configs later)
     shooterMotor.configFactoryDefault();
@@ -49,6 +54,16 @@ public class Shooter extends SubsystemBase {
     shooterFollower.setNeutralMode(NeutralMode.Coast);
     shooterFollower.setSensorPhase(TurretPIDConstants.bottomSensorPhase);
     shooterFollower.setInverted(true);
+
+    mainConfig.peakOutputForward = .7;
+    mainConfig.peakOutputForward = -.7;
+    
+    followerConfig.peakOutputForward = .7;
+    followerConfig.peakOutputReverse = -.7;
+
+    //shooterMotor.configAllSettings(defualt)
+    shooterFollower.configAllSettings(followerConfig);
+    shooterMotor.configAllSettings(mainConfig);
   }
 
   public void setPower(double power){
@@ -82,19 +97,20 @@ public class Shooter extends SubsystemBase {
   }
 
   public void twoMotorVelocity(double velo){
-    shooterMotor.set(ControlMode.Velocity, velo*1.2);
+    shooterMotor.set(ControlMode.Velocity, velo*1.0);
     shooterFollower.set(ControlMode.Velocity, -velo);
   }
 
   public void twoMotorPower(double power){
-    shooterMotor.set(ControlMode.PercentOutput, -power*1.2);
-    shooterFollower.set(ControlMode.PercentOutput, power);
+    shooterMotor.set(ControlMode.PercentOutput, -power*.5);
+    shooterFollower.set(ControlMode.PercentOutput, power*1.2);
   }
 
   public void twoMotorCurrent(double curr){
     shooterMotor.set(ControlMode.Current, curr*1.2);
     shooterFollower.set(ControlMode.Current, curr);
   }
+
   public boolean debounceBeam(){
     return beamDebouncer.calculate(beam.get());
   }

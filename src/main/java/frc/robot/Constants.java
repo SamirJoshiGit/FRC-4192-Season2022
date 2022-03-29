@@ -185,13 +185,13 @@ public final class Constants {
     }
 
     public static final class TurretPIDConstants{
-        public static double topShooterkP = .2;
+        public static double topShooterkP = .002;
         public static double topShooterkI = 0;
         public static double topShooterkD = 0;
         public static double topShooterkF = .0345;
         public static boolean topSensorPhase = true; 
 
-        public static double bottomShooterkP = .2;
+        public static double bottomShooterkP = .002;
         public static double bottomShooterkI = 0;
         public static double bottomShooterkD = 0;
         public static double bottomShooterkF = .0345;
