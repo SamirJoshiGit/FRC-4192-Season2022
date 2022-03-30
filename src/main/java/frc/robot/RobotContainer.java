@@ -52,6 +52,7 @@ import frc.robot.commands.Intake.TestRunIntake;
 import frc.robot.commands.LimelightFollowing.FollowTarget;
 import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
 import frc.robot.commands.LimelightFollowing.LimelightFollower;
+import frc.robot.commands.Passthrough.DefaultRun;
 import frc.robot.commands.Passthrough.PassthroughBeamBreak;
 import frc.robot.commands.Passthrough.PassthroughPIDPosition;
 import frc.robot.commands.Passthrough.RunUntilTripped;
@@ -59,6 +60,8 @@ import frc.robot.commands.Passthrough.ShortRunTripped;
 import frc.robot.commands.Passthrough.runMotor;
 import frc.robot.commands.Shooter.AutoShoot;
 import frc.robot.commands.Shooter.EncoderBasedRun;
+import frc.robot.commands.Shooter.EncoderBottom;
+import frc.robot.commands.Shooter.EncoderTop;
 import frc.robot.commands.Shooter.RunShooterMotor;
 import frc.robot.commands.Shooter.ShootWithIndex;
 import frc.robot.commands.Shooter.TwoMotorCurrent;
@@ -201,7 +204,7 @@ public class RobotContainer {
   private final UpandDown upAndDown = new UpandDown(m_climb, 720);
   private final MoveThreeBars mThreeBars = new MoveThreeBars(m_climb);
 
-  private final runMotor runPassthroughForward = new runMotor(m_passthrough, -.5);
+  private final runMotor runPassthroughForward = new runMotor(m_passthrough, .25);
   private final runMotor runPassthroughBackward = new runMotor(m_passthrough, -.5);
   //private final runMotor stopPassthrough = new runMotor(m_passthrough, 0);
   private final PassthroughPIDPosition positionIndexing = new PassthroughPIDPosition(m_passthrough, 2000, 0);
@@ -213,12 +216,13 @@ public class RobotContainer {
 
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
   private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .25);
-  private final  ShortRunTripped shortRunTripped = new ShortRunTripped(m_passthrough, .3);
+
+  private final  ShortRunTripped shortRunTripped = new ShortRunTripped(m_passthrough, -.3);
 
   private final TwoMotorVelo turretVelo = new TwoMotorVelo(m_shooter, 100);
   private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .30);
   private final TwoMotorCurrent turretCurrent = new TwoMotorCurrent(m_shooter, 150);
-  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-6500, m_shooter);
+  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-7500, m_shooter);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
@@ -227,7 +231,7 @@ public class RobotContainer {
     s_Swerve.setDefaultCommand(nonDoubSupp);
     
     //compressor.enableHybrid(0, 40);
-    //m_passthrough.setDefaultCommand(runUntilTripped);
+    m_passthrough.setDefaultCommand(new DefaultRun(m_passthrough));
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
 
@@ -283,6 +287,7 @@ public class RobotContainer {
     //aButtonSystems.toggleWhenPressed(new ParallelCommandGroup(new TwoMotorVelo(m_shooter, 300), new AutoShoot(m_passthrough, 6000)));
     aButtonSystems.toggleWhenPressed(encoderRun);
 
+    //aButtonSystems.toggleWhenPressed(new ParallelRaceGroup(new EncoderBottom(4000, m_shooter), new EncoderTop(-8000, m_shooter)));
     //change later to the requirements
     leftBumperSystems.whenHeld(extendleftBack);
     rightBumperSystems.whenHeld(extendrightback);
@@ -295,6 +300,8 @@ public class RobotContainer {
     systemsRightTrigger.whileActiveContinuous(pushUp);
 
 
+    zeroSystems.whenPressed(new ParallelRaceGroup(runPassthroughForward, new Wait(.25)));
+    oneEighty.toggleWhenPressed(shortRunTripped);
     //oneEighty.whenHeld(extendleftBack);
     //twoSeventy.whenHeld(extendrightback);
 

@@ -97,16 +97,24 @@ public class Shooter extends SubsystemBase {
   }
 
   public void twoMotorVelocity(double velo){
-    shooterMotor.set(ControlMode.Velocity, -velo*.5);
-    shooterFollower.set(ControlMode.Velocity, velo*1.2);
+    shooterMotor.set(ControlMode.Velocity, -velo*1);
+    shooterFollower.set(ControlMode.Velocity, velo*1.4);
   }
 
   public void twoMotorPower(double power){
     //top
-    shooterMotor.set(ControlMode.PercentOutput, -power*.5);
+    shooterMotor.set(ControlMode.PercentOutput, -power*1);
     
     //bottom
-    shooterFollower.set(ControlMode.PercentOutput, power*1.2);
+    shooterFollower.set(ControlMode.PercentOutput, power*1.4);
+  }
+
+  public void mainPower(double power){
+    shooterMotor.set(ControlMode.PercentOutput, power);
+  }
+
+  public void followerPower(double power){
+    shooterFollower.set(ControlMode.PercentOutput, power);
   }
 
   public void twoMotorCurrent(double curr){
@@ -125,7 +133,7 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Main motor rate", getMainRate());
     SmartDashboard.putNumber("FollowerRate", getFollowerRate());
-    SmartDashboard.putBoolean("DB/LED 2", (Math.abs(Math.abs(getRate())-6000) <= 500));
+    SmartDashboard.putBoolean("DB/LED 2", (Math.abs(Math.abs(getRate())-7000) <= 500));
     SmartDashboard.putBoolean("At Setpoint", (Math.abs(Math.abs(getRate())-6000) <= 500));
 
     changeGlobalRate();
