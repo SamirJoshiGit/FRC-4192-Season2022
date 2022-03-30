@@ -16,7 +16,7 @@ public class EncoderBasedRun extends PIDCommand {
   public EncoderBasedRun(double setpointSpeed, Shooter shooter) {
     super(
         // The controller that the command will use
-        new PIDController(.09, 0, 0),
+        new PIDController(.0001, 0, 0),
         // This should return the measurement
         () -> shooter.getMainRate(),
         // This should return the setpoint (can also be a constant)

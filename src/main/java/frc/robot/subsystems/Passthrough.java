@@ -56,7 +56,7 @@ public class Passthrough extends SubsystemBase {
   }
 
   public double getInternalEncoder(){
-    return passthroughMotor.getSelectedSensorPosition();
+    return passthroughMotor.getSelectedSensorVelocity();
   }
   public void magicMotion(){
     passthroughMotor.set(TalonFXControlMode.MotionMagic, .2);
@@ -95,6 +95,7 @@ public class Passthrough extends SubsystemBase {
     SmartDashboard.putNumber("trigger value", controller.getRawAxis(XboxController.Axis.kLeftTrigger.value));
     SmartDashboard.putBoolean("Index_Beam_Broken", debouncerGet());
     SmartDashboard.putNumber("Balls_In_Index", Globals.countedSecond);
+    SmartDashboard.putNumber("Feed Index", getInternalEncoder());
     //SmartDashboard.putBoolean("line broken", getBeamBreak());
     //SmartDashboard.putBoolean("Debounced beam break", debouncerGet());
     //if(getMatchTime()>29 && getMatchTime() < 30){

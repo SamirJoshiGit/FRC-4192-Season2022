@@ -196,13 +196,13 @@ public class RobotContainer {
   //private final Velocity velocity = new Velocity(500, m_shooter);
   //private final IntakeVelocityControl intakeVelocityControl = new IntakeVelocityControl(500, m_shooter);
   private final TestRunIntake runForwardIntake = new TestRunIntake(0.25, m_intake);
-  private final TestRunIntake runBackIntake = new TestRunIntake(-0.9, m_intake);
+  private final TestRunIntake runBackIntake = new TestRunIntake(-0.7, m_intake);
 
   private final UpandDown upAndDown = new UpandDown(m_climb, 720);
   private final MoveThreeBars mThreeBars = new MoveThreeBars(m_climb);
 
-  private final runMotor runPassthroughForward = new runMotor(m_passthrough, -.6);
-  private final runMotor runPassthroughBackward = new runMotor(m_passthrough, -.6);
+  private final runMotor runPassthroughForward = new runMotor(m_passthrough, -.5);
+  private final runMotor runPassthroughBackward = new runMotor(m_passthrough, -.5);
   //private final runMotor stopPassthrough = new runMotor(m_passthrough, 0);
   private final PassthroughPIDPosition positionIndexing = new PassthroughPIDPosition(m_passthrough, 2000, 0);
 
@@ -216,9 +216,9 @@ public class RobotContainer {
   private final  ShortRunTripped shortRunTripped = new ShortRunTripped(m_passthrough, .3);
 
   private final TwoMotorVelo turretVelo = new TwoMotorVelo(m_shooter, 100);
-  private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .3);
+  private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .30);
   private final TwoMotorCurrent turretCurrent = new TwoMotorCurrent(m_shooter, 150);
-  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-1000, m_shooter);
+  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-6500, m_shooter);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
@@ -281,7 +281,7 @@ public class RobotContainer {
     /*three different possible combinations for aButton *shooter*/
     //aButtonSystems.toggleWhenPressed(runShooterMotorBack);
     //aButtonSystems.toggleWhenPressed(new ParallelCommandGroup(new TwoMotorVelo(m_shooter, 300), new AutoShoot(m_passthrough, 6000)));
-    aButtonSystems.toggleWhenPressed(turretPower);
+    aButtonSystems.toggleWhenPressed(encoderRun);
 
     //change later to the requirements
     leftBumperSystems.whenHeld(extendleftBack);

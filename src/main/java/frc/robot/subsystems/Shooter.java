@@ -62,8 +62,8 @@ public class Shooter extends SubsystemBase {
     followerConfig.peakOutputReverse = -.7;
 
     //shooterMotor.configAllSettings(defualt)
-    shooterFollower.configAllSettings(followerConfig);
-    shooterMotor.configAllSettings(mainConfig);
+    //shooterFollower.configAllSettings(followerConfig);
+    //shooterMotor.configAllSettings(mainConfig);
   }
 
   public void setPower(double power){
@@ -97,12 +97,15 @@ public class Shooter extends SubsystemBase {
   }
 
   public void twoMotorVelocity(double velo){
-    shooterMotor.set(ControlMode.Velocity, velo*1.0);
-    shooterFollower.set(ControlMode.Velocity, -velo);
+    shooterMotor.set(ControlMode.Velocity, -velo*.5);
+    shooterFollower.set(ControlMode.Velocity, velo*1.2);
   }
 
   public void twoMotorPower(double power){
+    //top
     shooterMotor.set(ControlMode.PercentOutput, -power*.5);
+    
+    //bottom
     shooterFollower.set(ControlMode.PercentOutput, power*1.2);
   }
 

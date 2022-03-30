@@ -33,6 +33,7 @@ public class TwoMotorVelo extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.twoMotorPower(0);
+    shooter.twoMotorVelocity(0);
   }
 
   // Returns true when the command should end.
