@@ -5,6 +5,7 @@
 package frc.robot.commands.Passthrough;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Globals;
 import frc.robot.subsystems.Passthrough;
 
 public class DefaultRun extends CommandBase {
@@ -23,11 +24,13 @@ public class DefaultRun extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!passthrough.getBeamBreak()){
-      passthrough.runMotor(-.15);
-    }
-    else{
-      passthrough.runMotor(0);
+    if(Globals.runningPassthrough){
+      if(passthrough.getBeamBreak()){
+        passthrough.runMotor(-.15);
+      }
+      else{
+        passthrough.runMotor(0);
+      }
     }
   }
 

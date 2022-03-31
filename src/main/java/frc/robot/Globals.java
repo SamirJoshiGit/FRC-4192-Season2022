@@ -24,4 +24,6 @@ public class Globals {
     //delete later if not needed.
     public static boolean runningPassthrough;
     public static double runningindexPower;
+
+    public static boolean Runningindex;
 }

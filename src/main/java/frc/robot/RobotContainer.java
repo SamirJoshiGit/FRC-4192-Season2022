@@ -1,3 +1,4 @@
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -53,9 +54,11 @@ import frc.robot.commands.LimelightFollowing.FollowTarget;
 import frc.robot.commands.LimelightFollowing.LimelightFollowToPoint;
 import frc.robot.commands.LimelightFollowing.LimelightFollower;
 import frc.robot.commands.Passthrough.DefaultRun;
+import frc.robot.commands.Passthrough.InSystemForX;
 import frc.robot.commands.Passthrough.PassthroughBeamBreak;
 import frc.robot.commands.Passthrough.PassthroughPIDPosition;
 import frc.robot.commands.Passthrough.RunUntilTripped;
+import frc.robot.commands.Passthrough.RunningWithoutBreaks;
 import frc.robot.commands.Passthrough.ShortRunTripped;
 import frc.robot.commands.Passthrough.runMotor;
 import frc.robot.commands.Shooter.AutoShoot;
@@ -217,12 +220,13 @@ public class RobotContainer {
   private final ShootWithIndex shootWithIndex = new ShootWithIndex(m_shooter, m_passthrough, 500, 500);
   private final RunUntilTripped runUntilTripped = new RunUntilTripped(m_passthrough, .25);
 
-  private final  ShortRunTripped shortRunTripped = new ShortRunTripped(m_passthrough, -.3);
+  private final  ShortRunTripped shortRunTripped = new ShortRunTripped(m_passthrough, -.15);
 
   private final TwoMotorVelo turretVelo = new TwoMotorVelo(m_shooter, 100);
   private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .30);
+  private final TwoMotorPower turretBackPower = new TwoMotorPower(m_shooter, -.20);
   private final TwoMotorCurrent turretCurrent = new TwoMotorCurrent(m_shooter, 150);
-  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-7500, m_shooter);
+  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-7000, m_shooter);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
@@ -231,7 +235,7 @@ public class RobotContainer {
     s_Swerve.setDefaultCommand(nonDoubSupp);
     
     //compressor.enableHybrid(0, 40);
-    m_passthrough.setDefaultCommand(new DefaultRun(m_passthrough));
+    //m_passthrough.setDefaultCommand(new DefaultRun(m_passthrough));
     //s_Swerve.setDefaultCommand(nonDoubSupp);
     //s_Swerve.setDefaultCommand(new TeleopSwerve(s_Swerve, driver, translationAxis, strafeAxis, rotationAxis, fieldRelative, openLoop));
 
@@ -264,13 +268,14 @@ public class RobotContainer {
     //prototyped Button Bindings
     bButton.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     yButton.toggleWhenPressed(intakePos);
+    yButton.whenPressed(new ChangeIntakeInstant(m_intake, m_intake.getIntake()));
     leftBumper.whenHeld(new TankToggle());
     //oneEighty.toggleWhenPressed(togglePassiveHooks);
-    driverRightTrigger.whileActiveContinuous(runBackIntake);
+    driverRightTrigger.whileActiveContinuous(runBackIntake, true);
     rightBumper.whenHeld(nonDoubSuppSlow);
 
-    driverLeftTrigger.whileActiveContinuous(runForwardIntake);
-    driverLeftTrigger.whileActiveContinuous(runPassthroughBackward);
+    driverLeftTrigger.whileActiveContinuous(runForwardIntake, true);
+    //driverLeftTrigger.whileActiveContinuous(runPassthroughBackward);
 
     //bButton.toggleWhenActive(runShooterMotorBack);
     //yButton.toggleWhenPressed(runPassthroughForward);
@@ -300,12 +305,13 @@ public class RobotContainer {
     systemsRightTrigger.whileActiveContinuous(pushUp);
 
 
-    zeroSystems.whenPressed(new ParallelRaceGroup(runPassthroughForward, new Wait(.25)));
+    zeroSystems.whenPressed(new ParallelRaceGroup(runPassthroughForward, new Wait(.25), turretBackPower));
     oneEighty.toggleWhenPressed(shortRunTripped);
     //oneEighty.whenHeld(extendleftBack);
     //twoSeventy.whenHeld(extendrightback);
 
-    xButtonSystems.whenHeld(runPassthroughBackward); 
+    //xButtonSystems.whenHeld(runPassthroughBackward); 
+    xButtonSystems.whenHeld(new InSystemForX(m_passthrough, -.2));
     //xButtonSystems.whenHeld(shortRunTripped);
     
     //optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, true));
@@ -314,7 +320,7 @@ public class RobotContainer {
     optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, m_climb.getAngle()));
     yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, m_climb.getHooks()));
     
-    bButtonSystems.whenHeld(runBackIntake);
+    bButtonSystems.whenHeld(new RunningWithoutBreaks(m_passthrough, m_intake, -.3));
     //yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
     //bButtonSystems.whenPressed(new PassiveHookInstant(m_climb, true));
 

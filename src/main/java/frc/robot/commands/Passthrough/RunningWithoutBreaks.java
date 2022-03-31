@@ -4,41 +4,54 @@
 
 package frc.robot.commands.Passthrough;
 
+import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Passthrough;
 
-public class ShortRunTripped extends CommandBase {
-  /** Creates a new ShortRunTripped. */
+public class RunningWithoutBreaks extends CommandBase {
+  /** Creates a new RunningWithoutBreaks. */
   private Passthrough passthrough;
+  private boolean brokenAtStart;
   private double power;
-  public ShortRunTripped(Passthrough passthrough, double power) {
+  private Intake intake;
+  private Timer timer = new Timer();
+  public RunningWithoutBreaks(Passthrough passthrough, Intake intake, double power) {
     this.passthrough = passthrough;
     this.power = power;
-    addRequirements(passthrough);
+    this.intake = intake;
+    addRequirements(passthrough, intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.reset();
+    timer.start();
+    if(!passthrough.getBeamBreak()){
+      brokenAtStart = true;
+    }
     passthrough.runMotor(power);
+    intake.setPower(-.6);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     passthrough.runMotor(0);
+    intake.setPower(0);
+    brokenAtStart = false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !passthrough.getBeamBreak();
+    return (!passthrough.getBeamBreak() && !brokenAtStart) || ((brokenAtStart && timer.get() > .42)&&!passthrough.getBeamBreak());
   }
 }

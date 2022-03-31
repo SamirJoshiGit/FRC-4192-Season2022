@@ -86,7 +86,7 @@ public final class Constants {
             public static final int firstPortUltrasonic = 7;
             public static final int secondPortUltrasonic = 8;
 
-            public static final int beamBreakPassthroughID = 1;//placeholders
+            public static final int beamBreakPassthroughID = 3;//placeholders
         }
 
         /* Module Specific Constants */
@@ -143,7 +143,7 @@ public final class Constants {
             public static final int doubleSolenoidReverse = 11;
             public static final int doubleSolenoidForward = 4;
             //sensors
-            public static final int beamBreakIntakeID = 3;//temporary
+            public static final int beamBreakIntakeID = 1;//temporary
 
             //intake current limiting 
             public static final int intakeContinuousCurrentLimit = 15;
