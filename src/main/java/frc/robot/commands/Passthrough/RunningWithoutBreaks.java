@@ -52,6 +52,6 @@ public class RunningWithoutBreaks extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (!passthrough.getBeamBreak() && !brokenAtStart) || ((brokenAtStart && timer.get() > .42)&&!passthrough.getBeamBreak());
+    return (!passthrough.getBeamBreak() && !brokenAtStart) || ((brokenAtStart && timer.get() > .5)&&!passthrough.getBeamBreak());
   }
 }

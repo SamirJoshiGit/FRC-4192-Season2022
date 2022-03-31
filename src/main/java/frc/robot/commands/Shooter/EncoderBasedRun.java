@@ -13,7 +13,7 @@ import frc.robot.subsystems.Shooter;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class EncoderBasedRun extends PIDCommand {
   /** Creates a new EncoderBasedRun. */
-  public EncoderBasedRun(double setpointSpeed, Shooter shooter) {
+  public EncoderBasedRun(double setpointSpeed, Shooter shooter, boolean lowGoal) {
     super(
         // The controller that the command will use
         new PIDController(.0001, 0, 0),
@@ -24,7 +24,12 @@ public class EncoderBasedRun extends PIDCommand {
         // This uses the output
         output -> {
           // Use the output here
-          shooter.twoMotorPower(-output);
+          if(!lowGoal){
+            shooter.twoMotorPower(-output);
+          }
+          else{
+            shooter.twoMotorPowerLow(-output);
+          }
           
         });
     // Use addRequirements() here to declare subsystem dependencies.

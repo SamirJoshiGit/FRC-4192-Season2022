@@ -226,7 +226,9 @@ public class RobotContainer {
   private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .30);
   private final TwoMotorPower turretBackPower = new TwoMotorPower(m_shooter, -.20);
   private final TwoMotorCurrent turretCurrent = new TwoMotorCurrent(m_shooter, 150);
-  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-7000, m_shooter);
+  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-7000, m_shooter, false);
+
+  private final EncoderBasedRun encoderRunLow = new EncoderBasedRun(-5800, m_shooter, true);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     boolean fieldRelative = true;
@@ -306,7 +308,7 @@ public class RobotContainer {
 
 
     zeroSystems.whenPressed(new ParallelRaceGroup(runPassthroughForward, new Wait(.25), turretBackPower));
-    oneEighty.toggleWhenPressed(shortRunTripped);
+    oneEightySystems.toggleWhenPressed(encoderRunLow);
     //oneEighty.whenHeld(extendleftBack);
     //twoSeventy.whenHeld(extendrightback);
 
