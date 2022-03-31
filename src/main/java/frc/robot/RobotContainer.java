@@ -226,7 +226,7 @@ public class RobotContainer {
   private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .30);
   private final TwoMotorPower turretBackPower = new TwoMotorPower(m_shooter, -.20);
   private final TwoMotorCurrent turretCurrent = new TwoMotorCurrent(m_shooter, 150);
-  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-7000, m_shooter, false);
+  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-5900, m_shooter, false);
 
   private final EncoderBasedRun encoderRunLow = new EncoderBasedRun(-5800, m_shooter, true);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -313,7 +313,7 @@ public class RobotContainer {
     //twoSeventy.whenHeld(extendrightback);
 
     //xButtonSystems.whenHeld(runPassthroughBackward); 
-    xButtonSystems.whenHeld(new InSystemForX(m_passthrough, -.2));
+    xButtonSystems.whenHeld(new InSystemForX(m_passthrough, -.4));
     //xButtonSystems.whenHeld(shortRunTripped);
     
     //optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, true));
@@ -322,7 +322,7 @@ public class RobotContainer {
     optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, m_climb.getAngle()));
     yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, m_climb.getHooks()));
     
-    bButtonSystems.whenHeld(new RunningWithoutBreaks(m_passthrough, m_intake, -.3));
+    bButtonSystems.whenHeld(new RunningWithoutBreaks(m_passthrough, m_intake, -.4));
     //yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
     //bButtonSystems.whenPressed(new PassiveHookInstant(m_climb, true));
 
