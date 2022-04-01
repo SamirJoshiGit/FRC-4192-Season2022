@@ -226,7 +226,7 @@ public class RobotContainer {
   private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .30);
   private final TwoMotorPower turretBackPower = new TwoMotorPower(m_shooter, -.20);
   private final TwoMotorCurrent turretCurrent = new TwoMotorCurrent(m_shooter, 150);
-  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-5900, m_shooter, false);
+  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-5950, m_shooter, false);
 
   private final EncoderBasedRun encoderRunLow = new EncoderBasedRun(-5800, m_shooter, true);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
