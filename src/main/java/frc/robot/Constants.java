@@ -72,8 +72,9 @@ public final class Constants {
 
         /* Neutral Modes */
         public static final NeutralMode angleNeutralMode = NeutralMode.Coast;
-        public static final NeutralMode driveNeutralMode = NeutralMode.Coast;
+        public static final NeutralMode driveNeutralMode = NeutralMode.Brake;
 
+        
         /* Motor Inverts */
         public static final boolean driveMotorInvert = false;
         public static final boolean angleMotorInvert = false;

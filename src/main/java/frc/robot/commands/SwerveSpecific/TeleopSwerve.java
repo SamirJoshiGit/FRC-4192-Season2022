@@ -50,7 +50,7 @@ public class TeleopSwerve extends CommandBase {
         //every scheduled loop it will get the raw data from controller 
         double yAxis = controller.getRawAxis(translationAxis) * .75;
         double xAxis = controller.getRawAxis(strafeAxis) * .75;
-        double rAxis = controller.getRawAxis(rotationAxis) * .5;
+        double rAxis = controller.getRawAxis(rotationAxis) * .3;
         
         SlewRateLimiter xLimiter = new SlewRateLimiter(.5);
         SlewRateLimiter yLimiter = new SlewRateLimiter(.5);
@@ -66,6 +66,6 @@ public class TeleopSwerve extends CommandBase {
         translation = new Translation2d(yAxis, xAxis).times(Constants.Swerve.maxSpeed).times(rightTrigger);
         rotation = rAxis * Constants.Swerve.maxAngularVelocity;
         //s_Swerve.drive(translation, rotation*rightTrigger, fieldRelative, openLoop);
-        s_Swerve.drive(translation, rotation*.9, Globals.fieldBased, openLoop);
+        s_Swerve.drive(translation, rotation*.8, Globals.fieldBased, openLoop);
     }
 }

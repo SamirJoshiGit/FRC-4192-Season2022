@@ -106,7 +106,7 @@ public class Shooter extends SubsystemBase {
     shooterMotor.set(ControlMode.PercentOutput, -power*1);
     
     //bottom
-    shooterFollower.set(ControlMode.PercentOutput, power*1.7);
+    shooterFollower.set(ControlMode.PercentOutput, power*2.1);
   }
 
   public void twoMotorPowerLow(double power){
