@@ -227,7 +227,7 @@ public class RobotContainer {
   private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .30);
   private final TwoMotorPower turretBackPower = new TwoMotorPower(m_shooter, -.20);
   private final TwoMotorCurrent turretCurrent = new TwoMotorCurrent(m_shooter, 150);
-  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-8100, m_shooter, false);
+  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-7050, m_shooter, false);
 
   private final EncoderBasedRun encoderRunLow = new EncoderBasedRun(-5800, m_shooter, true);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -297,12 +297,12 @@ public class RobotContainer {
 
     //aButtonSystems.toggleWhenPressed(new ParallelRaceGroup(new EncoderBottom(4000, m_shooter), new EncoderTop(-8000, m_shooter)));
     //change later to the requirements
-    leftBumperSystems.whenHeld(extendleft);
-    rightBumperSystems.whenHeld(extendright);
+    leftBumperSystems.whenHeld(extendleftBack);
+    rightBumperSystems.whenHeld(extendrightback);
     //systemsLeftTrigger.whileActiveContinuous(extendleftBack);
     //systemsRightTrigger.whileActiveContinuous(extendrightback);
-    twoSeventySystems.whenHeld(extendleftBack);    
-    ninetySystems.whenHeld(extendrightback);
+    twoSeventySystems.whenHeld(extendleft);    
+    ninetySystems.whenHeld(extendright);
 
     systemsLeftTrigger.whileActiveContinuous(pushDown);
     systemsRightTrigger.whileActiveContinuous(pushUp);
@@ -362,14 +362,16 @@ public class RobotContainer {
         //new InstantCommand(()->s_Swerve.storeOffset()), 
         new AngleBoolean(m_climb, false), 
         new ChangeIntakeInstant(m_intake, false), 
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.4,1.5)),
-        new Wait(1),
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.7,-1.5)),
-        new Wait(1),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2,1.8)),
+        new Wait(.5),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.3,-2)),
+        new Wait(.5),
+        new InstantCommand(()->s_Swerve.zeroGyro()),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, .25,1.5)),
         //new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2)
-        new ParallelRaceGroup(new EncoderBasedRun(-8100, m_shooter, false), new TestRunIntake( -.5, m_intake), 
-        new SequentialCommandGroup(new Wait(1), new InSystemForX(m_passthrough, -.18), new Wait(1), new InSystemForX(m_passthrough, -.18)), 
-        new ParallelRaceGroup(new moveWithManualInput(s_Swerve, 0, -.25, 0), new Wait(5)), new Wait(9)
+        new ParallelRaceGroup(new EncoderBasedRun(-7050, m_shooter, false), new TestRunIntake( -.5, m_intake),
+        new SequentialCommandGroup(new Wait(.7), new InSystemForX(m_passthrough, -.18), new Wait(.7), new InSystemForX(m_passthrough, -.18), new Wait(.7), new InSystemForX(m_passthrough, -.18)), 
+        new ParallelRaceGroup(new moveWithManualInput(s_Swerve, 0, -.25, 0), new Wait(5)), new Wait(12)
         //,new InstantCommand(()->s_Swerve.setGyroOffset(selectedOffset))
         )
       ); 
