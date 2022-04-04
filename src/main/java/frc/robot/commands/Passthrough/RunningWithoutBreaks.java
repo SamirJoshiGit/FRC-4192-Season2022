@@ -34,7 +34,7 @@ public class RunningWithoutBreaks extends CommandBase {
       brokenAtStart = true;
     }
     passthrough.runMotor(power);
-    intake.setPower(-.6);
+    intake.setPower(-.4);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,6 +52,6 @@ public class RunningWithoutBreaks extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (!passthrough.getBeamBreak() && !brokenAtStart) || ((brokenAtStart && timer.get() > .25)&&!passthrough.getBeamBreak());
+    return (!passthrough.getBeamBreak() && !brokenAtStart) || ((brokenAtStart && timer.get() > .75)&&!passthrough.getBeamBreak());
   }
 }

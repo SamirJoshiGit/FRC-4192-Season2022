@@ -76,6 +76,7 @@ import frc.robot.commands.SwerveSpecific.SwerveDoubleSupp;
 import frc.robot.commands.SwerveSpecific.TankToggle;
 import frc.robot.commands.SwerveSpecific.TeleopSwerve;
 import frc.robot.commands.SwerveSpecific.TurnToSpecifiedAngle;
+import frc.robot.commands.SwerveSpecific.moveWithManualInput;
 //import frc.robot.commands.SwerveSpecific.TurnToSpecifiedAngle;
 //import frc.robot.commands.SwerveSpecific.moveWithManualInput;
 import frc.robot.subsystems.*;
@@ -226,7 +227,7 @@ public class RobotContainer {
   private final TwoMotorPower turretPower = new TwoMotorPower(m_shooter, .30);
   private final TwoMotorPower turretBackPower = new TwoMotorPower(m_shooter, -.20);
   private final TwoMotorCurrent turretCurrent = new TwoMotorCurrent(m_shooter, 150);
-  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-5100, m_shooter, false);
+  private final EncoderBasedRun encoderRun = new EncoderBasedRun(-8100, m_shooter, false);
 
   private final EncoderBasedRun encoderRunLow = new EncoderBasedRun(-5800, m_shooter, true);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -313,7 +314,7 @@ public class RobotContainer {
     //twoSeventy.whenHeld(extendrightback);
 
     //xButtonSystems.whenHeld(runPassthroughBackward); 
-    xButtonSystems.whenHeld(new InSystemForX(m_passthrough, -.4));
+    xButtonSystems.whenHeld(new InSystemForX(m_passthrough, -.18));
     //xButtonSystems.whenHeld(shortRunTripped);
     
     //optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, true));
@@ -322,12 +323,13 @@ public class RobotContainer {
     optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, m_climb.getAngle()));
     yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, m_climb.getHooks()));
     
-    bButtonSystems.whenHeld(new RunningWithoutBreaks(m_passthrough, m_intake, -.4));
+    bButtonSystems.whenHeld(new RunningWithoutBreaks(m_passthrough, m_intake, -.18));
     //yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
     //bButtonSystems.whenPressed(new PassiveHookInstant(m_climb, true));
 
     //intake updown start
-    //shooter on driver A
+    //shooter on driver 
+    
     //systems A is intake 
     //
   }
@@ -358,14 +360,17 @@ public class RobotContainer {
         return new SequentialCommandGroup(
         new InstantCommand(()->s_Swerve.zeroGyro()),
         //new InstantCommand(()->s_Swerve.storeOffset()), 
-        new AngleBoolean(m_climb, true), 
+        new AngleBoolean(m_climb, false), 
         new ChangeIntakeInstant(m_intake, false), 
         new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.4,1.5)),
         new Wait(1),
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3,-1.5)),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.7,-1.5)),
         new Wait(1),
-        new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2)
-        ,new InstantCommand(()->s_Swerve.setGyroOffset(selectedOffset))
+        //new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2)
+        new ParallelRaceGroup(new EncoderBasedRun(-8100, m_shooter, false), new TestRunIntake( -.5, m_intake), 
+        new SequentialCommandGroup(new Wait(1), new InSystemForX(m_passthrough, -.18), new Wait(1), new InSystemForX(m_passthrough, -.18)), 
+        new ParallelRaceGroup(new moveWithManualInput(s_Swerve, 0, -.25, 0), new Wait(5)), new Wait(9)
+        //,new InstantCommand(()->s_Swerve.setGyroOffset(selectedOffset))
         )
       ); 
     }
@@ -419,7 +424,7 @@ public class RobotContainer {
       //new InstantCommand(()->s_Swerve.storeOffset()),
       new AngleBoolean(m_climb, true), 
       new Wait(.1), 
-      new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), 
+      //new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), 
       new Wait(2), 
       new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1)
       ,new InstantCommand(()->s_Swerve.setGyroOffset(selectedOffset))

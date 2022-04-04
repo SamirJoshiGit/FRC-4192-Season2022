@@ -15,33 +15,27 @@ public class runMotor extends CommandBase {
   /** Creates a new runMotor. */
   private Passthrough passthrough;
   private double output;
-  private Timer timer = new Timer();
-  private boolean alreadyRun;
+
   public runMotor(Passthrough passthrough, double output) {
     // Use addRequirements() here to declare subsystem dependencies.
-    
     this.passthrough = passthrough;
     this.output = output;
-    timer.start();
-    alreadyRun = false;
     addRequirements(passthrough);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    passthrough.runMotor(output);
-    Globals.runningPassthrough = true;
-    Globals.runningindexPower = output;
-    Globals.runningPassthrough = true;
+    
+
     //SmartDashboard.putBoolean("Motor running", true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Globals.indexBeam = passthrough.getBeamBreak();
-    
+    //Globals.indexBeam = passthrough.getBeamBreak();
+    passthrough.runMotor(output);
     //SmartDashboard.putBoolean("Motor running", true);
   }
 
@@ -49,9 +43,6 @@ public class runMotor extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     passthrough.runMotor(0);
-    Globals.runningPassthrough = false;
-    Globals.runningindexPower = 0;
-    Globals.runningPassthrough = false;
     //SmartDashboard.putBoolean("Motor running", false);
   }
 
