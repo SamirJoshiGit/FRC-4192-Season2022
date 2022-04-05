@@ -3,7 +3,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.math.Conversions;
 import frc.lib.util.CTREModuleState;
 import frc.lib.util.SwerveModuleConstants;
@@ -13,10 +14,11 @@ import frc.robot.Constants.Swerve;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 
-public class SwerveModule {
+public class SwerveModule extends SubsystemBase{
     public int moduleNumber;
     private double angleOffset;
     private TalonFX mAngleMotor;
@@ -88,6 +90,13 @@ public class SwerveModule {
         mDriveMotor.setSelectedSensorPosition(0);
     }
 
+    private void configDriveMotorCoast(){        
+        mDriveMotor.configFactoryDefault();
+        mDriveMotor.configAllSettings(Robot.ctreConfigs.swerveDriveFXConfig);
+        mDriveMotor.setInverted(Constants.Swerve.driveMotorInvert);
+        mDriveMotor.setNeutralMode(NeutralMode.Coast);
+        mDriveMotor.setSelectedSensorPosition(0);
+    }
     public Rotation2d getCanCoder(){
         return Rotation2d.fromDegrees(angleEncoder.getAbsolutePosition());
     }
@@ -96,6 +105,15 @@ public class SwerveModule {
         double velocity = Conversions.falconToMPS(mDriveMotor.getSelectedSensorVelocity(), Constants.Swerve.wheelCircumference, Constants.Swerve.driveGearRatio);
         Rotation2d angle = Rotation2d.fromDegrees(Conversions.falconToDegrees(mAngleMotor.getSelectedSensorPosition(), Constants.Swerve.angleGearRatio));
         return new SwerveModuleState(velocity, angle);
+    }
+
+    
+    @Override
+    public void periodic(){
+        //comment out if prohibitive. 
+        if(DriverStation.getMatchTime() == 20){
+            configDriveMotorCoast();
+        }
     }
     
 }
