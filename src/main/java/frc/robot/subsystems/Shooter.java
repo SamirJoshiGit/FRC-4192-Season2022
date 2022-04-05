@@ -142,7 +142,8 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Main motor rate", getMainRate());
     SmartDashboard.putNumber("FollowerRate", getFollowerRate());
     SmartDashboard.putBoolean("DB/LED 2", (Math.abs(Math.abs(getRate())-7000) <= 500));
-    SmartDashboard.putBoolean("At Setpoint", (getRate() < -2600));
+    SmartDashboard.putBoolean("At Setpoint", (Math.abs(getFollowerRate()) > 2600));
+    SmartDashboard.putBoolean("Shooter Spinning", Math.abs(getMainRate()) >= 50);
 
     changeGlobalRate();
     // This method will be called once per scheduler run

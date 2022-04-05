@@ -26,7 +26,7 @@ public class TurnToSpecifiedAngle extends PIDCommand {
         // This should return the measurement
         () -> s_Swerve.getDoubleYaw(),
         // This should return the setpoint (can also be a constant)
-        () -> currAngle + angle,
+        () -> 0,//currAngle + angle,
         // This uses the output
         output -> {
           // Use the output here
@@ -52,6 +52,6 @@ public class TurnToSpecifiedAngle extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(s_Swerve.getDoubleYaw()) < 10);
+    return (Math.abs(s_Swerve.getDoubleYaw()) < 5);
   }
 }
