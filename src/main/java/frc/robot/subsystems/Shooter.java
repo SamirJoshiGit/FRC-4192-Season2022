@@ -13,6 +13,7 @@ import com.ctre.phoenix.sensors.CANCoder;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -144,7 +145,7 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putBoolean("DB/LED 2", (Math.abs(Math.abs(getRate())-7000) <= 500));
     SmartDashboard.putBoolean("At Setpoint", (Math.abs(getFollowerRate()) > 2600));
     SmartDashboard.putBoolean("Shooter Spinning", Math.abs(getMainRate()) >= 50);
-
+    SmartDashboard.putNumber("Elapsed Time", DriverStation.getMatchTime());
     changeGlobalRate();
     // This method will be called once per scheduler run
   }
