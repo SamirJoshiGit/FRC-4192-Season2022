@@ -10,8 +10,10 @@ import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 //import edu.wpi.first.wpilibj.SpeedController;
 //import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -29,6 +31,7 @@ public class Climb extends SubsystemBase {
 
   private final DoubleSolenoid climber = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.doubleSolenoidForwardClimb, ClimbConstants.doubleSolenoidReverseClimb);
   private DigitalInput retroreflective = new DigitalInput(ClimbConstants.retroreflectiveID);
+  private Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
 
   private TalonFX climbMotorLeft = new TalonFX(ClimbConstants.climbMotorLeft);
   private TalonFX climbMotorRight = new TalonFX(ClimbConstants.climbMotorRight);
@@ -129,5 +132,8 @@ public class Climb extends SubsystemBase {
     //put smart dashboard numbers
     SmartDashboard.putNumber("Right Climb Position", getRightEncoder());
     SmartDashboard.putNumber("Left Climb Position", getLeftEncoder());
+    if(DriverStation.getMatchTime() == 30){
+      compressor.disable();
+    }
   }
 }

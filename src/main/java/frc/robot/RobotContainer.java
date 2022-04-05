@@ -364,13 +364,13 @@ public class RobotContainer {
         new ChangeIntakeInstant(m_intake, false), 
         new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2,1.8)),
         new Wait(.5),
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.3,-2)),
-        new Wait(.5),
-        new InstantCommand(()->s_Swerve.zeroGyro()),
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, .25,1.5)),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 1.75,-2)),
+        //new Wait(.5),
+        //new InstantCommand(()->s_Swerve.zeroGyro()),
+        //new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, .25,1.5)),
         //new ParallelRaceGroup(new RunShooterMotor(m_shooter, -.75), new TestRunIntake( -.9, m_intake), new runMotor(m_passthrough, .3), new Wait(2)
         new ParallelRaceGroup(new EncoderBasedRun(-7050, m_shooter, false), new TestRunIntake( -.5, m_intake),
-        new SequentialCommandGroup(new Wait(.7), new InSystemForX(m_passthrough, -.18), new Wait(.7), new InSystemForX(m_passthrough, -.18), new Wait(.7), new InSystemForX(m_passthrough, -.18)), 
+        new SequentialCommandGroup(new Wait(1.7), new InSystemForX(m_passthrough, -.18), new Wait(.7), new InSystemForX(m_passthrough, -.18), new Wait(.7), new InSystemForX(m_passthrough, -.18)), 
         new ParallelRaceGroup(new moveWithManualInput(s_Swerve, 0, -.25, 0), new Wait(5)), new Wait(12)
         //,new InstantCommand(()->s_Swerve.setGyroOffset(selectedOffset))
         )
