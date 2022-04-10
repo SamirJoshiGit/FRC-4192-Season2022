@@ -271,7 +271,7 @@ public class RobotContainer {
     //prototyped Button Bindings
     bButton.whenPressed(new InstantCommand(() -> s_Swerve.zeroGyro()));
     yButton.toggleWhenPressed(intakePos);
-    yButton.whenPressed(new ChangeIntakeInstant(m_intake, m_intake.getIntake()));
+    yButton.whenPressed(new ChangeIntakeInstant(m_intake, false));
     leftBumper.whenHeld(new TankToggle());
     //oneEighty.toggleWhenPressed(togglePassiveHooks);
     driverRightTrigger.whileActiveContinuous(runBackIntake, true);
@@ -320,8 +320,8 @@ public class RobotContainer {
     //optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, true));
     //startButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, false));
 
-    optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, m_climb.getAngle()));
-    yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, m_climb.getHooks()));
+    optionsButtonSystems.whenPressed(new ClimbAngleInstant(m_climb, false));
+    yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
     
     bButtonSystems.whenHeld(new RunningWithoutBreaks(m_passthrough, m_intake, -.18));
     //yButtonSystems.whenPressed(new PassiveHookInstant(m_climb, false));
@@ -340,7 +340,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    String[] autons = {"OneBall", "TwoBall", "TwoNearWall", "OneNearWall"};
+    String[] autons = {"OneBall", "TwoBall", "TwoNearWall", "OneNearWall","Forward"};
     double[] offset = {0, 33.33, 45, 60, 90};
     SmartDashboard.putStringArray("Auto List", autons);
     SmartDashboard.putNumberArray("Offset", offset);
@@ -362,10 +362,10 @@ public class RobotContainer {
         //new InstantCommand(()->s_Swerve.storeOffset()), 
         new AngleBoolean(m_climb, false), 
         new ChangeIntakeInstant(m_intake, false), 
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2,1.8)),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 1.95,1.6)),
         new TurnToSpecifiedAngle(s_Swerve, 0, 0, true),
         new Wait(.5),
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 1.75,-2)),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 1.45,-2)),
         new TurnToSpecifiedAngle(s_Swerve, 0, 0, true),
         //new Wait(.5),
         //new InstantCommand(()->s_Swerve.zeroGyro()),
@@ -379,15 +379,29 @@ public class RobotContainer {
       ); 
     }
 
+    else if(selected.equals("Forward")){
+      return new SequentialCommandGroup(
+        new InstantCommand(()->s_Swerve.zeroGyro()),
+        //new InstantCommand(()->s_Swerve.storeOffset()), 
+        new AngleBoolean(m_climb, false), 
+        new ChangeIntakeInstant(m_intake, false), 
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 1.95,1.6)),
+        new TurnToSpecifiedAngle(s_Swerve, 0, 0, true),
+        new Wait(1),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 1.45,-2)),
+
+        new TurnToSpecifiedAngle(s_Swerve, 0, 0, true)
+      );
+    }
     else if(selected.equals("TwoNearWall")){
       return new SequentialCommandGroup(
         new InstantCommand(()->s_Swerve.zeroGyro()), 
         //new InstantCommand(()->s_Swerve.storeOffset()),
         new AngleBoolean(m_climb, true), 
         new ChangeIntakeInstant(m_intake, false), 
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 1.9,1.5)),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2,1.2)),
         new Wait(1),
-        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 2.5,-1.5)),
+        new ParallelRaceGroup(new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 1.45,-1.4050)),
         new Wait(1),
 
         new ParallelRaceGroup(new EncoderBasedRun(-7050, m_shooter, false), new TestRunIntake( -.5, m_intake),
@@ -440,7 +454,7 @@ public class RobotContainer {
       new ParallelRaceGroup(new moveWithManualInput(s_Swerve, 0, -.25, 0), new Wait(5)), new Wait(12)),
       //new AutonShootOut(m_shooter, m_passthrough, m_intake, 1), 
       new Wait(2), 
-      new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 4,1)
+      new StraightWithoutTrajectory(m_intake, m_shooter, m_passthrough, s_Swerve, 3,1)
       //,new InstantCommand(()->s_Swerve.setGyroOffset(selectedOffset))
       );
     }

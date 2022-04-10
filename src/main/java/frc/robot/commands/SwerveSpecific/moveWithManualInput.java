@@ -43,7 +43,7 @@ public class moveWithManualInput extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     //at the end sets all the motors to zero
-    s_Swerve.drive(new Translation2d(0, 0), 0, true, true);
+    s_Swerve.drive(new Translation2d(0, 0), 0, false, true);
   }
 
   // Returns true when the command should end.

@@ -31,7 +31,7 @@ public class Climb extends SubsystemBase {
 
   private final DoubleSolenoid climber = new DoubleSolenoid(PneumaticsModuleType.REVPH, ClimbConstants.doubleSolenoidForwardClimb, ClimbConstants.doubleSolenoidReverseClimb);
   private DigitalInput retroreflective = new DigitalInput(ClimbConstants.retroreflectiveID);
-  private Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
+  //private Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
 
   private TalonFX climbMotorLeft = new TalonFX(ClimbConstants.climbMotorLeft);
   private TalonFX climbMotorRight = new TalonFX(ClimbConstants.climbMotorRight);
@@ -44,7 +44,7 @@ public class Climb extends SubsystemBase {
     climbMotorLeft.setNeutralMode(NeutralMode.Brake);
     climbMotorRight.setNeutralMode(NeutralMode.Brake);
     Globals.climberStartPosition = getRightEncoder();
-    angleClimb.set(Value.kForward);
+    angleClimb.set(Value.kReverse);
     //climbMotorRight.follow(climbMotorLeft);
   }
 
@@ -94,6 +94,14 @@ public class Climb extends SubsystemBase {
   public void resetInternalEncoder(){
     climbMotorLeft.setSelectedSensorPosition(0);
   }
+
+  public double rightSpinRate(){
+    return climbMotorRight.getSelectedSensorVelocity();
+  }
+
+  public double leftSpinRate(){
+    return climbMotorLeft.getSelectedSensorVelocity();
+  }
   //gets the placement of the climb, in rotation
 
   //set through motion magic
@@ -132,8 +140,10 @@ public class Climb extends SubsystemBase {
     //put smart dashboard numbers
     SmartDashboard.putNumber("Right Climb Position", getRightEncoder());
     SmartDashboard.putNumber("Left Climb Position", getLeftEncoder());
-    if(DriverStation.getMatchTime() == 30){
-      compressor.disable();
+    SmartDashboard.putNumber("Left Climb Velo", leftSpinRate());
+    SmartDashboard.putNumber("Right Climb Velo", rightSpinRate());
+    if(Math.abs(DriverStation.getMatchTime()-30) <= 4){
+      //compressor.disable();
     }
   }
 }

@@ -108,6 +108,10 @@ public class Shooter extends SubsystemBase {
     
     //bottom
     shooterFollower.set(ControlMode.PercentOutput, power*1.9);
+
+    SmartDashboard.putBoolean("Shooter Spinning", true);
+    SmartDashboard.putBoolean("DB/LED 2", true);
+    
   }
 
   public void twoMotorPowerLow(double power){
@@ -142,9 +146,9 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putNumber("Main motor rate", getMainRate());
     SmartDashboard.putNumber("FollowerRate", getFollowerRate());
-    SmartDashboard.putBoolean("DB/LED 2", (Math.abs(Math.abs(getRate())-7000) <= 500));
-    SmartDashboard.putBoolean("At Setpoint", (Math.abs(getFollowerRate()) > 2600));
-    SmartDashboard.putBoolean("Shooter Spinning", Math.abs(getMainRate()) >= 50);
+    SmartDashboard.putBoolean("DB/LED 2", false);
+    SmartDashboard.putBoolean("At Setpoint", (Math.abs(getMainRate()) > 3400));
+    SmartDashboard.putBoolean("Shooter Spinning", false);
     SmartDashboard.putNumber("Elapsed Time", DriverStation.getMatchTime());
     changeGlobalRate();
     // This method will be called once per scheduler run

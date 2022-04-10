@@ -5,6 +5,7 @@
 package frc.robot.commands.Shooter;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Shooter;
 
@@ -30,6 +31,7 @@ public class EncoderBasedRun extends PIDCommand {
           else{
             shooter.twoMotorPowerLow(-output);
           }
+          
           
         });
     // Use addRequirements() here to declare subsystem dependencies.

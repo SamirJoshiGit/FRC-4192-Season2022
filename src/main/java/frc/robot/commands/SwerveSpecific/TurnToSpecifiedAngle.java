@@ -52,6 +52,6 @@ public class TurnToSpecifiedAngle extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (Math.abs(s_Swerve.getDoubleYaw()) < 5);
+    return (Math.abs(s_Swerve.getDoubleYaw()) < 3);
   }
 }

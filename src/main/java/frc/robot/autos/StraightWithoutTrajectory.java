@@ -22,6 +22,6 @@ public class StraightWithoutTrajectory extends ParallelRaceGroup {
   public StraightWithoutTrajectory(Intake m_intake, Shooter m_shooter, Passthrough m_passthrough, Swerve s_Swerve, double wait, double direction) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new RunIntake(m_intake, -.9), new runMotor(m_passthrough, -.05), new moveWithManualInput(s_Swerve, 0.01, 1*direction, 0), new Wait(wait));
+    addCommands(new RunIntake(m_intake, -.9), new runMotor(m_passthrough, -.05), new moveWithManualInput(s_Swerve, 0.00, 1*direction, 0), new Wait(wait));
   }
 }
